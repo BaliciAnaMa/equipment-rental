@@ -1,0 +1,14 @@
+node_modules/
+dist/
+/build/
+.env
+.env.*.local
+.DS_Store
+
+# Claude settings & worktrees
+.claude/*
+!.claude/skills/
+!.claude/skills/**
+!.claude/agents/
+!.claude/agents/**
+.claude/worktrees/
