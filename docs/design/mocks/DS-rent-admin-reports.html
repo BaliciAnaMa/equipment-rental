@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS-rent-admin-reports · Rapoarte Flotă & Financiar | RentCam</title>
+  <style>
+    :root {
+      --color-bg: #ffffff;
+      --color-surface: #f8fafc;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --color-primary: #2563eb;
+      --color-border: #e2e8f0;
+      --color-success: #16a34a;
+      --color-warning: #d97706;
+      --color-danger: #dc2626;
+      --font-family: Inter, system-ui, -apple-system, sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #0f172a;
+        --color-surface: #1e293b;
+        --color-text: #f8fafc;
+        --color-text-muted: #94a3b8;
+        --color-primary: #3b82f6;
+        --color-border: #334155;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
+    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
+    .nav-links { display: flex; gap: var(--space-md); list-style: none; font-size: 14px; }
+    .nav-links a { color: var(--color-text-muted); text-decoration: none; }
+    .nav-links a.active { color: var(--color-primary); font-weight: 600; }
+    .container { max-width: 1200px; margin: 0 auto; padding: var(--space-lg); }
+    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-md); margin-bottom: var(--space-xl); }
+    .kpi-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); }
+    .kpi-title { font-size: 12px; color: var(--color-text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+    .kpi-value { font-size: 26px; font-weight: 700; }
+    .analytics-grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-lg); margin-bottom: var(--space-xl); }
+    .chart-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); }
+    .chart-placeholder { height: 200px; background: var(--color-bg); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); font-size: 13px; margin-top: var(--space-sm); border: 1px dashed var(--color-border); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--color-border); }
+    th { font-weight: 600; color: var(--color-text-muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">📷 RentCam · Panou Administrare</div>
+    <ul class="nav-links">
+      <li><a href="DS-rent-admin-models.html">Modele Catalog</a></li>
+      <li><a href="DS-rent-admin-units.html">Unități Fizice (Serii)</a></li>
+      <li><a href="DS-rent-admin-reports.html" class="active">Rapoarte & Financiar</a></li>
+    </ul>
+  </header>
+
+  <div class="container">
+    <div class="figma-tag">Frame: DS-rent-admin-reports · Rapoarte și statistici rentabilitate</div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+      <div>
+        <h1 style="font-size: 24px; font-weight: 700;">Rapoarte Flotă & Încasări</h1>
+        <p style="color: var(--color-text-muted); font-size: 13px;">Analiză rentabilitate, distribuție paliere de preț și statistici daune.</p>
+      </div>
+      <div>
+        <select style="padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); color: var(--color-text); font-size: 13px;">
+          <option>Luna curentă (Noiembrie 2026)</option>
+          <option>Trimestrul 4 (2026)</option>
+          <option>Tot anul 2026</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-title">Venituri Închirieri</div>
+        <div class="kpi-value" style="color: var(--color-primary);">48.650 lei</div>
+        <small style="color: var(--color-success);">+14% față de luna trecută</small>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Grad Utilizare Flotă</div>
+        <div class="kpi-value">74.2%</div>
+        <small style="color: var(--color-text-muted);">Zile active / Zile calendar</small>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Garanții Reținute (Daune)</div>
+        <div class="kpi-value" style="color: var(--color-danger);">3.200 lei</div>
+        <small style="color: var(--color-text-muted);">Din 4 incidente semnalate</small>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-title">Unități în Mentenanță / Service</div>
+        <div class="kpi-value" style="color: var(--color-warning);">2 unități</div>
+        <small style="color: var(--color-text-muted);">Disponibilitate flotă: 92%</small>
+      </div>
+    </div>
+
+    <!-- Charts & Analytics -->
+    <div class="analytics-grid">
+      <div class="chart-card">
+        <h3 style="font-size: 15px;">Venituri pe Modele de Echipamente (Top 5)</h3>
+        <table style="margin-top: 12px;">
+          <thead>
+            <tr>
+              <th>Model Echipament</th>
+              <th>Închirieri Luna Curentă</th>
+              <th>Venit Total</th>
+              <th>Rentabilitate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sony FX3 Cinema Line</strong></td>
+              <td>14 rezervări</td>
+              <td>16.800 lei</td>
+              <td><span style="color: var(--color-success); font-weight: 600;">94%</span></td>
+            </tr>
+            <tr>
+              <td><strong>Sony FE 24-70mm f/2.8 GM II</strong></td>
+              <td>18 rezervări</td>
+              <td>6.480 lei</td>
+              <td><span style="color: var(--color-success); font-weight: 600;">88%</span></td>
+            </tr>
+            <tr>
+              <td><strong>Canon EOS R5 C 8K</strong></td>
+              <td>9 rezervări</td>
+              <td>11.200 lei</td>
+              <td><span style="color: var(--color-success); font-weight: 600;">79%</span></td>
+            </tr>
+            <tr>
+              <td><strong>Aputure 300d II Light Storm</strong></td>
+              <td>11 rezervări</td>
+              <td>5.100 lei</td>
+              <td><span style="color: var(--color-success); font-weight: 600;">71%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="chart-card">
+        <h3 style="font-size: 15px;">Ponderea Palierelor Tarifare</h3>
+        <div class="chart-placeholder">
+          [Diagramă Circulară: Weekend 46% · Zi 34% · Săptămână 15% · Oră 5%]
+        </div>
+        <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 12px;">
+          Tariful de weekend generează cel mai mare volum și cea mai stabilă rotație a echipamentelor.
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

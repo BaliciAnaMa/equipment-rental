@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS-rent-catalog · Catalog echipamente | RentCam</title>
+  <style>
+    :root {
+      --color-bg: #ffffff;
+      --color-surface: #f8fafc;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-border: #e2e8f0;
+      --color-success: #16a34a;
+      --color-warning: #d97706;
+      --font-family: Inter, system-ui, -apple-system, sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #0f172a;
+        --color-surface: #1e293b;
+        --color-text: #f8fafc;
+        --color-text-muted: #94a3b8;
+        --color-primary: #3b82f6;
+        --color-primary-hover: #60a5fa;
+        --color-border: #334155;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-family);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.5;
+      padding-bottom: var(--space-xl);
+    }
+    header {
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .nav-links {
+      display: flex;
+      gap: var(--space-md);
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .nav-links a.active { color: var(--color-primary); font-weight: 600; }
+    .badge-cart {
+      background: var(--color-primary);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-left: 4px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+    }
+    .figma-tag {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--color-primary);
+      background: rgba(37, 99, 235, 0.1);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-md);
+      font-family: monospace;
+    }
+    h1 { font-size: 32px; font-weight: 700; margin-bottom: var(--space-sm); }
+    .subtitle { color: var(--color-text-muted); margin-bottom: var(--space-lg); }
+
+    /* Filter Bar */
+    .filter-panel {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-bottom: var(--space-xl);
+      display: grid;
+      grid-template-columns: 2fr 3fr 1fr;
+      gap: var(--space-md);
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-xs);
+      text-transform: uppercase;
+    }
+    .input-field {
+      width: 100%;
+      padding: 8px 12px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      color: var(--color-text);
+      font-size: 14px;
+    }
+    .category-pills {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    .pill {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .pill.active {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--space-lg);
+    }
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+    }
+    .card-img-placeholder {
+      background: #cbd5e1;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #475569;
+      position: relative;
+    }
+    .stock-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--color-success);
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .stock-badge.low { background: var(--color-warning); }
+    .card-body {
+      padding: var(--space-md);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-category { font-size: 11px; text-transform: uppercase; color: var(--color-text-muted); font-weight: 600; }
+    .card-title { font-size: 18px; font-weight: 600; margin: 4px 0 8px; }
+    .card-kit { font-size: 12px; color: var(--color-text-muted); margin-bottom: var(--space-md); flex: 1; }
+    .tier-prices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xs);
+      background: var(--color-bg);
+      padding: var(--space-sm);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      margin-bottom: var(--space-md);
+    }
+    .tier-item span { color: var(--color-text-muted); }
+    .tier-item strong { display: block; font-size: 14px; color: var(--color-text); }
+    .btn {
+      display: inline-block;
+      text-align: center;
+      padding: 8px 16px;
+      background: var(--color-primary);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">📷 RentCam</div>
+    <ul class="nav-links">
+      <li><a href="DS-rent-catalog.html" class="active">Catalog</a></li>
+      <li><a href="DS-rent-customer-dashboard.html">Rezervările mele</a></li>
+      <li><a href="DS-rent-op-dashboard.html">Panou Operator</a></li>
+      <li><a href="DS-rent-admin-models.html">Administrare</a></li>
+      <li><a href="DS-rent-booking-cart.html">Coș <span class="badge-cart">2</span></a></li>
+    </ul>
+  </header>
+
+  <div class="container">
+    <div class="figma-tag">Frame: DS-rent-catalog · Catalog echipamente</div>
+    <h1>Catalog Echipamente Profesionale</h1>
+    <p class="subtitle">Camere cinema, obiective foto, lumini de studio și echipamente audio de producție.</p>
+
+    <div class="filter-panel">
+      <div class="form-group">
+        <label>Căutare echipament / brand</label>
+        <input type="text" class="input-field" placeholder="ex: Sony FX3, RED, 24-70mm...">
+      </div>
+      <div class="form-group">
+        <label>Interval închiriere (Preluare — Returnare)</label>
+        <input type="text" class="input-field" value="22 Nov 2026, 16:00 → 25 Nov 2026, 10:00 (Weekend)">
+      </div>
+      <div class="form-group">
+        <label>Sortare</label>
+        <select class="input-field">
+          <option>Recomandate</option>
+          <option>Preț crescător</option>
+          <option>Preț descrescător</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="category-pills">
+      <button class="pill active">Toate (24)</button>
+      <button class="pill">Camere Cinema & Video (8)</button>
+      <button class="pill">Obiective Foto/Video (9)</button>
+      <button class="pill">Lumini Studio (4)</button>
+      <button class="pill">Echipamente Audio (3)</button>
+    </div>
+
+    <div class="grid">
+      <!-- Card 1 -->
+      <div class="card">
+        <div class="card-img-placeholder">
+          [Imagine: Sony FX3 Body]
+          <span class="stock-badge">3 unități disponibile</span>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Camere Cinema</span>
+          <h2 class="card-title">Sony FX3 Cinema Line</h2>
+          <p class="card-kit">Kit inclus: Corp cameră, mâner XLR, 2x baterii NP-FZ100, încărcător dual USB-C, geantă transport.</p>
+          <div class="tier-prices">
+            <div class="tier-item"><span>Tarif Zi:</span> <strong>450 lei</strong></div>
+            <div class="tier-item"><span>Weekend:</span> <strong>650 lei</strong></div>
+            <div class="tier-item"><span>Tarif Oră:</span> <strong>120 lei</strong></div>
+            <div class="tier-item"><span>Săptămână:</span> <strong>1.800 lei</strong></div>
+          </div>
+          <a href="DS-rent-equipment-detail.html" class="btn">Vezi detalii & Calculator</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card">
+        <div class="card-img-placeholder">
+          [Imagine: Canon EOS R5 C]
+          <span class="stock-badge low">1 unitate rămasă</span>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Camere Cinema</span>
+          <h2 class="card-title">Canon EOS R5 C 8K</h2>
+          <p class="card-kit">Kit inclus: Corp cameră, 3x acumulatori LP-E6NH, încărcător, adaptor EF-EOS R, geantă protecție.</p>
+          <div class="tier-prices">
+            <div class="tier-item"><span>Tarif Zi:</span> <strong>480 lei</strong></div>
+            <div class="tier-item"><span>Weekend:</span> <strong>700 lei</strong></div>
+            <div class="tier-item"><span>Tarif Oră:</span> <strong>130 lei</strong></div>
+            <div class="tier-item"><span>Săptămână:</span> <strong>1.950 lei</strong></div>
+          </div>
+          <a href="DS-rent-equipment-detail.html" class="btn">Vezi detalii & Calculator</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <div class="card-img-placeholder">
+          [Imagine: Sony 24-70 GM II]
+          <span class="stock-badge">4 unități disponibile</span>
+        </div>
+        <div class="card-body">
+          <span class="card-category">Obiective</span>
+          <h2 class="card-title">Sony FE 24-70mm f/2.8 GM II</h2>
+          <p class="card-kit">Kit inclus: Obiectiv, parasolar ALC-SH168, capace față/spate, filtru protecție UV, husă căptușită.</p>
+          <div class="tier-prices">
+            <div class="tier-item"><span>Tarif Zi:</span> <strong>180 lei</strong></div>
+            <div class="tier-item"><span>Weekend:</span> <strong>270 lei</strong></div>
+            <div class="tier-item"><span>Tarif Oră:</span> <strong>50 lei</strong></div>
+            <div class="tier-item"><span>Săptămână:</span> <strong>720 lei</strong></div>
+          </div>
+          <a href="DS-rent-equipment-detail.html" class="btn">Vezi detalii & Calculator</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

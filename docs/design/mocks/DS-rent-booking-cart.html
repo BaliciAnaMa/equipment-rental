@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS-rent-booking-cart · Finalizare rezervare | RentCam</title>
+  <style>
+    :root {
+      --color-bg: #ffffff;
+      --color-surface: #f8fafc;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-border: #e2e8f0;
+      --color-success: #16a34a;
+      --font-family: Inter, system-ui, -apple-system, sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #0f172a;
+        --color-surface: #1e293b;
+        --color-text: #f8fafc;
+        --color-text-muted: #94a3b8;
+        --color-primary: #3b82f6;
+        --color-border: #334155;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
+    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
+    .container { max-width: 1000px; margin: 0 auto; padding: var(--space-lg); }
+    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: var(--space-md); }
+    .cart-layout { display: grid; grid-template-columns: 3fr 2fr; gap: var(--space-lg); }
+    .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-md); }
+    .item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-xs); }
+    .item-title { font-weight: 600; font-size: 16px; }
+    .item-price { font-weight: 700; color: var(--color-primary); }
+    .item-meta { font-size: 12px; color: var(--color-text-muted); margin-bottom: var(--space-sm); }
+    .item-kit-check { background: var(--color-bg); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 12px; color: var(--color-text-muted); }
+    .summary-box { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); position: sticky; top: var(--space-md); }
+    .summary-line { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
+    .summary-line.total { border-top: 1px solid var(--color-border); margin-top: var(--space-sm); padding-top: var(--space-sm); font-size: 18px; font-weight: 700; color: var(--color-primary); }
+    .deposit-badge { background: rgba(217, 119, 6, 0.1); color: #d97706; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 13px; margin: var(--space-md) 0; }
+    .form-control { margin-bottom: var(--space-sm); }
+    .form-control label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--color-text-muted); }
+    .form-control input { width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); }
+    .btn-submit { display: block; width: 100%; background: var(--color-primary); color: #fff; text-align: center; padding: 12px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">📷 RentCam</div>
+    <a href="DS-rent-catalog.html" style="color: var(--color-primary); text-decoration: none; font-size: 14px;">← Înapoi la catalog</a>
+  </header>
+
+  <div class="container">
+    <div class="figma-tag">Frame: DS-rent-booking-cart · Finalizare rezervare</div>
+    <h1>Finalizare Cerere Rezervare</h1>
+
+    <div class="cart-layout">
+      <!-- Lista Echipamente -->
+      <div>
+        <div class="card">
+          <div class="item-header">
+            <span class="item-title">Sony FX3 Cinema Line</span>
+            <span class="item-price">650 lei</span>
+          </div>
+          <div class="item-meta">Perioadă: 20 Nov 16:00 – 23 Nov 10:00 (Weekend Promo) · Garanție: 1.500 lei</div>
+          <div class="item-kit-check">
+            Kit inclus: Corp cameră FX3, Mâner XLR, 2x baterii NP-FZ100, Încărcător dual USB-C, Geantă transport.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="item-header">
+            <span class="item-title">Sony FE 24-70mm f/2.8 GM II</span>
+            <span class="item-price">270 lei</span>
+          </div>
+          <div class="item-meta">Perioadă: 20 Nov 16:00 – 23 Nov 10:00 (Weekend Promo) · Garanție: 800 lei</div>
+          <div class="item-kit-check">
+            Kit inclus: Obiectiv, Parasolar ALC-SH168, Capace față/spate, Husă căptușită.
+          </div>
+        </div>
+
+        <div style="background: rgba(37, 99, 235, 0.05); padding: var(--space-md); border-radius: var(--radius-sm); font-size: 13px; color: var(--color-text-muted); border-left: 3px solid var(--color-primary);">
+          ℹ️ <strong>Alocare unități fizice:</strong> Numerele de serie unice și starea fiecărui accesoriu din kit vor fi verificate și scanate împreună cu operatorul RentCam la ghișeu în momentul predării fizice.
+        </div>
+      </div>
+
+      <!-- Sumar si Date Client -->
+      <div>
+        <div class="summary-box">
+          <h2 style="font-size: 18px; margin-bottom: var(--space-md);">Sumar Rezervare</h2>
+
+          <div class="summary-line">
+            <span>Chirie Sony FX3 (Weekend):</span>
+            <span>650 lei</span>
+          </div>
+          <div class="summary-line">
+            <span>Chirie Sony 24-70mm (Weekend):</span>
+            <span>270 lei</span>
+          </div>
+          <div class="summary-line">
+            <span>Economie pachet weekend:</span>
+            <span style="color: var(--color-success);">-180 lei</span>
+          </div>
+
+          <div class="summary-line total">
+            <span>Total chirie de achitat:</span>
+            <span>920 lei</span>
+          </div>
+
+          <div class="deposit-badge">
+            🛡️ <strong>Garanție totală returnabilă:</strong> 2.300 lei (Se blochează/achită la ghișeu la predare și se restituie la retur după inspecție).
+          </div>
+
+          <h3 style="font-size: 14px; margin: var(--space-md) 0 var(--space-sm);">Date de contact</h3>
+          <div class="form-control">
+            <label>Nume și Prenume / Companie</label>
+            <input type="text" value="Radu Popescu">
+          </div>
+          <div class="form-control">
+            <label>Număr telefon mobil</label>
+            <input type="tel" value="0722 123 456">
+          </div>
+          <div class="form-control">
+            <label>Adresă email</label>
+            <input type="email" value="radu.popescu@example.com">
+          </div>
+
+          <a href="DS-rent-customer-dashboard.html" class="btn-submit">Confirmă Rezervarea Online</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

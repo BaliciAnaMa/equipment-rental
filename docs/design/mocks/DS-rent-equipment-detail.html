@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS-rent-equipment-detail · Detaliu echipament | RentCam</title>
+  <style>
+    :root {
+      --color-bg: #ffffff;
+      --color-surface: #f8fafc;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --color-primary: #2563eb;
+      --color-primary-hover: #1d4ed8;
+      --color-border: #e2e8f0;
+      --color-success: #16a34a;
+      --font-family: Inter, system-ui, -apple-system, sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.08);
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #0f172a;
+        --color-surface: #1e293b;
+        --color-text: #f8fafc;
+        --color-text-muted: #94a3b8;
+        --color-primary: #3b82f6;
+        --color-border: #334155;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
+    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
+    .nav-links { display: flex; gap: var(--space-md); list-style: none; }
+    .nav-links a { color: var(--color-text-muted); text-decoration: none; font-size: 14px; }
+    .container { max-width: 1100px; margin: 0 auto; padding: var(--space-lg); }
+    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
+    .breadcrumbs { font-size: 13px; color: var(--color-text-muted); margin-bottom: var(--space-md); }
+    .layout-2col { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); margin-bottom: var(--space-xl); }
+    .gallery-main { background: #cbd5e1; height: 360px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #475569; font-size: 14px; margin-bottom: var(--space-sm); }
+    .gallery-thumbs { display: flex; gap: var(--space-sm); }
+    .thumb { background: #e2e8f0; width: 70px; height: 55px; border-radius: var(--radius-sm); border: 2px solid transparent; cursor: pointer; }
+    .thumb.active { border-color: var(--color-primary); }
+    .badge { display: inline-block; background: rgba(22, 163, 74, 0.1); color: var(--color-success); font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 12px; margin-bottom: var(--space-xs); }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: var(--space-xs); }
+    .rates-table { width: 100%; border-collapse: collapse; margin: var(--space-md) 0; font-size: 13px; }
+    .rates-table th, .rates-table td { padding: 8px 12px; border: 1px solid var(--color-border); text-align: left; }
+    .rates-table th { background: var(--color-surface); font-weight: 600; }
+    .calc-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md); }
+    .calc-header { font-size: 14px; font-weight: 600; margin-bottom: var(--space-sm); display: flex; justify-content: space-between; }
+    .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+    .calc-row label { font-size: 11px; font-weight: 600; color: var(--color-text-muted); display: block; margin-bottom: 2px; }
+    .calc-row input { width: 100%; padding: 6px 10px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: 13px; background: var(--color-bg); color: var(--color-text); }
+    .calc-summary { background: var(--color-bg); border-radius: var(--radius-sm); padding: var(--space-sm); margin: var(--space-sm) 0; font-size: 13px; }
+    .calc-summary strong { color: var(--color-primary); font-size: 16px; }
+    .btn-add { display: block; width: 100%; background: var(--color-primary); color: #fff; text-align: center; padding: 10px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; margin-top: var(--space-sm); }
+    .kit-checklist { list-style: none; margin-top: var(--space-md); font-size: 13px; }
+    .kit-checklist li { padding: 4px 0; display: flex; align-items: center; gap: var(--space-sm); color: var(--color-text); }
+    .kit-checklist li::before { content: "✓"; color: var(--color-success); font-weight: bold; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">📷 RentCam</div>
+    <ul class="nav-links">
+      <li><a href="DS-rent-catalog.html">Catalog</a></li>
+      <li><a href="DS-rent-customer-dashboard.html">Rezervările mele</a></li>
+      <li><a href="DS-rent-booking-cart.html">Coș (2)</a></li>
+    </ul>
+  </header>
+
+  <div class="container">
+    <div class="figma-tag">Frame: DS-rent-equipment-detail · Detaliu echipament</div>
+    <div class="breadcrumbs">Catalog / Camere Cinema / Sony FX3 Cinema Line</div>
+
+    <div class="layout-2col">
+      <!-- Media Gallery -->
+      <div>
+        <div class="gallery-main">[Foto Mare: Sony FX3 montată cu cage și mâner XLR]</div>
+        <div class="gallery-thumbs">
+          <div class="thumb active"></div>
+          <div class="thumb"></div>
+          <div class="thumb"></div>
+          <div class="thumb"></div>
+        </div>
+
+        <div style="margin-top: 24px;">
+          <h3 style="font-size: 16px; margin-bottom: 8px;">Kit accesorii incluse obligatoriu la predare:</h3>
+          <ul class="kit-checklist">
+            <li>Corp cameră Sony FX3 cu capac senzor</li>
+            <li>Mâner audio superior XLR-H1</li>
+            <li>2x Acumulatori originali Sony NP-FZ100</li>
+            <li>Încărcător dual USB-C + cablu alimentare</li>
+            <li>Cage de protecție modular SmallRig</li>
+            <li>Geantă profesională semirigidă de transport</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Specs & Dynamic Price Calculator -->
+      <div>
+        <span class="badge">Flotă: 3 unități fizice active</span>
+        <h1>Sony FX3 Cinema Line</h1>
+        <p style="color: var(--color-text-muted); font-size: 14px;">Senzor Full-Frame 4K 120p, 15+ trepte dynamic range, profil culoare S-Cinetone, montură Sony E.</p>
+
+        <!-- Grilă tarife transparente -->
+        <table class="rates-table">
+          <thead>
+            <tr>
+              <th>Palier orar</th>
+              <th>Tarif zi (24h)</th>
+              <th>Weekend Promo</th>
+              <th>Săptămână (7z)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>120 lei/oră</td>
+              <td>450 lei/zi</td>
+              <td><strong>650 lei</strong> (Vin 16 - Lun 10)</td>
+              <td>1.800 lei/săpt</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Calculator dinamic de pret optim & garantie -->
+        <div class="calc-card">
+          <div class="calc-header">
+            <span>Calculator Tarif Optim & Garanție</span>
+            <span style="color: var(--color-success); font-size: 12px;">● Calcul automat cel mai mic preț</span>
+          </div>
+
+          <div class="calc-row">
+            <div>
+              <label>Data & Ora Preluare</label>
+              <input type="datetime-local" value="2026-11-20T16:00">
+            </div>
+            <div>
+              <label>Data & Ora Returnare</label>
+              <input type="datetime-local" value="2026-11-23T10:00">
+            </div>
+          </div>
+
+          <div class="calc-summary">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Interval detectat:</span>
+              <span>Weekend (Vineri 16:00 – Luni 10:00)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Preț optim aplicat:</span>
+              <strong>650 lei</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--color-text-muted);">
+              <span>Garanție returnabilă (reținută la predare):</span>
+              <span>1.500 lei</span>
+            </div>
+          </div>
+
+          <a href="DS-rent-booking-cart.html" class="btn-add">Adaugă în rezervare (650 lei)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS-rent-admin-models · Gestiune Modele Echipamente | RentCam</title>
+  <style>
+    :root {
+      --color-bg: #ffffff;
+      --color-surface: #f8fafc;
+      --color-text: #0f172a;
+      --color-text-muted: #64748b;
+      --color-primary: #2563eb;
+      --color-border: #e2e8f0;
+      --color-success: #16a34a;
+      --font-family: Inter, system-ui, -apple-system, sans-serif;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #0f172a;
+        --color-surface: #1e293b;
+        --color-text: #f8fafc;
+        --color-text-muted: #94a3b8;
+        --color-primary: #3b82f6;
+        --color-border: #334155;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
+    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
+    .nav-links { display: flex; gap: var(--space-md); list-style: none; font-size: 14px; }
+    .nav-links a { color: var(--color-text-muted); text-decoration: none; }
+    .nav-links a.active { color: var(--color-primary); font-weight: 600; }
+    .container { max-width: 1200px; margin: 0 auto; padding: var(--space-lg); }
+    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
+    .btn-primary { background: var(--color-primary); color: #fff; padding: 8px 16px; border-radius: var(--radius-sm); text-decoration: none; font-size: 13px; font-weight: 600; border: none; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--color-border); }
+    th { background: rgba(0,0,0,0.02); font-weight: 600; color: var(--color-text-muted); }
+    .price-pill { background: var(--color-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 11px; white-space: nowrap; margin-right: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">📷 RentCam · Panou Administrare</div>
+    <ul class="nav-links">
+      <li><a href="DS-rent-admin-models.html" class="active">Modele Catalog</a></li>
+      <li><a href="DS-rent-admin-units.html">Unități Fizice (Serii)</a></li>
+      <li><a href="DS-rent-admin-reports.html">Rapoarte & Financiar</a></li>
+      <li><a href="DS-rent-catalog.html">Vizualizează Magazin</a></li>
+    </ul>
+  </header>
+
+  <div class="container">
+    <div class="figma-tag">Frame: DS-rent-admin-models · Administrare modele echipamente</div>
+    <div class="toolbar">
+      <div>
+        <h1 style="font-size: 24px; font-weight: 700;">Catalog Modele Echipamente</h1>
+        <p style="color: var(--color-text-muted); font-size: 13px;">Definiții produse, grilă tarife pe 4 paliere și kituri accesorii standard.</p>
+      </div>
+      <button class="btn-primary">+ Adaugă Model Echipament Nou</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Model Echipament</th>
+          <th>Categorie & Brand</th>
+          <th>Grilă Tarife pe Paliere (Oră / Zi / Weekend / Săpt)</th>
+          <th>Garanție Bază</th>
+          <th>Unități Active</th>
+          <th>Status</th>
+          <th>Acțiuni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Sony FX3 Cinema Line</strong><br><small style="color: var(--color-text-muted);">Senzor Full-Frame 4K 120p</small></td>
+          <td>Camere Cinema · Sony</td>
+          <td>
+            <span class="price-pill">120 lei/h</span>
+            <span class="price-pill">450 lei/zi</span>
+            <span class="price-pill" style="font-weight: 700; color: var(--color-primary);">650 lei/wkd</span>
+            <span class="price-pill">1.800 lei/săpt</span>
+          </td>
+          <td>1.500 lei</td>
+          <td><strong>3 unități</strong> (<a href="DS-rent-admin-units.html" style="color: var(--color-primary);">vezi serii</a>)</td>
+          <td><span style="color: var(--color-success); font-weight: 600;">Activ</span></td>
+          <td><a href="#" style="color: var(--color-primary); text-decoration: none;">Editează</a></td>
+        </tr>
+        <tr>
+          <td><strong>Canon EOS R5 C 8K</strong><br><small style="color: var(--color-text-muted);">Cinema EOS Hybrid</small></td>
+          <td>Camere Cinema · Canon</td>
+          <td>
+            <span class="price-pill">130 lei/h</span>
+            <span class="price-pill">480 lei/zi</span>
+            <span class="price-pill" style="font-weight: 700; color: var(--color-primary);">700 lei/wkd</span>
+            <span class="price-pill">1.950 lei/săpt</span>
+          </td>
+          <td>1.600 lei</td>
+          <td><strong>2 unități</strong></td>
+          <td><span style="color: var(--color-success); font-weight: 600;">Activ</span></td>
+          <td><a href="#" style="color: var(--color-primary); text-decoration: none;">Editează</a></td>
+        </tr>
+        <tr>
+          <td><strong>Sony FE 24-70mm f/2.8 GM II</strong><br><small style="color: var(--color-text-muted);">Montură Sony E</small></td>
+          <td>Obiective · Sony</td>
+          <td>
+            <span class="price-pill">50 lei/h</span>
+            <span class="price-pill">180 lei/zi</span>
+            <span class="price-pill" style="font-weight: 700; color: var(--color-primary);">270 lei/wkd</span>
+            <span class="price-pill">720 lei/săpt</span>
+          </td>
+          <td>800 lei</td>
+          <td><strong>4 unități</strong></td>
+          <td><span style="color: var(--color-success); font-weight: 600;">Activ</span></td>
+          <td><a href="#" style="color: var(--color-primary); text-decoration: none;">Editează</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
