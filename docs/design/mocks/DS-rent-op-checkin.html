@@ -3,131 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DS-rent-op-checkin · Recepție Retur (Check-In) | RentCam</title>
+  <title>DS-rent-op-checkin · Recepție Retur | RentCam</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root {
-      --color-bg: #ffffff;
-      --color-surface: #f8fafc;
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
-      --color-primary: #2563eb;
-      --color-border: #e2e8f0;
-      --color-success: #16a34a;
-      --color-warning: #d97706;
-      --color-danger: #dc2626;
-      --font-family: Inter, system-ui, -apple-system, sans-serif;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --space-sm: 8px;
-      --space-md: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
+    .checkin-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-lg);
+      box-shadow: var(--shadow-sm);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-bg: #0f172a;
-        --color-surface: #1e293b;
-        --color-text: #f8fafc;
-        --color-text-muted: #94a3b8;
-        --color-primary: #3b82f6;
-        --color-border: #334155;
-      }
+    .checkin-card.partial-hold {
+      border: 2px dashed var(--color-warning);
+      background: rgba(217, 119, 6, 0.02);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
-    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
-    .container { max-width: 900px; margin: 0 auto; padding: var(--space-lg); }
-    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
-    .unit-check-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-md); }
-    .unit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); }
-    .unit-title { font-weight: 700; font-size: 15px; }
-    .unit-serial { font-family: monospace; background: var(--color-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 12px; }
-    .checklist-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
-    .checklist-table td { padding: 6px 8px; border-bottom: 1px solid var(--color-border); }
-    .alert-box { background: rgba(220, 38, 38, 0.08); border-left: 3px solid var(--color-danger); padding: 10px; border-radius: 4px; font-size: 13px; color: var(--color-danger); margin-top: 8px; }
-    .partial-banner { background: rgba(217, 119, 6, 0.1); border-left: 3px solid var(--color-warning); padding: 12px; border-radius: var(--radius-sm); font-size: 13px; color: var(--color-warning); margin-bottom: var(--space-lg); }
-    .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-top: var(--space-lg); }
-    .btn { display: block; text-align: center; padding: 12px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 600; font-size: 14px; }
-    .btn-damage { background: var(--color-danger); color: #fff; }
-    .btn-complete { background: var(--color-success); color: #fff; }
+    .kit-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: var(--space-sm);
+    }
+    .kit-check-box {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .kit-check-box.missing {
+      border-color: var(--color-danger);
+      background: rgba(220, 38, 38, 0.05);
+      color: var(--color-danger);
+      font-weight: 600;
+    }
+    .settlement-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin: var(--space-xl) 0;
+    }
+    .settlement-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">📷 RentCam · Check-In Recepție Retur</div>
-    <a href="DS-rent-op-dashboard.html" style="color: var(--color-primary); font-size: 14px; text-decoration: none;">← Înapoi la Dashboard</a>
+  <header class="site-header">
+    <a href="DS-rent-op-dashboard.html" class="brand-logo"><span>●</span> RentCam · Recepție Retur</a>
+    <a href="DS-rent-op-dashboard.html" class="nav-link">← Înapoi la Dashboard</a>
   </header>
 
-  <div class="container">
-    <div class="figma-tag">Frame: DS-rent-op-checkin · Recepție retur și inspecție</div>
-    <h1 style="font-size: 24px; margin-bottom: 4px;">Recepție Retur #RC-2026-084</h1>
-    <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: var(--space-md);">Client: Popescu Radu · Scadență contractuală: 23 Nov, 10:00 (Returnat la timp)</p>
-
-    <!-- Partial return notification -->
-    <div class="partial-banner">
-      ⚡ <strong>Suport returnări parțiale:</strong> Puteți recepționa acum doar o parte din unitățile fizice (debifând unitățile pe care clientul le păstrează). Unitățile neselectate rămân active în contract.
+  <div class="page-container" style="max-width: 860px;">
+    <div class="figma-tag">DS-rent-op-checkin · Recepție retur și inspecție</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <div>
+        <h1 class="page-title">Recepție Retur #RC-2026-084</h1>
+        <p class="page-subtitle">Client: <strong>Popescu Radu</strong> · Returnat la timp</p>
+      </div>
+      <span class="badge badge-success">0 lei penalizare întârziere</span>
     </div>
 
-    <!-- Unitatea 1 -->
-    <div class="unit-check-card">
-      <div class="unit-header">
+    <!-- Unitatea 1: Returnata cu piesa lipsa -->
+    <div class="checkin-card">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
         <div>
-          <input type="checkbox" checked id="u1">
-          <label for="u1" class="unit-title" style="margin-left: 6px;">Sony FX3 Cinema Line</label>
-          <span class="unit-serial">SN-FX3-1002</span>
+          <h2 style="font-size: 18px; font-weight: 700;">Sony FX3 Cinema Line</h2>
+          <span style="font-size: 13px; color: var(--color-text-muted); font-family: ui-monospace, monospace;">SN-FX3-1002</span>
         </div>
-        <span style="font-size: 12px; color: var(--color-success); font-weight: 600;">✓ Selectat pentru retur</span>
+        <span class="badge badge-primary">Returnată acum</span>
       </div>
 
-      <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--color-text-muted); margin-top: 8px;">Verificare accesorii kit returnat:</div>
-      <table class="checklist-table">
-        <tr><td><input type="checkbox" checked> Corp cameră FX3 (fără defecte aparente)</td><td style="color: var(--color-success);">Prezent</td></tr>
-        <tr><td><input type="checkbox" checked> Mâner audio XLR-H1</td><td style="color: var(--color-success);">Prezent</td></tr>
-        <tr><td><input type="checkbox" checked> 2x Acumulatori Sony NP-FZ100</td><td style="color: var(--color-success);">Prezenți</td></tr>
-        <tr><td><input type="checkbox"> <strong>Încărcător dublu + cablu USB-C</strong></td><td style="color: var(--color-danger); font-weight: bold;">LIPSĂ DIN KIT</td></tr>
-        <tr><td><input type="checkbox" checked> Geantă semirigidă transport</td><td style="color: var(--color-success);">Prezentă</td></tr>
-      </table>
-
-      <div class="alert-box">
-        ⚠️ <strong>Accesoriu lipsă constatat:</strong> Încărcător dual Sony (Valoare de înlocuire: 250 lei). Va fi reținut din garanție sau trecut în raport de daună.
+      <div style="margin-top: var(--space-md);">
+        <span class="segment-label">Verificare accesorii returnate:</span>
+        <div class="kit-row">
+          <div class="kit-check-box"><input type="checkbox" checked> Corp FX3 curat</div>
+          <div class="kit-check-box"><input type="checkbox" checked> Mâner audio XLR</div>
+          <div class="kit-check-box"><input type="checkbox" checked> 2x Baterii NP-FZ100</div>
+          <div class="kit-check-box missing"><input type="checkbox"> ⚠️ Încărcător dual LIPSĂ</div>
+          <div class="kit-check-box"><input type="checkbox" checked> Geantă semirigidă</div>
+        </div>
       </div>
     </div>
 
-    <!-- Unitatea 2 -->
-    <div class="unit-check-card" style="border: 2px dashed var(--color-warning);">
-      <div class="unit-header">
+    <!-- Unitatea 2: Retur partial (ramane la client) -->
+    <div class="checkin-card partial-hold">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
         <div>
-          <input type="checkbox" id="u2">
-          <label for="u2" class="unit-title" style="margin-left: 6px;">Sony FE 24-70mm f/2.8 GM II</label>
-          <span class="unit-serial">SN-LENS-2470-04</span>
+          <h2 style="font-size: 18px; font-weight: 700;">Sony FE 24-70mm f/2.8 GM II</h2>
+          <span style="font-size: 13px; color: var(--color-text-muted); font-family: ui-monospace, monospace;">SN-LENS-2470-04</span>
         </div>
-        <span style="font-size: 12px; color: var(--color-warning); font-weight: 600;">⏳ Rămâne în posesia clientului (Retur parțial)</span>
+        <span class="badge badge-warning">Retur Parțial · Păstrat de client</span>
       </div>
-      <div style="font-size: 13px; color: var(--color-text-muted); padding: 8px 0;">
-        Clientul prelungește închirierea obiectivului cu încă 2 zile. Garanția aferentă (800 lei) rămâne activă în sistem.
+      <p style="font-size: 13px; color: var(--color-text-muted); margin-top: 8px;">
+        Clientul a solicitat prelungirea închirierii obiectivului până la 25 Nov. Garanția de 800 lei rămâne blocată în sistem.
+      </p>
+    </div>
+
+    <!-- Decontare Financiara Garantie -->
+    <div class="settlement-card">
+      <h3 style="font-size: 16px; font-weight: 700; margin-bottom: var(--space-sm);">Decontare Garanție la Ghișeu</h3>
+      <div class="settlement-line">
+        <span style="color: var(--color-text-muted);">Garanție totală reținută la predare:</span>
+        <span>2.300 lei</span>
+      </div>
+      <div class="settlement-line">
+        <span style="color: var(--color-text-muted);">Garanție activă pentru obiectiv păstrat:</span>
+        <span style="color: var(--color-warning); font-weight: 600;">-800 lei</span>
+      </div>
+      <div class="settlement-line">
+        <span style="color: var(--color-text-muted);">Deducere accesoriu lipsă (Încărcător Sony):</span>
+        <span style="color: var(--color-danger); font-weight: 600;">-250 lei</span>
+      </div>
+      <div class="settlement-line" style="border-top: 1px solid var(--color-border); padding-top: var(--space-md); margin-top: var(--space-xs); font-size: 20px; font-weight: 800;">
+        <span>Rest de restituit clientului acum:</span>
+        <span style="color: var(--color-success);">1.250 lei</span>
       </div>
     </div>
 
-    <!-- Calcul Restituire Garantie -->
-    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin-top: var(--space-md);">
-      <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
-        <span>Garanție totală inițială:</span> <strong>2.300 lei</strong>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
-        <span>Garanție menținută activă (pentru Obiectiv nereturnat):</span> <span style="color: var(--color-warning);">-800 lei</span>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
-        <span>Deducere accesoriu lipsă (Încărcător Sony):</span> <span style="color: var(--color-danger);">-250 lei</span>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 700; border-top: 1px solid var(--color-border); padding-top: 8px; color: var(--color-success);">
-        <span>Rest de restituit acum clientului:</span> <span>1.250 lei</span>
-      </div>
-    </div>
-
-    <div class="actions-grid">
-      <a href="DS-rent-op-damage-report.html" class="btn btn-damage">Constată Daune / Deschide Raport Foto</a>
-      <a href="DS-rent-op-maintenance.html" class="btn btn-complete">Confirmă Check-In & Trimite în Mentenanță (2h)</a>
+    <!-- Actiuni -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+      <a href="DS-rent-op-damage-report.html" class="btn btn-secondary" style="border-color: var(--color-danger); color: var(--color-danger);">Deschide Raport Daună Foto</a>
+      <a href="DS-rent-op-maintenance.html" class="btn btn-primary">Confirmă Check-In & Trimite în Mentenanță (2h)</a>
     </div>
   </div>
 </body>

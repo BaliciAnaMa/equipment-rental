@@ -3,127 +3,128 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DS-rent-admin-units · Gestiune Unități Fizice (Serii) | RentCam</title>
+  <title>DS-rent-admin-units · Unități Fizice (Serii) | RentCam Admin</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root {
-      --color-bg: #ffffff;
-      --color-surface: #f8fafc;
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
-      --color-primary: #2563eb;
-      --color-border: #e2e8f0;
-      --color-success: #16a34a;
-      --color-warning: #d97706;
-      --color-danger: #dc2626;
-      --font-family: Inter, system-ui, -apple-system, sans-serif;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --space-sm: 8px;
-      --space-md: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
+    .units-table-wrap {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-bg: #0f172a;
-        --color-surface: #1e293b;
-        --color-text: #f8fafc;
-        --color-text-muted: #94a3b8;
-        --color-primary: #3b82f6;
-        --color-border: #334155;
-      }
+    .table-clean {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
-    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
-    .nav-links { display: flex; gap: var(--space-md); list-style: none; font-size: 14px; }
-    .nav-links a { color: var(--color-text-muted); text-decoration: none; }
-    .nav-links a.active { color: var(--color-primary); font-weight: 600; }
-    .container { max-width: 1200px; margin: 0 auto; padding: var(--space-lg); }
-    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
-    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg); }
-    .btn-primary { background: var(--color-primary); color: #fff; padding: 8px 16px; border-radius: var(--radius-sm); text-decoration: none; font-size: 13px; font-weight: 600; border: none; cursor: pointer; }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--color-border); }
-    th { background: rgba(0,0,0,0.02); font-weight: 600; color: var(--color-text-muted); }
-    .badge { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; display: inline-block; }
-    .badge-available { background: rgba(22, 163, 74, 0.1); color: var(--color-success); }
-    .badge-rented { background: rgba(37, 99, 235, 0.1); color: var(--color-primary); }
-    .badge-maintenance { background: rgba(217, 119, 6, 0.1); color: var(--color-warning); }
+    .table-clean th, .table-clean td {
+      padding: 16px var(--space-lg);
+      border-bottom: 1px solid var(--color-border);
+      text-align: left;
+    }
+    .table-clean tr:last-child td { border-bottom: none; }
+    .table-clean th {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+      background: var(--color-bg);
+    }
+    .serial-tag {
+      font-family: ui-monospace, monospace;
+      font-weight: 600;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">📷 RentCam · Panou Administrare</div>
-    <ul class="nav-links">
-      <li><a href="DS-rent-admin-models.html">Modele Catalog</a></li>
-      <li><a href="DS-rent-admin-units.html" class="active">Unități Fizice (Serii)</a></li>
-      <li><a href="DS-rent-admin-reports.html">Rapoarte & Financiar</a></li>
+  <header class="site-header">
+    <a href="DS-rent-admin-models.html" class="brand-logo"><span>●</span> RentCam · Administrare</a>
+    <ul class="nav-menu">
+      <li><a href="DS-rent-admin-models.html" class="nav-link">Catalog Modele</a></li>
+      <li><a href="DS-rent-admin-units.html" class="nav-link active">Unități Fizice (Serii)</a></li>
+      <li><a href="DS-rent-admin-reports.html" class="nav-link">Rapoarte & Cifre</a></li>
+      <li><a href="DS-rent-catalog.html" class="nav-link">Magazin Public</a></li>
     </ul>
   </header>
 
-  <div class="container">
-    <div class="figma-tag">Frame: DS-rent-admin-units · Administrare unități fizice și serii</div>
-    <div class="toolbar">
+  <div class="page-container">
+    <div class="figma-tag">DS-rent-admin-units · Administrare unități fizice și serii</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
       <div>
-        <h1 style="font-size: 24px; font-weight: 700;">Urmărire Unități Fizice Individuale</h1>
-        <p style="color: var(--color-text-muted); font-size: 13px;">Gestiune inventar per număr de serie producător, kituri accesorii și stări curente.</p>
+        <h1 class="page-title">Flotă Unități Fizice Individuale</h1>
+        <p class="page-subtitle">Urmărire per număr de serie producător, cod inventar și stări operaționale.</p>
       </div>
-      <button class="btn-primary">+ Înregistrează Unitate Fizică Nouă</button>
+      <button class="btn btn-primary">+ Înregistrează Unitate Nouă</button>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Cod Inventar</th>
-          <th>Număr de Serie (SN)</th>
-          <th>Model Echipament Părinte</th>
-          <th>Stare Operațională</th>
-          <th>Accesorii Kit Incluse</th>
-          <th>Închirieri Totale</th>
-          <th>Acțiuni</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>RC-U-101</strong></td>
-          <td><code>SN-FX3-1001</code></td>
-          <td>Sony FX3 Cinema Line</td>
-          <td><span class="badge badge-maintenance">Turnover (Curățare)</span></td>
-          <td>5 componente (Corp, Mâner, 2x Baterii, Încărcător, Geantă)</td>
-          <td>18 închirieri</td>
-          <td><a href="#" style="color: var(--color-primary); text-decoration: none;">Jurnal</a></td>
-        </tr>
-        <tr>
-          <td><strong>RC-U-102</strong></td>
-          <td><code>SN-FX3-1002</code></td>
-          <td>Sony FX3 Cinema Line</td>
-          <td><span class="badge badge-maintenance" style="color: var(--color-danger); background: rgba(220,38,38,0.1);">În Service (Daună #012)</span></td>
-          <td>4 componente (1 lipsă)</td>
-          <td>8 închirieri</td>
-          <td><a href="DS-rent-op-damage-report.html" style="color: var(--color-primary); text-decoration: none;">Raport</a></td>
-        </tr>
-        <tr>
-          <td><strong>RC-U-103</strong></td>
-          <td><code>SN-FX3-1003</code></td>
-          <td>Sony FX3 Cinema Line</td>
-          <td><span class="badge badge-available">Disponibil</span></td>
-          <td>5 componente (Complet)</td>
-          <td>12 închirieri</td>
-          <td><a href="#" style="color: var(--color-primary); text-decoration: none;">Jurnal</a></td>
-        </tr>
-        <tr>
-          <td><strong>RC-U-204</strong></td>
-          <td><code>SN-LENS-2470-04</code></td>
-          <td>Sony FE 24-70mm f/2.8 GM II</td>
-          <td><span class="badge badge-rented">Închiriat (#RC-2026-084)</span></td>
-          <td>4 componente (Complet)</td>
-          <td>22 închirieri</td>
-          <td><a href="#" style="color: var(--color-primary); text-decoration: none;">Jurnal</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Filter Pills -->
+    <div style="display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg);">
+      <button class="cat-btn active">Toate (18)</button>
+      <button class="cat-btn">Disponibile (12)</button>
+      <button class="cat-btn">Închiriate (3)</button>
+      <button class="cat-btn">În Mentenanță / Service (3)</button>
+    </div>
+
+    <div class="units-table-wrap">
+      <table class="table-clean">
+        <thead>
+          <tr>
+            <th>Cod Inventar</th>
+            <th>Număr de Serie (SN)</th>
+            <th>Model Echipament Părinte</th>
+            <th>Stare Operațională</th>
+            <th>Kit Accesorii</th>
+            <th>Închirieri</th>
+            <th>Acțiuni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>RC-U-101</strong></td>
+            <td><span class="serial-tag">SN-FX3-1001</span></td>
+            <td>Sony FX3 Cinema Line</td>
+            <td><span class="badge badge-warning">Turnover (Curățare 2h)</span></td>
+            <td>5 piese (Complet)</td>
+            <td><strong>18</strong></td>
+            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Istoric</a></td>
+          </tr>
+          <tr>
+            <td><strong>RC-U-102</strong></td>
+            <td><span class="serial-tag">SN-FX3-1002</span></td>
+            <td>Sony FX3 Cinema Line</td>
+            <td><span class="badge badge-danger">În Service (Raport #012)</span></td>
+            <td>4 piese (1 lipsă)</td>
+            <td><strong>8</strong></td>
+            <td><a href="DS-rent-op-damage-report.html" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Raport</a></td>
+          </tr>
+          <tr>
+            <td><strong>RC-U-103</strong></td>
+            <td><span class="serial-tag">SN-FX3-1003</span></td>
+            <td>Sony FX3 Cinema Line</td>
+            <td><span class="badge badge-success">Disponibil</span></td>
+            <td>5 piese (Complet)</td>
+            <td><strong>12</strong></td>
+            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Istoric</a></td>
+          </tr>
+          <tr>
+            <td><strong>RC-U-204</strong></td>
+            <td><span class="serial-tag">SN-LENS-2470-04</span></td>
+            <td>Sony FE 24-70mm f/2.8 GM II</td>
+            <td><span class="badge badge-primary">Închiriat (#RC-2026-084)</span></td>
+            <td>4 piese (Complet)</td>
+            <td><strong>22</strong></td>
+            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Rezervare</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </body>
 </html>

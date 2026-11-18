@@ -3,110 +3,163 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DS-rent-customer-dashboard · Cont Client | RentCam</title>
+  <title>DS-rent-customer-dashboard · Istoric rezervări | RentCam</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root {
-      --color-bg: #ffffff;
-      --color-surface: #f8fafc;
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
-      --color-primary: #2563eb;
-      --color-border: #e2e8f0;
-      --color-success: #16a34a;
-      --font-family: Inter, system-ui, -apple-system, sans-serif;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --shadow-card: 0 1px 3px rgba(0,0,0,0.08);
-      --space-sm: 8px;
-      --space-md: 16px;
-      --space-lg: 24px;
+    .user-profile-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-bg: #0f172a;
-        --color-surface: #1e293b;
-        --color-text: #f8fafc;
-        --color-text-muted: #94a3b8;
-        --color-primary: #3b82f6;
-        --color-border: #334155;
-      }
+    .user-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: 40px; }
-    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
-    .container { max-width: 1000px; margin: 0 auto; padding: var(--space-lg); }
-    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
-    h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-    .user-info { color: var(--color-text-muted); font-size: 14px; margin-bottom: var(--space-lg); }
-    .tab-bar { display: flex; gap: var(--space-md); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-lg); }
-    .tab { padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--color-text-muted); cursor: pointer; text-decoration: none; border-bottom: 2px solid transparent; }
-    .tab.active { color: var(--color-primary); border-color: var(--color-primary); }
-    .order-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-md); box-shadow: var(--shadow-card); }
-    .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); }
-    .order-id { font-weight: 700; font-size: 16px; }
-    .status-badge { font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: 600; background: rgba(37, 99, 235, 0.1); color: var(--color-primary); }
-    .status-badge.completed { background: rgba(22, 163, 74, 0.1); color: var(--color-success); }
-    .order-details-grid { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-md); font-size: 13px; }
-    .unit-list { list-style: none; margin-top: 6px; }
-    .unit-list li { margin-bottom: 4px; color: var(--color-text); }
+    .order-box {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-lg);
+      box-shadow: var(--shadow-card);
+    }
+    .order-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .order-num { font-size: 18px; font-weight: 700; }
+    .timeline {
+      display: flex;
+      justify-content: space-between;
+      margin: var(--space-lg) 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 20px;
+      right: 20px;
+      height: 2px;
+      background: var(--color-border);
+      z-index: 1;
+    }
+    .timeline-step {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      font-size: 12px;
+    }
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-full);
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 6px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+    }
+    .timeline-step.completed .step-dot {
+      background: var(--color-success);
+      border-color: var(--color-success);
+      color: #fff;
+    }
+    .timeline-step.active .step-dot {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">📷 RentCam</div>
-    <div style="font-size: 14px;">Cont: <strong>Radu Popescu</strong> | <a href="DS-rent-catalog.html" style="color: var(--color-primary); text-decoration: none;">Catalog</a></div>
+  <header class="site-header">
+    <a href="DS-rent-catalog.html" class="brand-logo"><span>●</span> RentCam</a>
+    <ul class="nav-menu">
+      <li><a href="DS-rent-catalog.html" class="nav-link">Catalog</a></li>
+      <li><a href="DS-rent-customer-dashboard.html" class="nav-link active">Rezervările mele</a></li>
+      <li><a href="DS-rent-booking-cart.html" class="nav-link">Coș (2)</a></li>
+    </ul>
   </header>
 
-  <div class="container">
-    <div class="figma-tag">Frame: DS-rent-customer-dashboard · Istoric rezervări client</div>
-    <h1>Contul Meu & Istoric Rezervări</h1>
-    <div class="user-info">Client: Radu Popescu · radu.popescu@example.com · 0722 123 456</div>
+  <div class="page-container" style="max-width: 960px;">
+    <div class="figma-tag">DS-rent-customer-dashboard · Istoric rezervări client</div>
 
-    <div class="tab-bar">
-      <a href="#" class="tab active">Rezervări Active (1)</a>
-      <a href="#" class="tab">Rezervări Finalizate (3)</a>
-    </div>
-
-    <!-- Rezervare Activa -->
-    <div class="order-card">
-      <div class="order-header">
-        <div>
-          <span class="order-id">Rezervare #RC-2026-084</span>
-          <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 10px;">Plasată: 18 Nov 2026</span>
-        </div>
-        <span class="status-badge">Confirmată · Gata de Preluare</span>
-      </div>
-
-      <div class="order-details-grid">
-        <div>
-          <div style="color: var(--color-text-muted); font-size: 12px;">Interval programat:</div>
-          <div style="font-weight: 600; margin-bottom: 8px;">Vineri, 20 Nov 16:00 → Luni, 23 Nov 10:00 (Weekend)</div>
-          <div style="color: var(--color-text-muted); font-size: 12px;">Echipamente rezervate:</div>
-          <ul class="unit-list">
-            <li>• 1x Sony FX3 Cinema Line (serie atribuită la predare)</li>
-            <li>• 1x Sony FE 24-70mm f/2.8 GM II (serie atribuită la predare)</li>
-          </ul>
-        </div>
-        <div style="border-left: 1px solid var(--color-border); padding-left: 16px;">
-          <div style="color: var(--color-text-muted); font-size: 12px;">Total chirie achitat:</div>
-          <div style="font-size: 18px; font-weight: 700; color: var(--color-primary); margin-bottom: 6px;">920 lei</div>
-          <div style="font-size: 12px; color: var(--color-text-muted);">Garanție returnabilă reținută la ghișeu: <strong>2.300 lei</strong></div>
-        </div>
+    <div class="user-profile-bar">
+      <div class="user-avatar">RP</div>
+      <div>
+        <h1 class="page-title" style="font-size: 24px;">Radu Popescu</h1>
+        <p style="font-size: 14px; color: var(--color-text-muted);">Client verificat · 0722 123 456 · 4 închirieri finalizate</p>
       </div>
     </div>
 
-    <!-- Rezervare Trecuta -->
-    <div class="order-card" style="opacity: 0.85;">
-      <div class="order-header">
+    <!-- Active Order -->
+    <div class="order-box">
+      <div class="order-top">
         <div>
-          <span class="order-id">Rezervare #RC-2026-041</span>
-          <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 10px;">Perioadă: 10-12 Oct 2026</span>
+          <span class="order-num">Rezervare #RC-2026-084</span>
+          <span style="font-size: 13px; color: var(--color-text-muted); margin-left: 8px;">Plasată: 18 Nov 2026</span>
         </div>
-        <span class="status-badge completed">Finalizată · Garanție Restituită</span>
+        <span class="badge badge-primary">Confirmată · Gata de Preluare</span>
       </div>
-      <div style="font-size: 13px;">
-        Echipamente: Aputure 300d II Light Storm (Unitate: <code>SN-AP-300-02</code>). Returnat la timp, verificare kit 100% completă, 0 daune.
+
+      <!-- Stepper -->
+      <div class="timeline">
+        <div class="timeline-step completed">
+          <div class="step-dot">✓</div>
+          <span>Rezervat</span>
+        </div>
+        <div class="timeline-step completed">
+          <div class="step-dot">✓</div>
+          <span>Confirmat</span>
+        </div>
+        <div class="timeline-step active">
+          <div class="step-dot">3</div>
+          <span style="font-weight: 700; color: var(--color-primary);">Preluare la Ghișeu</span>
+        </div>
+        <div class="timeline-step">
+          <div class="step-dot">4</div>
+          <span>În Folosință</span>
+        </div>
+        <div class="timeline-step">
+          <div class="step-dot">5</div>
+          <span>Returnat</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--space-xl); margin-top: var(--space-xl); font-size: 14px;">
+        <div>
+          <div style="font-weight: 700; margin-bottom: var(--space-xs);">Echipamente rezervate:</div>
+          <div style="color: var(--color-text); margin-bottom: 4px;">• <strong>Sony FX3 Cinema Line</strong> (Serie atribuită la predare)</div>
+          <div style="color: var(--color-text);">• <strong>Sony FE 24-70mm f/2.8 GM II</strong> (Serie atribuită la predare)</div>
+          <div style="margin-top: 12px; font-size: 13px; color: var(--color-text-muted);">
+            Interval: <strong>20 Nov 16:00 → 23 Nov 10:00</strong> (Weekend Promo)
+          </div>
+        </div>
+        <div style="background: var(--color-bg); padding: var(--space-md); border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+            <span>Chirie achitată:</span> <strong>920 lei</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: var(--color-text-muted); font-size: 13px;">
+            <span>Garanție blocată la ghișeu:</span> <span>2.300 lei</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

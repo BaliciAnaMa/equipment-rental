@@ -4,111 +4,123 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-op-checkout · Predare Echipament (Check-Out) | RentCam</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root {
-      --color-bg: #ffffff;
-      --color-surface: #f8fafc;
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
-      --color-primary: #2563eb;
-      --color-primary-hover: #1d4ed8;
-      --color-border: #e2e8f0;
-      --color-success: #16a34a;
-      --font-family: Inter, system-ui, -apple-system, sans-serif;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --space-sm: 8px;
-      --space-md: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
+    .handoff-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-lg);
+      box-shadow: var(--shadow-sm);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-bg: #0f172a;
-        --color-surface: #1e293b;
-        --color-text: #f8fafc;
-        --color-text-muted: #94a3b8;
-        --color-primary: #3b82f6;
-        --color-border: #334155;
-      }
+    .scanner-row {
+      display: flex;
+      gap: var(--space-md);
+      align-items: center;
+      margin: var(--space-md) 0;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
-    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
-    .container { max-width: 900px; margin: 0 auto; padding: var(--space-lg); }
-    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
-    .unit-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-lg); }
-    .unit-card h3 { font-size: 16px; margin-bottom: var(--space-xs); }
-    .serial-selector { display: flex; gap: var(--space-sm); align-items: center; margin: var(--space-sm) 0; }
-    .serial-selector select { padding: 8px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); font-size: 14px; font-family: monospace; }
-    .checklist-box { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: var(--space-sm) var(--space-md); margin-top: var(--space-sm); }
-    .checklist-item { display: flex; align-items: center; gap: var(--space-sm); padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--color-border); }
-    .checklist-item:last-child { border-bottom: none; }
-    .checklist-item input[type="checkbox"] { width: 16px; height: 16px; }
-    .btn-submit { background: var(--color-success); color: #fff; padding: 12px 24px; border-radius: var(--radius-sm); text-decoration: none; font-weight: 700; font-size: 15px; border: none; cursor: pointer; display: block; width: 100%; text-align: center; }
+    .select-serial {
+      padding: 10px 14px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 15px;
+      font-family: ui-monospace, monospace;
+      font-weight: 600;
+    }
+    .checklist-clean {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-top: var(--space-sm);
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 13px;
+    }
+    .check-item input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--color-primary);
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">📷 RentCam · Check-Out Predare</div>
-    <a href="DS-rent-op-dashboard.html" style="color: var(--color-primary); font-size: 14px; text-decoration: none;">← Înapoi la Dashboard</a>
+  <header class="site-header">
+    <a href="DS-rent-op-dashboard.html" class="brand-logo"><span>●</span> RentCam · Check-Out Predare</a>
+    <a href="DS-rent-op-dashboard.html" class="nav-link">← Înapoi la Dashboard</a>
   </header>
 
-  <div class="container">
-    <div class="figma-tag">Frame: DS-rent-op-checkout · Predare echipament ghișeu</div>
-    <h1 style="font-size: 24px; margin-bottom: 4px;">Predare Rezervare #RC-2026-084</h1>
-    <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: var(--space-lg);">Client: <strong>Popescu Radu</strong> · Telefon: 0722 123 456 · CI: Seria SB nr 123456</p>
+  <div class="page-container" style="max-width: 860px;">
+    <div class="figma-tag">DS-rent-op-checkout · Predare echipament ghișeu</div>
+    <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+      <div>
+        <h1 class="page-title">Predare #RC-2026-084</h1>
+        <p class="page-subtitle">Client: <strong>Popescu Radu</strong> · 0722 123 456 · CI: SB 123456</p>
+      </div>
+      <span class="badge badge-primary" style="font-size: 14px; padding: 6px 14px;">Garanție reținută: 2.300 lei</span>
+    </div>
 
-    <!-- Item 1 -->
-    <div class="unit-card">
-      <h3>1. Model solicitat: Sony FX3 Cinema Line</h3>
-      <div class="serial-selector">
-        <label style="font-size: 13px; font-weight: 600;">Scanează / Selectează Unitatea Fizică:</label>
-        <select>
-          <option selected>SN-FX3-1002 (Cod intern: RC-U-102 · Stare: Excelentă)</option>
-          <option>SN-FX3-1001 (Cod intern: RC-U-101 · Stare: Foarte bună)</option>
+    <!-- Echipament 1 -->
+    <div class="handoff-card">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h2 style="font-size: 18px; font-weight: 700;">1. Sony FX3 Cinema Line</h2>
+        <span class="badge badge-success">Unitate verificată</span>
+      </div>
+
+      <div class="scanner-row">
+        <label style="font-size: 13px; font-weight: 600; color: var(--color-text-muted);">Alocare serie fizică:</label>
+        <select class="select-serial">
+          <option selected>SN-FX3-1002 (RC-U-102 · Stare Excelentă)</option>
+          <option>SN-FX3-1003 (RC-U-103 · Stare Foarte Bună)</option>
         </select>
       </div>
 
-      <div class="checklist-box">
-        <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 4px;">Checklist verificare kit la predare:</div>
-        <div class="checklist-item"><input type="checkbox" checked> Corp cameră FX3 cu capac senzor intact</div>
-        <div class="checklist-item"><input type="checkbox" checked> Mâner audio XLR-H1 montat</div>
-        <div class="checklist-item"><input type="checkbox" checked> 2x Acumulatori Sony NP-FZ100 încărcați 100%</div>
-        <div class="checklist-item"><input type="checkbox" checked> Încărcător dublu + cablu alimentare USB-C</div>
-        <div class="checklist-item"><input type="checkbox" checked> Geantă semirigidă transport</div>
+      <span class="segment-label">Verificare Kit Accesorii la Predare:</span>
+      <div class="checklist-clean">
+        <label class="check-item"><input type="checkbox" checked> Corp FX3 + capac senzor</label>
+        <label class="check-item"><input type="checkbox" checked> Mâner audio XLR-H1</label>
+        <label class="check-item"><input type="checkbox" checked> 2x Baterii Sony (100%)</label>
+        <label class="check-item"><input type="checkbox" checked> Încărcător dual USB-C</label>
+        <label class="check-item"><input type="checkbox" checked> Cage modular SmallRig</label>
+        <label class="check-item"><input type="checkbox" checked> Geantă semirigidă</label>
       </div>
     </div>
 
-    <!-- Item 2 -->
-    <div class="unit-card">
-      <h3>2. Model solicitat: Sony FE 24-70mm f/2.8 GM II</h3>
-      <div class="serial-selector">
-        <label style="font-size: 13px; font-weight: 600;">Scanează / Selectează Unitatea Fizică:</label>
-        <select>
-          <option selected>SN-LENS-2470-04 (Cod intern: RC-U-204 · Stare: Impecabilă)</option>
-          <option>SN-LENS-2470-02 (Cod intern: RC-U-202 · Stare: Fără zgârieturi)</option>
+    <!-- Echipament 2 -->
+    <div class="handoff-card">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h2 style="font-size: 18px; font-weight: 700;">2. Sony FE 24-70mm f/2.8 GM II</h2>
+        <span class="badge badge-success">Unitate verificată</span>
+      </div>
+
+      <div class="scanner-row">
+        <label style="font-size: 13px; font-weight: 600; color: var(--color-text-muted);">Alocare serie fizică:</label>
+        <select class="select-serial">
+          <option selected>SN-LENS-2470-04 (RC-U-204 · Impecabil)</option>
         </select>
       </div>
 
-      <div class="checklist-box">
-        <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 4px;">Checklist verificare kit la predare:</div>
-        <div class="checklist-item"><input type="checkbox" checked> Obiectiv 24-70 GM II cu element frontal curat</div>
-        <div class="checklist-item"><input type="checkbox" checked> Parasolar original ALC-SH168</div>
-        <div class="checklist-item"><input type="checkbox" checked> Capace față și spate originale Sony</div>
-        <div class="checklist-item"><input type="checkbox" checked> Husă textilă căptușită</div>
+      <span class="segment-label">Verificare Kit Accesorii la Predare:</span>
+      <div class="checklist-clean">
+        <label class="check-item"><input type="checkbox" checked> Obiectiv 24-70mm GM II</label>
+        <label class="check-item"><input type="checkbox" checked> Parasolar ALC-SH168</label>
+        <label class="check-item"><input type="checkbox" checked> Capace față și spate</label>
+        <label class="check-item"><input type="checkbox" checked> Husă căptușită</label>
       </div>
     </div>
 
-    <!-- Sumar Garantie & Semnatura -->
-    <div style="background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-lg);">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span style="font-size: 15px; font-weight: 600;">Garanție reținută:</span>
-        <span style="font-size: 18px; font-weight: 700; color: var(--color-primary);">2.300 lei (Card / POS)</span>
-      </div>
-      <div style="font-size: 12px; color: var(--color-text-muted); margin-bottom: 12px;">Clientul a semnat contractul de închiriere și a primit kiturile complete.</div>
-      <a href="DS-rent-op-dashboard.html" class="btn-submit">Finalizează Predarea (Check-Out)</a>
+    <!-- CTA -->
+    <div style="margin-top: var(--space-xl);">
+      <a href="DS-rent-op-dashboard.html" class="btn btn-primary btn-large" style="width: 100%;">Finalizează Predarea & Eliberează Echipamentele</a>
     </div>
   </div>
 </body>

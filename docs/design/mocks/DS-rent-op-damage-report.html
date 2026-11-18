@@ -4,117 +4,119 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-op-damage-report · Raport Daună | RentCam</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root {
-      --color-bg: #ffffff;
-      --color-surface: #f8fafc;
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
-      --color-primary: #2563eb;
-      --color-border: #e2e8f0;
-      --color-danger: #dc2626;
-      --color-warning: #d97706;
-      --font-family: Inter, system-ui, -apple-system, sans-serif;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --space-sm: 8px;
-      --space-md: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
+    .damage-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    .photo-area {
+      border: 2px dashed var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      text-align: center;
+      background: var(--color-bg);
+      cursor: pointer;
+      margin-bottom: var(--space-md);
+    }
+    .thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    .thumb-evidence {
+      height: 140px;
+      background: linear-gradient(145deg, #e2e8f0 0%, #cbd5e1 100%);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      position: relative;
+      border: 1px solid var(--color-border);
     }
     @media (prefers-color-scheme: dark) {
-      :root {
-        --color-bg: #0f172a;
-        --color-surface: #1e293b;
-        --color-text: #f8fafc;
-        --color-text-muted: #94a3b8;
-        --color-primary: #3b82f6;
-        --color-border: #334155;
-      }
+      .thumb-evidence { background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); color: #94a3b8; }
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
-    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
-    .container { max-width: 800px; margin: 0 auto; padding: var(--space-lg); }
-    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
-    .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-md); margin-bottom: var(--space-md); }
-    .form-group { margin-bottom: var(--space-md); }
-    .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--color-text-muted); margin-bottom: 4px; text-transform: uppercase; }
-    .input-field, select, textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg); color: var(--color-text); font-size: 14px; }
-    textarea { min-height: 80px; resize: vertical; }
-    .photo-dropzone { border: 2px dashed var(--color-border); border-radius: var(--radius-md); padding: var(--space-lg); text-align: center; background: var(--color-bg); margin-bottom: var(--space-md); cursor: pointer; }
-    .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm); margin-top: var(--space-sm); }
-    .photo-thumb { background: #cbd5e1; height: 110px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #475569; position: relative; }
-    .btn-submit { background: var(--color-danger); color: #fff; width: 100%; padding: 12px; border-radius: var(--radius-sm); text-align: center; text-decoration: none; font-weight: 700; border: none; cursor: pointer; font-size: 14px; display: block; }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">📷 RentCam · Raport de Daună</div>
-    <a href="DS-rent-op-checkin.html" style="color: var(--color-primary); font-size: 14px; text-decoration: none;">← Înapoi la Check-In</a>
+  <header class="site-header">
+    <a href="DS-rent-op-dashboard.html" class="brand-logo"><span>●</span> RentCam · Raport Daună</a>
+    <a href="DS-rent-op-checkin.html" class="nav-link">← Înapoi la Check-In</a>
   </header>
 
-  <div class="container">
-    <div class="figma-tag">Frame: DS-rent-op-damage-report · Raport de daună cu poze</div>
-    <h1 style="font-size: 24px; color: var(--color-danger); margin-bottom: 4px;">Raport Constatare Avarie / Defecțiune</h1>
-    <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: var(--space-lg);">Unitate fizică: <strong>Sony FX3 (SN: SN-FX3-1002)</strong> · Rezervare: #RC-2026-084 · Client: Popescu Radu</p>
+  <div class="page-container" style="max-width: 820px;">
+    <div class="figma-tag">DS-rent-op-damage-report · Raport de daună cu poze</div>
+    <div class="page-header">
+      <h1 class="page-title" style="color: var(--color-danger);">Raport Daună #DMG-2026-012</h1>
+      <p class="page-subtitle">Unitate: <strong>Sony FX3 (SN: SN-FX3-1002)</strong> · Rezervare #RC-2026-084 · Client: Popescu Radu</p>
+    </div>
 
-    <div class="card">
-      <div class="form-group">
-        <label>Tip avarie / incident</label>
-        <select>
-          <option selected>Element optic / senzor deteriorat (zgârietură lentilă/senzor)</option>
-          <option>Carcasă lovită / fisurată</option>
-          <option>Port HDMI / USB / XLR defect sau forțat</option>
-          <option>Piesă mecanică ruptă / buton blocat</option>
-          <option>Accesoriu kit pierdut sau distrus complet</option>
-        </select>
+    <div class="damage-card">
+      <span class="segment-label">Tip & Gravitate Avarie</span>
+      <div style="display: flex; gap: var(--space-sm); margin: var(--space-sm) 0 var(--space-lg); flex-wrap: wrap;">
+        <span class="badge badge-danger" style="font-size: 13px; padding: 6px 14px;">Defect Optic / Senzor Zgâriat</span>
+        <span class="badge badge-warning" style="font-size: 13px; padding: 6px 14px;">Gravitate: Medie (Necesită Service Autorizat)</span>
       </div>
 
-      <div class="form-group">
-        <label>Gravitate daună</label>
-        <div style="display: flex; gap: var(--space-md); font-size: 14px;">
-          <label style="text-transform: none; font-weight: normal;"><input type="radio" name="grav"> Minoră (reparație internă rapidă)</label>
-          <label style="text-transform: none; font-weight: normal;"><input type="radio" name="grav" checked> Medie (necesită service autorizat)</label>
-          <label style="text-transform: none; font-weight: normal;"><input type="radio" name="grav"> Majoră (daună totală / casare)</label>
+      <span class="segment-label">Descriere Tehnică Constatată la Ghișeu</span>
+      <p style="font-size: 14px; margin: var(--space-xs) 0 var(--space-lg); padding: var(--space-md); background: var(--color-bg); border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+        Elementul frontal prezintă o zgârietură vizibilă de 4mm ce afectează calitatea imaginii. De asemenea, încărcătorul dual USB-C lipsește din kit.
+      </p>
+
+      <!-- Zona Foto Doveditoare -->
+      <span class="segment-label">Fotografii Doveditoare Obligatorii (3 atașate)</span>
+      <div class="photo-area">
+        <div style="font-size: 32px; margin-bottom: 4px;">📸</div>
+        <div style="font-weight: 700; font-size: 15px;">Trage fotografiile de înaltă rezoluție aici</div>
+        <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">JPG, PNG cu timestamp și serie aplicată automat</div>
+      </div>
+
+      <div class="thumb-grid">
+        <div class="thumb-evidence">
+          <span>🔍 Detaliu zgârietură</span>
+          <span style="font-size: 10px; color: var(--color-danger); margin-top: 4px;">Macro 100mm</span>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label>Descriere tehnică a avariei constatate la recepție</label>
-        <textarea>Elementul frontal prezintă o zgârietură vizibilă de aproximativ 4mm care afectează imaginea la diafragme închise. De asemenea, încărcătorul dublu Sony NP-FZ100 lipsește din geanta kitului.</textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Fotografii doveditoare obligatorii (Min. 2 poze)</label>
-        <div class="photo-dropzone">
-          <div style="font-size: 24px; margin-bottom: 4px;">📸</div>
-          <div style="font-weight: 600; font-size: 13px;">Trage fotografiile aici sau click pentru încărcare</div>
-          <div style="font-size: 11px; color: var(--color-text-muted);">Format JPG, PNG (se adaugă automat timestamp și watermark serie)</div>
+        <div class="thumb-evidence">
+          <span>🏷️ Serie fizică SN-FX3-1002</span>
+          <span style="font-size: 10px; color: var(--color-text-muted); margin-top: 4px;">Bază carcasă</span>
         </div>
-
-        <div class="photo-grid">
-          <div class="photo-thumb">[Poza 1: Detaliu zgârietură senzor]</div>
-          <div class="photo-thumb">[Poza 2: Vedere ansamblu serie SN]</div>
-          <div class="photo-thumb">[Poza 3: Geantă kit fără încărcător]</div>
+        <div class="thumb-evidence">
+          <span>🎒 Geantă kit fără încărcător</span>
+          <span style="font-size: 10px; color: var(--color-warning); margin-top: 4px;">Vedere ansamblu</span>
         </div>
       </div>
     </div>
 
-    <!-- Impact financiar pe garantie -->
-    <div class="card" style="border-left: 4px solid var(--color-danger);">
-      <h3 style="font-size: 15px; margin-bottom: 8px;">Deducere Financiară din Garanție</h3>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 13px; margin-bottom: 8px;">
-        <div>Garanție blocată la predare:</div><div style="text-align: right; font-weight: 600;">1.500 lei</div>
-        <div>Cost estimat înlocuire element / service:</div><div style="text-align: right; font-weight: 600; color: var(--color-danger);">-700 lei</div>
-        <div>Contravaloare încărcător lipsă:</div><div style="text-align: right; font-weight: 600; color: var(--color-danger);">-250 lei</div>
-        <div style="border-top: 1px solid var(--color-border); padding-top: 4px; font-weight: 700;">Rest garanție de restituit:</div>
-        <div style="border-top: 1px solid var(--color-border); padding-top: 4px; text-align: right; font-weight: 700; color: var(--color-primary);">550 lei</div>
+    <!-- Impact Financiar -->
+    <div class="damage-card" style="border-left: 4px solid var(--color-danger);">
+      <h2 style="font-size: 16px; font-weight: 700; margin-bottom: var(--space-sm);">Impact Financiar pe Garanție</h2>
+      <div style="display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0;">
+        <span>Garanție blocată la predare:</span> <strong>1.500 lei</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; color: var(--color-danger);">
+        <span>Cost estimat înlocuire element senzor:</span> <strong>-700 lei</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; color: var(--color-danger);">
+        <span>Contravaloare încărcător lipsă:</span> <strong>-250 lei</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; border-top: 1px solid var(--color-border); padding-top: var(--space-sm); margin-top: var(--space-xs); color: var(--color-primary);">
+        <span>Rest de restituit clientului:</span> <span>550 lei</span>
       </div>
     </div>
 
-    <a href="DS-rent-op-maintenance.html" class="btn-submit">Salvează Raport Daună & Blochează Unitatea în Service</a>
+    <div style="margin-top: var(--space-xl);">
+      <a href="DS-rent-op-maintenance.html" class="btn btn-danger btn-large" style="width: 100%;">Salvează Raportul & Blochează Unitatea în Service</a>
+    </div>
   </div>
 </body>
 </html>

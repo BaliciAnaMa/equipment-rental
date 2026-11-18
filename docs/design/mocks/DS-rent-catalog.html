@@ -4,322 +4,271 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-catalog · Catalog echipamente | RentCam</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root {
-      --color-bg: #ffffff;
-      --color-surface: #f8fafc;
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
-      --color-primary: #2563eb;
-      --color-primary-hover: #1d4ed8;
-      --color-border: #e2e8f0;
-      --color-success: #16a34a;
-      --color-warning: #d97706;
-      --font-family: Inter, system-ui, -apple-system, sans-serif;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-      --space-xs: 4px;
-      --space-sm: 8px;
-      --space-md: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-bg: #0f172a;
-        --color-surface: #1e293b;
-        --color-text: #f8fafc;
-        --color-text-muted: #94a3b8;
-        --color-primary: #3b82f6;
-        --color-primary-hover: #60a5fa;
-        --color-border: #334155;
-      }
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--font-family);
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.5;
-      padding-bottom: var(--space-xl);
-    }
-    header {
-      background: var(--color-surface);
-      border-bottom: 1px solid var(--color-border);
-      padding: var(--space-md) var(--space-lg);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--color-primary);
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-    .nav-links {
+    .category-scroll {
       display: flex;
       gap: var(--space-md);
-      list-style: none;
-      align-items: center;
+      overflow-x: auto;
+      padding-bottom: var(--space-md);
+      margin-bottom: var(--space-xl);
     }
-    .nav-links a {
+    .cat-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
       color: var(--color-text-muted);
-      text-decoration: none;
       font-size: 14px;
       font-weight: 500;
-    }
-    .nav-links a.active { color: var(--color-primary); font-weight: 600; }
-    .badge-cart {
-      background: var(--color-primary);
-      color: #fff;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      margin-left: 4px;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: var(--space-lg);
-    }
-    .figma-tag {
-      display: inline-block;
-      font-size: 12px;
-      color: var(--color-primary);
-      background: rgba(37, 99, 235, 0.1);
-      padding: 2px 8px;
-      border-radius: var(--radius-sm);
-      margin-bottom: var(--space-md);
-      font-family: monospace;
-    }
-    h1 { font-size: 32px; font-weight: 700; margin-bottom: var(--space-sm); }
-    .subtitle { color: var(--color-text-muted); margin-bottom: var(--space-lg); }
-
-    /* Filter Bar */
-    .filter-panel {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: var(--space-md);
-      margin-bottom: var(--space-xl);
-      display: grid;
-      grid-template-columns: 2fr 3fr 1fr;
-      gap: var(--space-md);
-    }
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--color-text-muted);
-      margin-bottom: var(--space-xs);
-      text-transform: uppercase;
-    }
-    .input-field {
-      width: 100%;
-      padding: 8px 12px;
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      color: var(--color-text);
-      font-size: 14px;
-    }
-    .category-pills {
-      display: flex;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-lg);
-      flex-wrap: wrap;
-    }
-    .pill {
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
-      font-size: 13px;
+      white-space: nowrap;
       cursor: pointer;
+      transition: all var(--motion-fast);
     }
-    .pill.active {
-      background: var(--color-primary);
-      color: #fff;
-      border-color: var(--color-primary);
+    .cat-btn.active, .cat-btn:hover {
+      background: var(--color-text);
+      color: var(--color-bg);
+      border-color: var(--color-text);
     }
-
-    /* Cards Grid */
-    .grid {
+    .gear-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: var(--space-lg);
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: var(--space-xl);
     }
-    .card {
+    .gear-card {
       background: var(--color-surface);
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow-card);
+      transition: all var(--motion-fast);
       display: flex;
       flex-direction: column;
     }
-    .card-img-placeholder {
-      background: #cbd5e1;
-      height: 180px;
+    .gear-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    .gear-img-box {
+      height: 240px;
+      background: linear-gradient(145deg, rgba(226, 232, 240, 0.6) 0%, rgba(203, 213, 225, 0.9) 100%);
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
-      color: #475569;
-      position: relative;
+      padding: var(--space-lg);
     }
-    .stock-badge {
+    @media (prefers-color-scheme: dark) {
+      .gear-img-box {
+        background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+      }
+    }
+    .floating-badge {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: var(--color-success);
-      color: #fff;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-weight: 600;
+      top: 14px;
+      left: 14px;
     }
-    .stock-badge.low { background: var(--color-warning); }
-    .card-body {
-      padding: var(--space-md);
-      flex: 1;
+    .floating-stock {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+    }
+    .gear-body {
+      padding: var(--space-lg);
       display: flex;
       flex-direction: column;
+      flex: 1;
     }
-    .card-category { font-size: 11px; text-transform: uppercase; color: var(--color-text-muted); font-weight: 600; }
-    .card-title { font-size: 18px; font-weight: 600; margin: 4px 0 8px; }
-    .card-kit { font-size: 12px; color: var(--color-text-muted); margin-bottom: var(--space-md); flex: 1; }
-    .tier-prices {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-xs);
-      background: var(--color-bg);
-      padding: var(--space-sm);
-      border-radius: var(--radius-sm);
+    .gear-brand {
       font-size: 12px;
-      margin-bottom: var(--space-md);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--color-primary);
+      margin-bottom: 2px;
     }
-    .tier-item span { color: var(--color-text-muted); }
-    .tier-item strong { display: block; font-size: 14px; color: var(--color-text); }
-    .btn {
-      display: inline-block;
-      text-align: center;
-      padding: 8px 16px;
-      background: var(--color-primary);
-      color: #fff;
+    .gear-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: var(--space-sm);
+    }
+    .kit-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: var(--space-lg);
+    }
+    .kit-tag {
+      font-size: 11px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      padding: 3px 8px;
       border-radius: var(--radius-sm);
-      text-decoration: none;
-      font-size: 14px;
+    }
+    .pricing-strip {
+      border-top: 1px solid var(--color-border);
+      padding-top: var(--space-md);
+      margin-top: auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .price-main {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--color-text);
+      line-height: 1;
+    }
+    .price-period {
+      font-size: 13px;
+      color: var(--color-text-muted);
       font-weight: 500;
+    }
+    .price-sub {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">📷 RentCam</div>
-    <ul class="nav-links">
-      <li><a href="DS-rent-catalog.html" class="active">Catalog</a></li>
-      <li><a href="DS-rent-customer-dashboard.html">Rezervările mele</a></li>
-      <li><a href="DS-rent-op-dashboard.html">Panou Operator</a></li>
-      <li><a href="DS-rent-admin-models.html">Administrare</a></li>
-      <li><a href="DS-rent-booking-cart.html">Coș <span class="badge-cart">2</span></a></li>
+  <!-- Frosted Navigation -->
+  <header class="site-header">
+    <a href="DS-rent-catalog.html" class="brand-logo">
+      <span>●</span> RentCam
+    </a>
+    <ul class="nav-menu">
+      <li><a href="DS-rent-catalog.html" class="nav-link active">Catalog</a></li>
+      <li><a href="DS-rent-customer-dashboard.html" class="nav-link">Rezervările mele</a></li>
+      <li><a href="DS-rent-op-dashboard.html" class="nav-link">Ghișeu Operator</a></li>
+      <li><a href="DS-rent-admin-models.html" class="nav-link">Admin</a></li>
+      <li><a href="DS-rent-booking-cart.html" class="nav-link">Coș <span class="cart-badge">2</span></a></li>
     </ul>
   </header>
 
-  <div class="container">
-    <div class="figma-tag">Frame: DS-rent-catalog · Catalog echipamente</div>
-    <h1>Catalog Echipamente Profesionale</h1>
-    <p class="subtitle">Camere cinema, obiective foto, lumini de studio și echipamente audio de producție.</p>
+  <div class="page-container">
+    <div class="figma-tag">DS-rent-catalog · Catalog echipamente</div>
 
-    <div class="filter-panel">
-      <div class="form-group">
-        <label>Căutare echipament / brand</label>
-        <input type="text" class="input-field" placeholder="ex: Sony FX3, RED, 24-70mm...">
+    <!-- Airbnb-style Floating Search Bar -->
+    <div class="airbnb-search-bar">
+      <div class="search-segment">
+        <span class="segment-label">Ce echipament cauți?</span>
+        <span class="segment-value">Sony FX3, RED, Lumini, Audio...</span>
       </div>
-      <div class="form-group">
-        <label>Interval închiriere (Preluare — Returnare)</label>
-        <input type="text" class="input-field" value="22 Nov 2026, 16:00 → 25 Nov 2026, 10:00 (Weekend)">
+      <div class="search-segment">
+        <span class="segment-label">Data & Ora Preluare</span>
+        <span class="segment-value">Vin, 20 Nov · 16:00</span>
       </div>
-      <div class="form-group">
-        <label>Sortare</label>
-        <select class="input-field">
-          <option>Recomandate</option>
-          <option>Preț crescător</option>
-          <option>Preț descrescător</option>
-        </select>
+      <div class="search-segment">
+        <span class="segment-label">Data & Ora Returnare</span>
+        <span class="segment-value">Lun, 23 Nov · 10:00 (Weekend)</span>
       </div>
+      <button class="search-btn" aria-label="Caută">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </button>
     </div>
 
-    <div class="category-pills">
-      <button class="pill active">Toate (24)</button>
-      <button class="pill">Camere Cinema & Video (8)</button>
-      <button class="pill">Obiective Foto/Video (9)</button>
-      <button class="pill">Lumini Studio (4)</button>
-      <button class="pill">Echipamente Audio (3)</button>
+    <!-- Category Pills -->
+    <div class="category-scroll">
+      <button class="cat-btn active">Toate Echipamentele</button>
+      <button class="cat-btn">🎥 Camere Cinema & Video</button>
+      <button class="cat-btn">🔭 Obiective & Anamorfice</button>
+      <button class="cat-btn">💡 Lumini & Softboxuri</button>
+      <button class="cat-btn">🎙️ Microfoane & Audio</button>
+      <button class="cat-btn">🎬 Grip, Trepiede & Cage-uri</button>
     </div>
 
-    <div class="grid">
+    <!-- Gear Grid -->
+    <div class="gear-grid">
       <!-- Card 1 -->
-      <div class="card">
-        <div class="card-img-placeholder">
-          [Imagine: Sony FX3 Body]
-          <span class="stock-badge">3 unități disponibile</span>
+      <div class="gear-card">
+        <div class="gear-img-box">
+          <span class="badge badge-primary floating-badge">Weekend Promo</span>
+          <span class="badge badge-success floating-stock">3 unități disponibile</span>
+          <svg width="120" height="90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6">
+            <path d="M23 7l-7 5 7 5V7z"></path>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+          </svg>
         </div>
-        <div class="card-body">
-          <span class="card-category">Camere Cinema</span>
-          <h2 class="card-title">Sony FX3 Cinema Line</h2>
-          <p class="card-kit">Kit inclus: Corp cameră, mâner XLR, 2x baterii NP-FZ100, încărcător dual USB-C, geantă transport.</p>
-          <div class="tier-prices">
-            <div class="tier-item"><span>Tarif Zi:</span> <strong>450 lei</strong></div>
-            <div class="tier-item"><span>Weekend:</span> <strong>650 lei</strong></div>
-            <div class="tier-item"><span>Tarif Oră:</span> <strong>120 lei</strong></div>
-            <div class="tier-item"><span>Săptămână:</span> <strong>1.800 lei</strong></div>
+        <div class="gear-body">
+          <span class="gear-brand">Sony Cinema Line</span>
+          <h2 class="gear-title">Sony FX3 Full-Frame</h2>
+          <div class="kit-tags">
+            <span class="kit-tag">2x Baterii NP-FZ100</span>
+            <span class="kit-tag">Mâner Audio XLR</span>
+            <span class="kit-tag">Încărcător Dual</span>
+            <span class="kit-tag">Geantă Pro</span>
           </div>
-          <a href="DS-rent-equipment-detail.html" class="btn">Vezi detalii & Calculator</a>
+          <div class="pricing-strip">
+            <div>
+              <div class="price-main">650 lei <span class="price-period">/ weekend</span></div>
+              <div class="price-sub">sau 450 lei/zi · 120 lei/oră · 1.800 lei/săpt</div>
+            </div>
+            <a href="DS-rent-equipment-detail.html" class="btn btn-primary">Rezervă</a>
+          </div>
         </div>
       </div>
 
       <!-- Card 2 -->
-      <div class="card">
-        <div class="card-img-placeholder">
-          [Imagine: Canon EOS R5 C]
-          <span class="stock-badge low">1 unitate rămasă</span>
+      <div class="gear-card">
+        <div class="gear-img-box">
+          <span class="badge badge-primary floating-badge">8K Cinema</span>
+          <span class="badge badge-warning floating-stock">Doar 1 unitate rămasă</span>
+          <svg width="120" height="90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6">
+            <path d="M23 7l-7 5 7 5V7z"></path>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+          </svg>
         </div>
-        <div class="card-body">
-          <span class="card-category">Camere Cinema</span>
-          <h2 class="card-title">Canon EOS R5 C 8K</h2>
-          <p class="card-kit">Kit inclus: Corp cameră, 3x acumulatori LP-E6NH, încărcător, adaptor EF-EOS R, geantă protecție.</p>
-          <div class="tier-prices">
-            <div class="tier-item"><span>Tarif Zi:</span> <strong>480 lei</strong></div>
-            <div class="tier-item"><span>Weekend:</span> <strong>700 lei</strong></div>
-            <div class="tier-item"><span>Tarif Oră:</span> <strong>130 lei</strong></div>
-            <div class="tier-item"><span>Săptămână:</span> <strong>1.950 lei</strong></div>
+        <div class="gear-body">
+          <span class="gear-brand">Canon Cinema EOS</span>
+          <h2 class="gear-title">Canon EOS R5 C 8K Hybrid</h2>
+          <div class="kit-tags">
+            <span class="kit-tag">3x Acumulatori LP-E6NH</span>
+            <span class="kit-tag">Adaptor EF-EOS R</span>
+            <span class="kit-tag">Încărcător Dual</span>
           </div>
-          <a href="DS-rent-equipment-detail.html" class="btn">Vezi detalii & Calculator</a>
+          <div class="pricing-strip">
+            <div>
+              <div class="price-main">700 lei <span class="price-period">/ weekend</span></div>
+              <div class="price-sub">sau 480 lei/zi · 130 lei/oră · 1.950 lei/săpt</div>
+            </div>
+            <a href="DS-rent-equipment-detail.html" class="btn btn-primary">Rezervă</a>
+          </div>
         </div>
       </div>
 
       <!-- Card 3 -->
-      <div class="card">
-        <div class="card-img-placeholder">
-          [Imagine: Sony 24-70 GM II]
-          <span class="stock-badge">4 unități disponibile</span>
+      <div class="gear-card">
+        <div class="gear-img-box">
+          <span class="badge badge-neutral floating-badge">G-Master II</span>
+          <span class="badge badge-success floating-stock">4 unități disponibile</span>
+          <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
         </div>
-        <div class="card-body">
-          <span class="card-category">Obiective</span>
-          <h2 class="card-title">Sony FE 24-70mm f/2.8 GM II</h2>
-          <p class="card-kit">Kit inclus: Obiectiv, parasolar ALC-SH168, capace față/spate, filtru protecție UV, husă căptușită.</p>
-          <div class="tier-prices">
-            <div class="tier-item"><span>Tarif Zi:</span> <strong>180 lei</strong></div>
-            <div class="tier-item"><span>Weekend:</span> <strong>270 lei</strong></div>
-            <div class="tier-item"><span>Tarif Oră:</span> <strong>50 lei</strong></div>
-            <div class="tier-item"><span>Săptămână:</span> <strong>720 lei</strong></div>
+        <div class="gear-body">
+          <span class="gear-brand">Sony G Master</span>
+          <h2 class="gear-title">Sony FE 24-70mm f/2.8 GM II</h2>
+          <div class="kit-tags">
+            <span class="kit-tag">Parasolar ALC-SH168</span>
+            <span class="kit-tag">Capace față/spate</span>
+            <span class="kit-tag">Filtru UV</span>
           </div>
-          <a href="DS-rent-equipment-detail.html" class="btn">Vezi detalii & Calculator</a>
+          <div class="pricing-strip">
+            <div>
+              <div class="price-main">270 lei <span class="price-period">/ weekend</span></div>
+              <div class="price-sub">sau 180 lei/zi · 50 lei/oră · 720 lei/săpt</div>
+            </div>
+            <a href="DS-rent-equipment-detail.html" class="btn btn-primary">Rezervă</a>
+          </div>
         </div>
       </div>
     </div>

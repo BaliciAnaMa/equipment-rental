@@ -4,132 +4,142 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-op-maintenance · Tablou Mentenanță | RentCam</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    :root {
-      --color-bg: #ffffff;
-      --color-surface: #f8fafc;
-      --color-text: #0f172a;
-      --color-text-muted: #64748b;
-      --color-primary: #2563eb;
-      --color-border: #e2e8f0;
-      --color-success: #16a34a;
-      --color-warning: #d97706;
-      --color-danger: #dc2626;
-      --font-family: Inter, system-ui, -apple-system, sans-serif;
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --space-sm: 8px;
-      --space-md: 16px;
-      --space-lg: 24px;
-      --space-xl: 32px;
+    .tabs-pill-row {
+      display: flex;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xl);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-bg: #0f172a;
-        --color-surface: #1e293b;
-        --color-text: #f8fafc;
-        --color-text-muted: #94a3b8;
-        --color-primary: #3b82f6;
-        --color-border: #334155;
-      }
+    .maintenance-item {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-family); background: var(--color-bg); color: var(--color-text); line-height: 1.5; padding-bottom: var(--space-xl); }
-    header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: var(--space-md) var(--space-lg); display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--color-primary); }
-    .container { max-width: 1100px; margin: 0 auto; padding: var(--space-lg); }
-    .figma-tag { font-size: 12px; color: var(--color-primary); background: rgba(37, 99, 235, 0.1); padding: 2px 8px; border-radius: var(--radius-sm); margin-bottom: var(--space-md); display: inline-block; font-family: monospace; }
-    .tabs { display: flex; gap: var(--space-md); border-bottom: 1px solid var(--color-border); margin-bottom: var(--space-lg); }
-    .tab { padding: 8px 16px; text-decoration: none; font-size: 14px; font-weight: 600; color: var(--color-text-muted); border-bottom: 2px solid transparent; }
-    .tab.active { color: var(--color-primary); border-color: var(--color-primary); }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-lg); }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--color-border); }
-    th { background: rgba(0,0,0,0.02); font-weight: 600; color: var(--color-text-muted); }
-    .badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
-    .badge-turnover { background: rgba(217, 119, 6, 0.1); color: var(--color-warning); }
-    .badge-service { background: rgba(220, 38, 38, 0.1); color: var(--color-danger); }
-    .btn-unlock { background: var(--color-success); color: #fff; padding: 6px 12px; border-radius: var(--radius-sm); text-decoration: none; font-size: 12px; font-weight: 600; display: inline-block; }
+    .unit-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .checklist-mini {
+      display: flex;
+      gap: var(--space-sm);
+      margin-top: var(--space-xs);
+    }
+    .check-tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .check-tag.done {
+      color: var(--color-success);
+      border-color: rgba(22, 163, 74, 0.3);
+      background: rgba(22, 163, 74, 0.05);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">📷 RentCam · Mentenanță & Turnover</div>
-    <a href="DS-rent-op-dashboard.html" style="color: var(--color-primary); font-size: 14px; text-decoration: none;">← Înapoi la Dashboard</a>
+  <header class="site-header">
+    <a href="DS-rent-op-dashboard.html" class="brand-logo"><span>●</span> RentCam · Mentenanță & Turnover</a>
+    <ul class="nav-menu">
+      <li><a href="DS-rent-op-dashboard.html" class="nav-link">Ghișeu Astăzi</a></li>
+      <li><a href="DS-rent-op-maintenance.html" class="nav-link active">Mentenanță</a></li>
+    </ul>
   </header>
 
-  <div class="container">
-    <div class="figma-tag">Frame: DS-rent-op-maintenance · Gestiune mentenanță și turnover</div>
-    <h1 style="font-size: 24px; font-weight: 700; margin-bottom: var(--space-sm);">Unități în Mentenanță & Ferestre de Turnover</h1>
-    <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: var(--space-md);">Gestiunea automată a ferestrelor tampon de curățare, verificare tehnică și reparații.</p>
-
-    <div class="tabs">
-      <a href="#" class="tab active">Ferestre Turnover Active (2)</a>
-      <a href="#" class="tab">În Service Autorizat (2)</a>
-      <a href="#" class="tab">Istoric Inspecții</a>
+  <div class="page-container">
+    <div class="figma-tag">DS-rent-op-maintenance · Gestiune mentenanță și turnover</div>
+    <div class="page-header">
+      <h1 class="page-title">Unități în Mentenanță & Fereastră de Turnover</h1>
+      <p class="page-subtitle">Curățare senzor, verificare mecanică, încărcare acumulatori și service.</p>
     </div>
 
-    <!-- Ferestre Turnover -->
-    <h3 style="font-size: 16px; margin-bottom: var(--space-sm);">Unități în curățare / verificare rapidă (Buffer standard 2h)</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Unitate & Serie</th>
-          <th>Model</th>
-          <th>Returnat la</th>
-          <th>Expirare Fereastră Buffer</th>
-          <th>Pași verificare tehnică</th>
-          <th>Acțiune</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>RC-U-101</strong><br><code>SN-FX3-1001</code></td>
-          <td>Sony FX3 Cinema Line</td>
-          <td>Astăzi, 14:15</td>
-          <td><span class="badge badge-turnover">16:15 (45 min rămase)</span></td>
-          <td>
-            <label><input type="checkbox" checked> Curățare senzor/suflat praf</label><br>
-            <label><input type="checkbox" checked> Încărcare baterii la 100%</label><br>
-            <label><input type="checkbox"> Verificare accesorii în geantă</label>
-          </td>
-          <td><a href="#" class="btn-unlock">Deblochează ca Disponibil</a></td>
-        </tr>
-        <tr>
-          <td><strong>RC-U-301</strong><br><code>SN-AP-300-01</code></td>
-          <td>Aputure 300d II Light Storm</td>
-          <td>Astăzi, 13:40</td>
-          <td><span class="badge badge-turnover">15:40 (Expirat - Gata)</span></td>
-          <td>
-            <label><input type="checkbox" checked> Test funcționare ventilator</label><br>
-            <label><input type="checkbox" checked> Cabluri bobinate corect</label>
-          </td>
-          <td><a href="#" class="btn-unlock">Deblochează ca Disponibil</a></td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Tabs -->
+    <div class="tabs-pill-row">
+      <button class="cat-btn active">Ferestre Turnover Active (2)</button>
+      <button class="cat-btn">În Service Extern (1)</button>
+      <button class="cat-btn">Istoric Inspecții</button>
+    </div>
 
-    <!-- In Service -->
-    <h3 style="font-size: 16px; margin: var(--space-lg) 0 var(--space-sm);">Unități trimise în reparație / service extern</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Unitate & Serie</th>
-          <th>Model</th>
-          <th>Raport daună</th>
-          <th>Defecțiune</th>
-          <th>Estimare finalizare</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>RC-U-102</strong><br><code>SN-FX3-1002</code></td>
-          <td>Sony FX3</td>
-          <td><a href="DS-rent-op-damage-report.html" style="color: var(--color-primary);">#DMG-2026-012</a></td>
-          <td>Zgârietură element frontal & încărcător lipsă</td>
-          <td><span class="badge badge-service">28 Nov 2026</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Item 1 -->
+    <div class="maintenance-item">
+      <div class="unit-meta">
+        <div style="font-size: 32px;">🎥</div>
+        <div>
+          <div style="display: flex; gap: var(--space-sm); align-items: center;">
+            <h2 style="font-size: 18px; font-weight: 700;">Sony FX3 Cinema Line</h2>
+            <code style="font-size: 12px; background: var(--color-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--color-border);">SN-FX3-1001</code>
+          </div>
+          <div style="font-size: 13px; color: var(--color-text-muted); margin: 4px 0 8px;">
+            Returnat la 14:15 · Fereastră buffer 2h: expiră la <strong>16:15 (45 min rămase)</strong>
+          </div>
+          <div class="checklist-mini">
+            <span class="check-tag done">✓ Senzor Curățat</span>
+            <span class="check-tag done">✓ Baterii Încărcate 100%</span>
+            <span class="check-tag">○ Reambalat Geantă Kit</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a href="#" class="btn btn-primary" style="background: var(--color-success); border-color: var(--color-success);">Deblochează Unitatea</a>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="maintenance-item">
+      <div class="unit-meta">
+        <div style="font-size: 32px;">💡</div>
+        <div>
+          <div style="display: flex; gap: var(--space-sm); align-items: center;">
+            <h2 style="font-size: 18px; font-weight: 700;">Aputure 300d II Light Storm</h2>
+            <code style="font-size: 12px; background: var(--color-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--color-border);">SN-AP-300-01</code>
+          </div>
+          <div style="font-size: 13px; color: var(--color-text-muted); margin: 4px 0 8px;">
+            Fereastră buffer expirată la 15:40 · Gata de eliberare
+          </div>
+          <div class="checklist-mini">
+            <span class="check-tag done">✓ Test Ventilator & LED</span>
+            <span class="check-tag done">✓ Cabluri Bobinate</span>
+            <span class="check-tag done">✓ Geantă Verificată</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a href="#" class="btn btn-primary" style="background: var(--color-success); border-color: var(--color-success);">Deblochează Unitatea</a>
+      </div>
+    </div>
+
+    <!-- Service Alert -->
+    <div class="maintenance-item" style="border-left: 4px solid var(--color-danger); opacity: 0.95;">
+      <div class="unit-meta">
+        <div style="font-size: 32px;">⚠️</div>
+        <div>
+          <div style="display: flex; gap: var(--space-sm); align-items: center;">
+            <h2 style="font-size: 18px; font-weight: 700;">Sony FX3 Cinema Line</h2>
+            <code style="font-size: 12px; background: var(--color-bg); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--color-border);">SN-FX3-1002</code>
+            <span class="badge badge-danger">În Service (Raport #DMG-012)</span>
+          </div>
+          <div style="font-size: 13px; color: var(--color-text-muted); margin-top: 4px;">
+            Zgârietură element senzor · Trimis la Service Autorizat Sony · Estimare retur: <strong>28 Nov 2026</strong>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a href="DS-rent-op-damage-report.html" class="btn btn-secondary">Vezi Raport Daună</a>
+      </div>
+    </div>
   </div>
 </body>
 </html>
