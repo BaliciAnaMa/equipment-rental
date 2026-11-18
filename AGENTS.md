@@ -16,6 +16,7 @@ non-fast-forward or on uncommitted changes you did not make.
 |---|---|
 | You rely on an entry | the entry, or its topic file under `docs/agents/<kind>/` |
 | Structural work | `docs/agents/ARCHITECTURE.md` |
+| Scope and requirements | `docs/agents/SCOPE.md` |
 | Old code or a past decision needs explaining | `docs/agents/DECISIONS-SUPERSEDED.md`, `PATTERNS-SUPERSEDED.md` (never obeyed) |
 | UI work | `docs/design/DESIGN.md`, `docs/design/registry.yaml` |
 

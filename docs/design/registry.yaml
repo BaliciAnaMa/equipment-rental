@@ -1,4 +1,76 @@
 # docs/design/registry.yaml — every screen and shared component, by DS- ID.
 # Plans, commits, mocks and board files use the ID (tickets don't). kind: foundation | component | screen
 # status: draft (mock drawn) | approved (confirmed on the board) | implemented | deprecated (never delete an entry)
-designs: []
+designs:
+  - id: DS-rent-catalog
+    kind: screen
+    source: frontend/src/pages/CatalogPage.tsx
+    screenshots: [screens/DS-rent-catalog.light.png, screens/DS-rent-catalog.dark.png]
+    design_ref: mocks/DS-rent-catalog.html
+    status: draft
+  - id: DS-rent-equipment-detail
+    kind: screen
+    source: frontend/src/pages/EquipmentDetailPage.tsx
+    screenshots: [screens/DS-rent-equipment-detail.light.png, screens/DS-rent-equipment-detail.dark.png]
+    design_ref: mocks/DS-rent-equipment-detail.html
+    status: draft
+  - id: DS-rent-booking-cart
+    kind: screen
+    source: frontend/src/pages/BookingCartPage.tsx
+    screenshots: [screens/DS-rent-booking-cart.light.png, screens/DS-rent-booking-cart.dark.png]
+    design_ref: mocks/DS-rent-booking-cart.html
+    status: draft
+  - id: DS-rent-customer-dashboard
+    kind: screen
+    source: frontend/src/pages/CustomerDashboardPage.tsx
+    screenshots: [screens/DS-rent-customer-dashboard.light.png, screens/DS-rent-customer-dashboard.dark.png]
+    design_ref: mocks/DS-rent-customer-dashboard.html
+    status: draft
+  - id: DS-rent-op-dashboard
+    kind: screen
+    source: frontend/src/pages/operator/OperatorDashboardPage.tsx
+    screenshots: [screens/DS-rent-op-dashboard.light.png, screens/DS-rent-op-dashboard.dark.png]
+    design_ref: mocks/DS-rent-op-dashboard.html
+    status: draft
+  - id: DS-rent-op-checkout
+    kind: screen
+    source: frontend/src/pages/operator/CheckOutPage.tsx
+    screenshots: [screens/DS-rent-op-checkout.light.png, screens/DS-rent-op-checkout.dark.png]
+    design_ref: mocks/DS-rent-op-checkout.html
+    status: draft
+  - id: DS-rent-op-checkin
+    kind: screen
+    source: frontend/src/pages/operator/CheckInPage.tsx
+    screenshots: [screens/DS-rent-op-checkin.light.png, screens/DS-rent-op-checkin.dark.png]
+    design_ref: mocks/DS-rent-op-checkin.html
+    status: draft
+  - id: DS-rent-op-damage-report
+    kind: screen
+    source: frontend/src/pages/operator/DamageReportPage.tsx
+    screenshots: [screens/DS-rent-op-damage-report.light.png, screens/DS-rent-op-damage-report.dark.png]
+    design_ref: mocks/DS-rent-op-damage-report.html
+    status: draft
+  - id: DS-rent-op-maintenance
+    kind: screen
+    source: frontend/src/pages/operator/MaintenancePage.tsx
+    screenshots: [screens/DS-rent-op-maintenance.light.png, screens/DS-rent-op-maintenance.dark.png]
+    design_ref: mocks/DS-rent-op-maintenance.html
+    status: draft
+  - id: DS-rent-admin-models
+    kind: screen
+    source: frontend/src/pages/admin/AdminModelsPage.tsx
+    screenshots: [screens/DS-rent-admin-models.light.png, screens/DS-rent-admin-models.dark.png]
+    design_ref: mocks/DS-rent-admin-models.html
+    status: draft
+  - id: DS-rent-admin-units
+    kind: screen
+    source: frontend/src/pages/admin/AdminUnitsPage.tsx
+    screenshots: [screens/DS-rent-admin-units.light.png, screens/DS-rent-admin-units.dark.png]
+    design_ref: mocks/DS-rent-admin-units.html
+    status: draft
+  - id: DS-rent-admin-reports
+    kind: screen
+    source: frontend/src/pages/admin/AdminReportsPage.tsx
+    screenshots: [screens/DS-rent-admin-reports.light.png, screens/DS-rent-admin-reports.dark.png]
+    design_ref: mocks/DS-rent-admin-reports.html
+    status: draft
