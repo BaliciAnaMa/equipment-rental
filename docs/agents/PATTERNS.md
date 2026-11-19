@@ -12,6 +12,7 @@
 
 ## PATTERN-001 · Containerized environment with Docker
 - **Status:** approved
+- **Confirmed:** 2026-11-19
 - **Use when:** Configuring, developing, or running services for this repository.
 - **How:** Define services in Docker Compose configurations and run services inside containers with environment variables passed via configuration.
 - **Example:** docs/agents/DECISIONS.md:D-001

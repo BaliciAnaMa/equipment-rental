@@ -7,7 +7,7 @@ designs:
     source: frontend/src/pages/CatalogPage.tsx
     screenshots: [screens/DS-rent-catalog.light.png, screens/DS-rent-catalog.dark.png]
     design_ref: mocks/DS-rent-catalog.html
-    status: draft
+    status: approved
   - id: DS-rent-equipment-detail
     kind: screen
     source: frontend/src/pages/EquipmentDetailPage.tsx
