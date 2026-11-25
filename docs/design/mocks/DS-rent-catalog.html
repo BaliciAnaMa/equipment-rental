@@ -9,10 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Hero Banner - F64 Rent Studio Inspired */
+    /* Hero Banner - Warm Ruby Anthracite, Mahogany & Gold (#2C1316, #581C1C, #9A3412) */
     .hero-banner {
-      background: radial-gradient(120% 120% at 85% 20%, #FFF1E6 0%, #FFFDF9 60%, #FEF3C7 100%);
-      border: 1.5px solid var(--color-border);
+      background: linear-gradient(135deg, #2C1316 0%, #581C1C 55%, #9A3412 100%);
+      border: 1.5px solid #78350F;
       border-radius: var(--radius-xl);
       padding: var(--space-2xl) var(--space-xl);
       margin-bottom: var(--space-2xl);
@@ -22,32 +22,33 @@
       align-items: center;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.05);
+      box-shadow: 0 20px 45px -10px rgba(88, 28, 28, 0.45);
+      color: #FFFDF9;
     }
     .hero-banner::before {
       content: '';
       position: absolute;
       top: -100px;
       right: -100px;
-      width: 340px;
-      height: 340px;
+      width: 380px;
+      height: 380px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(225, 29, 72, 0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.3) 0%, rgba(245, 158, 11, 0.15) 50%, transparent 70%);
       pointer-events: none;
     }
     .hero-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: #FFFFFF;
-      border: 1px solid #FED7AA;
-      color: #EA580C;
+      background: rgba(44, 19, 22, 0.75);
+      border: 1px solid rgba(251, 146, 60, 0.45);
+      color: #FDBA74;
       font-size: 13px;
       font-weight: 700;
       padding: 6px 14px;
       border-radius: var(--radius-full);
       margin-bottom: var(--space-md);
-      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.08);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
     .hero-title {
       font-size: 38px;
@@ -55,16 +56,16 @@
       font-weight: 900;
       letter-spacing: -0.8px;
       margin-bottom: var(--space-md);
-      color: var(--color-text);
+      color: #FFFFFF;
     }
     .hero-title span.highlight {
-      background: var(--color-primary-gradient);
+      background: linear-gradient(135deg, #FDE68A 0%, #F97316 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .hero-desc {
       font-size: 16px;
-      color: var(--color-text-muted);
+      color: #FED7AA;
       line-height: 1.6;
       margin-bottom: var(--space-lg);
       max-width: 540px;
@@ -85,26 +86,30 @@
       justify-content: center;
     }
     .showcase-card-main {
-      background: #FFFFFF;
-      border: 1.5px solid #FED7AA;
+      background: rgba(44, 19, 22, 0.92);
+      border: 1.5px solid #F97316;
       border-radius: var(--radius-lg);
       padding: 16px;
       width: 250px;
-      box-shadow: 0 20px 35px rgba(225, 29, 72, 0.12);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
       animation: floatSlow 6s ease-in-out infinite;
       z-index: 2;
       text-align: center;
+      color: #FFFFFF;
+      backdrop-filter: blur(8px);
     }
     .showcase-card-secondary {
       position: absolute;
-      background: #FFFFFF;
-      border: 1.5px solid var(--color-border);
+      background: rgba(61, 26, 30, 0.95);
+      border: 1.5px solid rgba(249, 115, 22, 0.35);
       border-radius: var(--radius-md);
       padding: 12px;
       width: 190px;
-      box-shadow: var(--shadow-card);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
       z-index: 1;
-      opacity: 0.94;
+      opacity: 0.96;
+      color: #FFEDD5;
+      backdrop-filter: blur(8px);
     }
     .showcase-pos-left {
       left: 10px;
@@ -254,7 +259,8 @@
     .gear-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
-      gap: var(--space-xl);
+      gap: 32px;
+      margin-top: var(--space-md);
     }
     .gear-card {
       background: #FFFFFF;
@@ -489,10 +495,10 @@
       <li><a href="DS-rent-admin-models.html" class="nav-link">Admin</a></li>
     </ul>
     <div class="header-actions">
-      <!-- Autentificat Demo: Balici Ana -->
+      <!-- Autentificat Demo: Andrei Ionescu (Studio Nord) -->
       <a href="DS-rent-customer-dashboard.html" class="user-pill-header">
-        <div class="user-avatar-circle">BA</div>
-        <span>Balici Ana</span>
+        <div class="user-avatar-circle">AI</div>
+        <span>Andrei Ionescu (Studio Nord)</span>
       </a>
       <a href="DS-rent-booking-cart.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
@@ -508,7 +514,7 @@
     <div class="hero-banner">
       <div>
         <div class="hero-pill">
-          <span>✨</span> Bun venit, Balici Ana · Echipament profesional verificat tehnic
+          <span>✨</span> Bun venit, Andrei Ionescu (Studio Nord) · Echipament profesional verificat tehnic
         </div>
         <h1 class="hero-title">
           Creează fără limite cu <span class="highlight">RentCam Studio</span>.
@@ -521,8 +527,8 @@
             Explorează Catalogul
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <a href="DS-rent-help.html" class="btn btn-secondary btn-large">
-            Vezi Ghidul Weekend (Vineri - Luni)
+          <a href="DS-rent-help.html" class="btn btn-secondary btn-large" style="background: rgba(44, 19, 22, 0.75); color: #FFFDF9; border-color: rgba(249, 115, 22, 0.4);">
+            📖 Ghid Închiriere & Tarife
           </a>
         </div>
       </div>
@@ -550,79 +556,42 @@
       </div>
     </div>
 
-    <!-- Marquee Banner: Echipamente Vedetă -->
-    <div class="marquee-wrapper">
-      <div class="marquee-content">
-        <a href="DS-rent-equipment-detail.html" class="marquee-item">
-          <span class="item-badge">PREMIUM</span> Sony FX3 Cinema Line · 450 lei/zi
-        </a>
-        <a href="DS-rent-equipment-detail.html" class="marquee-item">
-          <span class="item-badge">WEEKEND</span> Canon EOS R5 C 8K Hybrid · 720 lei/weekend
-        </a>
-        <a href="DS-rent-equipment-detail.html" class="marquee-item">
-          <span class="item-badge">PRO</span> Aputure Light Storm 600c Pro · 380 lei/zi
-        </a>
-        <a href="DS-rent-equipment-detail.html" class="marquee-item">
-          <span class="item-badge">AUDIO</span> DJI Mic 2 (2 TX + 1 RX) · 95 lei/zi
-        </a>
-        <a href="DS-rent-equipment-detail.html" class="marquee-item">
-          <span class="item-badge">GRIP</span> DJI RS 3 Pro Combo Gimbal · 160 lei/zi
-        </a>
-        <!-- Duplicate for fluid infinite loop -->
-        <a href="DS-rent-equipment-detail.html" class="marquee-item">
-          <span class="item-badge">PREMIUM</span> Sony FX3 Cinema Line · 450 lei/zi
-        </a>
+    <!-- Bară Unică de Filtrare & Control (Flex-wrap, zero scrollbar orizontal) -->
+    <div class="unified-toolbar">
+      <!-- 5 Tab-uri Simple și Aerisite -->
+      <div class="toolbar-tabs-left">
+        <button class="filter-tab-pill active" onclick="switchCategory('all', this)">Toate</button>
+        <button class="filter-tab-pill" onclick="switchCategory('foto', this)">📷 Foto</button>
+        <button class="filter-tab-pill" onclick="switchCategory('video', this)">🎥 Video Cinema</button>
+        <button class="filter-tab-pill" onclick="switchCategory('audio', this)">🎙️ Audio & Podcast</button>
+        <button class="filter-tab-pill" onclick="switchCategory('kituri', this)">⚡ Kit-uri Complete</button>
       </div>
-    </div>
 
-    <!-- Comutator Interactiv Mod Tarif (1 Zi / Weekend / 7 Zile) -->
-    <div class="pricing-mode-bar">
-      <div class="pricing-mode-title">
-        <span style="font-size: 20px;">⚡</span>
-        <span>Afișează grilele de preț pentru:</span>
+      <!-- Controale Compacte Dreapta: Select Montură + Comutator Tarif -->
+      <div class="toolbar-controls-right">
+        <select class="select-compact" onchange="filterMount(this.value)">
+          <option value="all">Toate monturile</option>
+          <option value="sony-e">Sony E-Mount</option>
+          <option value="canon-rf">Canon RF</option>
+          <option value="bowens">Montură Bowens (Lumini)</option>
+        </select>
+
+        <div class="rate-switch-mini">
+          <span style="font-size: 11px; font-weight: 800; color: var(--color-text-muted); padding: 0 4px 0 8px;">Tarif:</span>
+          <button class="pricing-toggle-btn" onclick="setPricingMode('1day', this)">1 Zi</button>
+          <button class="pricing-toggle-btn active" onclick="setPricingMode('weekend', this)">Weekend (-25%)</button>
+          <button class="pricing-toggle-btn" onclick="setPricingMode('week', this)">7 Zile</button>
+        </div>
       </div>
-      <div class="pricing-toggle-group">
-        <button class="pricing-toggle-btn" onclick="setPricingMode('1day', this)">
-          1 Zi Standard (24h)
-        </button>
-        <button class="pricing-toggle-btn active" onclick="setPricingMode('weekend', this)">
-          🎉 Weekend Promo (Vin-Lun) <span style="font-size: 11px; color: #FFF; background: #C2410C; padding: 1px 6px; border-radius: 999px; margin-left: 4px;">-25% economisit</span>
-        </button>
-        <button class="pricing-toggle-btn" onclick="setPricingMode('week', this)">
-          Pachet Săptămână (7 Zile)
-        </button>
-      </div>
-    </div>
-
-    <!-- Filtre Rapide Montură / Compatibilitate -->
-    <div class="mount-filter-row">
-      <span class="mount-filter-label">Compatibilitate Montură:</span>
-      <button class="mount-pill active" onclick="toggleMount(this)">Toate Monturile</button>
-      <button class="mount-pill" onclick="toggleMount(this)">Sony E-Mount</button>
-      <button class="mount-pill" onclick="toggleMount(this)">Canon RF</button>
-      <button class="mount-pill" onclick="toggleMount(this)">Canon EF</button>
-      <button class="mount-pill" onclick="toggleMount(this)">Montură Bowens (Lumini)</button>
-      <button class="mount-pill" onclick="toggleMount(this)">V-Mount (Alimentare)</button>
-    </div>
-
-    <!-- Category Pills Segmented Scroll -->
-    <div class="segmented-pill-bar" style="width: 100%; overflow-x: auto; padding: 6px;">
-      <button class="cat-btn active">Toate Echipamentele</button>
-      <button class="cat-btn">🎥 Camere Cinema & Video</button>
-      <button class="cat-btn">🔭 Obiective & Anamorfice</button>
-      <button class="cat-btn">💡 Lumini & Modificatoare Studio</button>
-      <button class="cat-btn">🎙️ Microfoane & Audio Teren</button>
-      <button class="cat-btn">🎬 Gimbaluri & Grip</button>
-      <button class="cat-btn">🔋 Baterii V-Mount</button>
     </div>
 
     <!-- Gear Grid with 14-Day Availability Bar and Dynamic Pricing -->
     <div class="gear-grid" id="catalog-grid">
       
-      <!-- Card 1: Sony FX3 -->
-      <div class="gear-card">
+      <!-- Card 1: Sony FX3 Cinema Line (VIDEO / CINEMA Accent #E11D48 + REC Badge + Film Frame) -->
+      <div class="gear-card film-frame-cinema">
         <div class="floating-badge">
-          <span class="badge badge-weekend badge-weekend-pulse">⚡ Ofertă Weekend: 675 lei</span>
+          <span class="rec-live-badge"><span class="rec-dot"></span> REC 4K/120p</span>
         </div>
         <div class="floating-stock">
           <span class="badge badge-success">✓ 2 în stoc</span>
@@ -632,7 +601,7 @@
         </div>
         <div class="gear-body">
           <div class="gear-meta-row">
-            <span class="gear-brand">Sony Cinema Line</span>
+            <span class="gear-brand" style="color: var(--color-primary);">Sony Cinema Line</span>
             <span class="mount-tag">Sony E-Mount</span>
           </div>
           <a href="DS-rent-equipment-detail.html" class="gear-title">Sony FX3 Full-Frame Cinema Camera</a>
@@ -646,7 +615,7 @@
             <div class="avail-segments">
               <div class="avail-day" data-date="Astăzi: Liber"></div>
               <div class="avail-day" data-date="Joi: Liber"></div>
-              <div class="avail-day" data-date="Vin: Rezervat Weekend (Balici Ana)"></div>
+              <div class="avail-day" data-date="Vin: Rezervat Weekend (Andrei Ionescu)"></div>
               <div class="avail-day booked" data-date="Sâm: Ocupat"></div>
               <div class="avail-day booked" data-date="Dum: Ocupat"></div>
               <div class="avail-day turnover" data-date="Lun 11:00: Turnover"></div>
@@ -740,20 +709,33 @@
         </div>
       </div>
 
-      <!-- Card 3: Sony 24-70 GM II -->
-      <div class="gear-card">
+      <!-- Card 3: Sony 24-70 GM II (FOTO Accent #F59E0B + Viewfinder Overlay) -->
+      <div class="gear-card viewfinder-target">
         <div class="floating-badge">
-          <span class="badge badge-neutral">Obiectiv G Master</span>
+          <span class="badge" style="background: #FEF3C7; color: #B45309; border: 1px solid #FDE68A;">📷 FOTO · G Master</span>
         </div>
         <div class="floating-stock">
           <span class="badge badge-success">✓ 2 în stoc</span>
         </div>
         <div class="gear-img-frame">
           <img src="https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=600&q=80" alt="Sony FE 24-70 GM II">
+          
+          <!-- Viewfinder Camera Overlay [ + ] pe cardul foto -->
+          <div class="viewfinder-overlay">
+            <div class="vf-corners"></div>
+            <div class="vf-reticle">+</div>
+            <div class="vf-corners-bottom"></div>
+            <div class="vf-params">
+              <span>● AF-C</span>
+              <span>f/2.8 • 70mm</span>
+              <span>1/500s</span>
+              <span>ISO 100</span>
+            </div>
+          </div>
         </div>
         <div class="gear-body">
           <div class="gear-meta-row">
-            <span class="gear-brand">Sony E-Mount</span>
+            <span class="gear-brand" style="color: #D97706;">Sony Optică FOTO Pro</span>
             <span class="mount-tag">Sony E-Mount</span>
           </div>
           <a href="DS-rent-equipment-detail.html" class="gear-title">Sony FE 24-70mm f/2.8 GM II</a>
@@ -860,13 +842,95 @@
         </div>
       </div>
 
+      <!-- Card 5: RØDEcaster Pro II & Shure SM7B (AUDIO / PODCAST Accent #F97316 + Animated Waveform / VU-Meter) -->
+      <div class="gear-card">
+        <div class="floating-badge">
+          <div class="badge-audio">
+            <span>🎙️ AUDIO STUDIO</span>
+            <div class="vu-meter">
+              <div class="vu-bar"></div>
+              <div class="vu-bar"></div>
+              <div class="vu-bar"></div>
+              <div class="vu-bar"></div>
+              <div class="vu-bar"></div>
+            </div>
+          </div>
+        </div>
+        <div class="floating-stock">
+          <span class="badge badge-success">✓ 2 în stoc</span>
+        </div>
+        <div class="gear-img-frame" style="background: radial-gradient(circle at center, #FFFFFF 30%, #FFF7ED 100%);">
+          <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=600&q=80" alt="RØDEcaster Pro II Studio Podcast">
+        </div>
+        <div class="gear-body">
+          <div class="gear-meta-row">
+            <span class="gear-brand" style="color: #EA580C;">RØDE & Shure Pro Audio</span>
+            <span class="mount-tag" style="background: #FFEDD5; color: #C2410C; border-color: #FDBA74;">4x XLR / USB-C</span>
+          </div>
+          <a href="DS-rent-equipment-detail.html" class="gear-title">RØDEcaster Pro II + Shure SM7B Mic</a>
+          
+          <!-- Mini-bară Disponibilitate 14 Zile -->
+          <div class="avail-bar-wrapper">
+            <div class="avail-header">
+              <span>Disponibilitate Următoarele 14 Zile:</span>
+              <span style="color: var(--color-success);">Disponibil Imediat</span>
+            </div>
+            <div class="avail-segments">
+              <div class="avail-day" data-date="Astăzi: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+              <div class="avail-day" data-date="Mie: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+            </div>
+          </div>
+
+          <div class="kit-tags">
+            <span class="kit-tag">Preamplificatoare Revolution</span>
+            <span class="kit-tag">Cloudlifter CL-1</span>
+            <span class="kit-tag">Braț PSA1+</span>
+            <span class="kit-tag">Căști Beyerdynamic DT 770</span>
+          </div>
+
+          <div class="pricing-strip">
+            <div>
+              <div class="price-main" data-price-1day="160" data-price-weekend="240" data-price-week="640">
+                <span class="price-val">240</span> RON <span class="price-period">/ weekend</span>
+              </div>
+              <div class="price-sub" style="color: #EA580C;">Garanție returnabilă: 1.000 lei</div>
+            </div>
+            <a href="DS-rent-equipment-detail.html" class="btn btn-primary">Rezervă</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script>
+    // Comutator Categorie Filtru Bară Unică
+    function switchCategory(cat, btn) {
+      document.querySelectorAll('.filter-tab-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // Filtru Select Montură
+    function filterMount(val) {
+      // Notificare vizuală filtru aplicat
+      console.log('Montură selectată:', val);
+    }
+
     // Comutator Dinamic Tarife (1 Zi / Weekend / 7 Zile)
     function setPricingMode(mode, btn) {
-      document.querySelectorAll('.pricing-toggle-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.rate-switch-mini button, .pricing-toggle-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
       document.querySelectorAll('.price-main').forEach(el => {
@@ -883,11 +947,6 @@
           periodEl.innerText = '/ 7 zile';
         }
       });
-    }
-
-    function toggleMount(el) {
-      document.querySelectorAll('.mount-pill').forEach(p => p.classList.remove('active'));
-      el.classList.add('active');
     }
   </script>
 </body>

@@ -48,6 +48,12 @@
     - **AWS S3 Media Integration**: Serviciu NestJS pentru generarea URL-urilor presemnate (PUT/GET) destinate încărcării sigure a fotografiilor de echipament și dovezilor de daune, cu mecanism fallback mock local pentru dezvoltare offline.
     - **NestJS Domain Engines**: RBAC cu gărzi (`client`, `operator`, `admin`), motor de disponibilitate calendaristică cu buffer automat de mentenanță de 2 ore, motor de calcul tarifar optimizat pe 4 paliere F64 (orar, zilnic, pachet weekend vineri 16:00 - luni 11:00 @ ~1.5x, pachet 7 zile) și flux operațional de ghișeu cu retur parțial și inspecție checklist kit accesorii.
     - **React Frontend**: Implementarea identității vizuale Light & Vibrant Studio Theme inspirată de F64 Rent (`#FFFDF9` cream-white, `#E11D48` studio red, `#F97316` orange, `#F59E0B` amber), acoperind modulul Client (catalog, coș, cont client), Dispecerat Operator (predare, retur parțial, daune cu poze S3, mentenanță), Administrare (modele, unități fizice, rapoarte), Autentificare & Demo Switcher (`DS-rent-auth`) și Ghid & FAQ Închiriere (`DS-rent-help`).
+  - **Structurarea concretă a ordinii de execuție în `docs/IMPLEMENTATION_PLAN.md`**:
+    - **Etapa 1**: Frontend Partea 1 (React + Vite, date mock locale, pagini Auth + Quick Demo Switcher, Catalog cu bară unică flex-wrap, Detalii Kit, Ghid & FAQ).
+    - **Etapa 2**: Bază de date MySQL 8 (Docker Compose, 9 tabele în UTC, seed complet) & Backend NestJS (module REST, disponibilitate + buffer 2h, tarife oră/zi/weekend/săptămână, conectare pagini din Etapa 1).
+    - **Etapa 3**: Frontend Partea 2 (Coș de rezervare, Cont Client, Ghișeu Operator cu predare/retur parțial/daune și Panou Admin conectate la API).
+    - **Etapa 4**: AWS S3 Free Tier (presigned URLs) & Testare automată end-to-end.
+  - Verificare ledger cu `python3 docs/agents/tools/ledger-lint.py` (succes).
     - **Docker Compose & Testare**: Orchestrat multi-container cu migrații și seed automat din `DATA.md`, teste unitare/integrare Jest & Vitest și capturi Playwright.
   - Confirmarea explicită a tuturor intrărilor din tabelul de cunoștințe: `D-001`, `D-002`, `D-003`, `D-004`, `D-005`, `D-006`, `D-007`, `D-008`, `C-001`, `PATTERN-001`, `Q-001`, `Q-002`, `Q-003`, `Q-004`.
   - Copierea planului aprobat în `docs/IMPLEMENTATION_PLAN.md`.
