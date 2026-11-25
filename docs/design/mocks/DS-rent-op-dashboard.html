@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-op-dashboard · Dashboard Operator | RentCam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
     .kpi-row {
@@ -13,71 +16,66 @@
       margin-bottom: var(--space-2xl);
     }
     .kpi-box {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       padding: var(--space-lg);
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-card);
+      transition: all var(--motion-fast);
+    }
+    .kpi-box:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-color: #FDBA74;
     }
     .kpi-num {
-      font-size: 36px;
-      font-weight: 800;
+      font-size: 38px;
+      font-weight: 900;
       letter-spacing: -1px;
       line-height: 1;
-      margin-top: 4px;
+      margin-top: 6px;
     }
     .queue-card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       overflow: hidden;
       margin-bottom: var(--space-xl);
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-card);
     }
     .queue-header {
       padding: var(--space-md) var(--space-lg);
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: 1.5px solid var(--color-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--color-bg);
+      background: #FFFDF9;
     }
-    .queue-title { font-size: 16px; font-weight: 700; }
-    .table-modern {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-    .table-modern th, .table-modern td {
-      padding: 14px var(--space-lg);
-      border-bottom: 1px solid var(--color-border);
-      text-align: left;
-    }
-    .table-modern tr:last-child td { border-bottom: none; }
-    .table-modern th {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--color-text-muted);
-    }
+    .queue-title { font-size: 17px; font-weight: 800; }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <a href="DS-rent-op-dashboard.html" class="brand-logo"><span>●</span> RentCam · Ghișeu Operator</a>
+    <a href="DS-rent-op-dashboard.html" class="brand-logo">
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span> <span style="font-size: 15px; font-weight: 700; color: var(--color-text-muted);">· Ghișeu Operator</span>
+    </a>
     <ul class="nav-menu">
       <li><a href="DS-rent-op-dashboard.html" class="nav-link active">Astăzi</a></li>
       <li><a href="DS-rent-op-maintenance.html" class="nav-link">Mentenanță (4)</a></li>
+      <li><a href="DS-rent-help.html" class="nav-link help-link">📖 Ghid Închiriere & FAQ</a></li>
       <li><a href="DS-rent-catalog.html" class="nav-link">Catalog Public</a></li>
     </ul>
+    <div class="header-actions">
+      <a href="DS-rent-auth.html" class="btn btn-secondary" style="padding: 8px 14px; font-size: 13px;">Schimbă Rolul</a>
+    </div>
   </header>
 
   <div class="page-container">
-    <div class="figma-tag">DS-rent-op-dashboard · Dashboard operator ghișeu</div>
+    <div class="figma-tag">DS-rent-op-dashboard · Dashboard operator ghișeu (F64 Studio Light Theme)</div>
     <div class="page-header">
       <h1 class="page-title">Panou Operațional Ghișeu</h1>
-      <p class="page-subtitle">Miercuri, 18 Noiembrie 2026 · Schimbul de zi</p>
+      <p class="page-subtitle">Miercuri, 18 Noiembrie 2026 · Schimbul de zi (Dispecerat recepție & predare)</p>
     </div>
 
     <!-- KPI Row -->
@@ -88,7 +86,7 @@
       </div>
       <div class="kpi-box">
         <span class="segment-label">Returnări Programate</span>
-        <div class="kpi-num">5</div>
+        <div class="kpi-num" style="color: var(--color-text);">5</div>
       </div>
       <div class="kpi-box">
         <span class="segment-label">Întârzieri Active</span>
@@ -96,85 +94,94 @@
       </div>
       <div class="kpi-box">
         <span class="segment-label">Unități în Mentenanță</span>
-        <div class="kpi-num" style="color: var(--color-warning);">4</div>
+        <div class="kpi-num" style="color: var(--color-accent-orange);">4</div>
       </div>
     </div>
 
-    <!-- Predari -->
+    <!-- Coadă Predări -->
     <div class="queue-card">
       <div class="queue-header">
-        <span class="queue-title">Predări de procesat (Check-Out)</span>
-        <span class="badge badge-primary">2 în așteptare</span>
+        <div class="queue-title">📋 Predări Programate Astăzi (Check-Out)</div>
+        <span class="badge badge-primary">6 Comenzi</span>
       </div>
       <table class="table-modern">
         <thead>
           <tr>
+            <th>Ora</th>
             <th>Rezervare</th>
-            <th>Client</th>
-            <th>Echipamente solicitate</th>
-            <th>Programare</th>
-            <th>Garanție</th>
+            <th>Client & Telefon</th>
+            <th>Echipamente & Modele</th>
+            <th>Depozit Garanție</th>
             <th>Acțiune</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>#RC-2026-084</strong></td>
-            <td>Ana Balici<br><small style="color: var(--color-text-muted);">0722 123 456</small></td>
-            <td>Sony FX3 + Sony 24-70mm GM II</td>
-            <td>16:00</td>
-            <td><strong>2.300 lei</strong></td>
-            <td><a href="DS-rent-op-checkout.html" class="btn btn-primary" style="padding: 8px 16px;">Predă Echipament</a></td>
+            <td><strong>10:00</strong></td>
+            <td><code>#RC-2026-084</code></td>
+            <td><strong>Ana Balici</strong><br><span style="font-size: 12px; color: var(--color-text-muted);">0722 123 456</span></td>
+            <td>Sony FX3 + Obiectiv 24-70 GM II</td>
+            <td><strong style="color: var(--color-primary);">3.700 lei</strong></td>
+            <td>
+              <a href="DS-rent-op-checkout.html" class="btn btn-primary" style="padding: 7px 14px; font-size: 12px;">Deschide Predare →</a>
+            </td>
           </tr>
           <tr>
-            <td><strong>#RC-2026-085</strong></td>
-            <td>Studio Video SRL<br><small style="color: var(--color-text-muted);">0744 555 666</small></td>
-            <td>2x Aputure 300d II + C-Stand</td>
-            <td>18:00</td>
-            <td><strong>1.200 lei</strong></td>
-            <td><a href="DS-rent-op-checkout.html" class="btn btn-primary" style="padding: 8px 16px;">Predă Echipament</a></td>
+            <td><strong>11:30</strong></td>
+            <td><code>#RC-2026-085</code></td>
+            <td><strong>Mihai Ionescu (ProFoto SRL)</strong><br><span style="font-size: 12px; color: var(--color-text-muted);">0744 555 888</span></td>
+            <td>2x Aputure LS 600c Pro RGBWW</td>
+            <td><strong style="color: var(--color-primary);">4.000 lei</strong></td>
+            <td>
+              <a href="DS-rent-op-checkout.html" class="btn btn-primary" style="padding: 7px 14px; font-size: 12px;">Deschide Predare →</a>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Returnari -->
+    <!-- Coadă Returnări -->
     <div class="queue-card">
       <div class="queue-header">
-        <span class="queue-title">Returnări de recepționat (Check-In)</span>
-        <span class="badge badge-danger">1 depășire</span>
+        <div class="queue-title">📦 Returnări Programate Astăzi (Check-In & Inspecție)</div>
+        <span class="badge badge-warning">5 Comenzi</span>
       </div>
       <table class="table-modern">
         <thead>
           <tr>
+            <th>Ora Scadență</th>
             <th>Rezervare</th>
             <th>Client</th>
-            <th>Unități Fizice</th>
-            <th>Termen</th>
+            <th>Unități Fizice Alocate</th>
             <th>Status</th>
             <th>Acțiune</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background: rgba(220, 38, 38, 0.03);">
-            <td><strong>#RC-2026-079</strong></td>
-            <td>Ionescu Andrei</td>
-            <td>RED Komodo (<code>SN-KOM-001</code>)</td>
-            <td>14:00</td>
-            <td><span class="badge badge-danger">+1h 45m (+210 lei)</span></td>
-            <td><a href="DS-rent-op-checkin.html" class="btn btn-danger" style="padding: 8px 16px;">Recepție Retur</a></td>
+          <tr>
+            <td><strong style="color: var(--color-danger);">09:30 (Depășit)</strong></td>
+            <td><code>#RC-2026-079</code></td>
+            <td>Vlad Dumitrescu</td>
+            <td>DJI RS 3 Pro (<code>SN-RS3P-990142</code>)</td>
+            <td><span class="badge badge-danger">Întârziat 1h 30m</span></td>
+            <td>
+              <a href="DS-rent-op-checkin.html" class="btn btn-primary" style="padding: 7px 14px; font-size: 12px;">Recepție Retur →</a>
+            </td>
           </tr>
           <tr>
-            <td><strong>#RC-2026-081</strong></td>
-            <td>Media Pro SRL</td>
-            <td>Sony FX3 (<code>SN-FX3-1002</code>)</td>
-            <td>17:30</td>
+            <td><strong>14:00</strong></td>
+            <td><code>#RC-2026-081</code></td>
+            <td>Elena Radu</td>
+            <td>Canon R5 C + Nanlite 300B II</td>
             <td><span class="badge badge-success">La timp</span></td>
-            <td><a href="DS-rent-op-checkin.html" class="btn btn-primary" style="padding: 8px 16px;">Recepție Retur</a></td>
+            <td>
+              <a href="DS-rent-op-checkin.html" class="btn btn-secondary" style="padding: 7px 14px; font-size: 12px;">Pregătește Verificare →</a>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+
   </div>
 </body>
 </html>

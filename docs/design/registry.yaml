@@ -8,6 +8,18 @@ designs:
     screenshots: [screens/DS-rent-catalog.light.png, screens/DS-rent-catalog.dark.png]
     design_ref: mocks/DS-rent-catalog.html
     status: approved
+  - id: DS-rent-help
+    kind: screen
+    source: frontend/src/pages/RentalHelpPage.tsx
+    screenshots: [screens/DS-rent-help.light.png, screens/DS-rent-help.dark.png]
+    design_ref: mocks/DS-rent-help.html
+    status: approved
+  - id: DS-rent-auth
+    kind: screen
+    source: frontend/src/pages/AuthPage.tsx
+    screenshots: [screens/DS-rent-auth.light.png, screens/DS-rent-auth.dark.png]
+    design_ref: mocks/DS-rent-auth.html
+    status: approved
   - id: DS-rent-equipment-detail
     kind: screen
     source: frontend/src/pages/EquipmentDetailPage.tsx

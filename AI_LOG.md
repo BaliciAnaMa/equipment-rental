@@ -39,11 +39,17 @@
 
 ---
 
-## 2026-11-19 — Etapa 3: Revizuire și Aprobare Plan Tehnic (IMPLEMENTATION_PLAN.md)
-- **Status Plan**: Aprobat (Ready for Implementation)
+## 2026-11-25 — Etapa 4: Plan Arhitectural & Implementare End-to-End RentCam (Full-Stack)
+- **Status Plan**: Aprobat de utilizator (Ready for Implementation)
 - **Activități**:
-  - Aprobarea formală de către utilizator a planului pentru schema bazei de date și migrațiile inițiale MySQL (conform skill-ului `/plan`).
-  - Confirmarea explicită a tuturor intrărilor din tabelul de cunoștințe utilizate: `D-001`, `D-002`, `D-003`, `D-004`, `D-005`, `PATTERN-001`, `C-001`, `Q-005`, `Q-007`, `Q-012`. Marcarea liniei `- **Confirmed:** 2026-11-19` în `DECISIONS.md` și `PATTERNS.md`.
-  - Copierea planului aprobat în `docs/IMPLEMENTATION_PLAN.md`, conținând secțiunile obligatorii (Size, Approach, Files, Tests, Design, Sequencing, Risks, Out of scope, Knowledge used) și specificația DDL completă în UTC pentru cele 9 tabele relaționale (`users`, `equipment_categories`, `equipment_models`, `equipment_units`, `pricing_tiers`, `reservations`, `reservation_items`, `check_logs`, `damage_reports`).
-  - Verificarea integrității ledger-ului prin rularea `python3 docs/agents/tools/ledger-lint.py` (0 erori).
-  - Stop conform instrucțiunilor (fără inițiere cod de implementare backend/frontend).
+  - Elaborarea planului complet end-to-end conform metodologiei `/plan`:
+    - **Dimensiune (Size: L)**: Acoperire completă Full-Stack (MySQL 8, AWS S3 Free Tier media service, NestJS REST API cu RBAC, React SPA cu Light & Vibrant Studio Theme, Docker Compose și suite automate de testare).
+    - **Schema Bazei de Date**: 9 tabele relaționale (`users`, `equipment_models`, `pricing_tiers`, `physical_units`, `kit_checklist_items`, `rentals`, `rental_items`, `damage_reports`, `maintenance_logs`), cu chei străine, integritate referențială, stocare exclusivă în UTC și referințe media strict prin chei/URL-uri S3 (fără BLOB-uri).
+    - **AWS S3 Media Integration**: Serviciu NestJS pentru generarea URL-urilor presemnate (PUT/GET) destinate încărcării sigure a fotografiilor de echipament și dovezilor de daune, cu mecanism fallback mock local pentru dezvoltare offline.
+    - **NestJS Domain Engines**: RBAC cu gărzi (`client`, `operator`, `admin`), motor de disponibilitate calendaristică cu buffer automat de mentenanță de 2 ore, motor de calcul tarifar optimizat pe 4 paliere F64 (orar, zilnic, pachet weekend vineri 16:00 - luni 11:00 @ ~1.5x, pachet 7 zile) și flux operațional de ghișeu cu retur parțial și inspecție checklist kit accesorii.
+    - **React Frontend**: Implementarea identității vizuale Light & Vibrant Studio Theme inspirată de F64 Rent (`#FFFDF9` cream-white, `#E11D48` studio red, `#F97316` orange, `#F59E0B` amber), acoperind modulul Client (catalog, coș, cont client), Dispecerat Operator (predare, retur parțial, daune cu poze S3, mentenanță), Administrare (modele, unități fizice, rapoarte), Autentificare & Demo Switcher (`DS-rent-auth`) și Ghid & FAQ Închiriere (`DS-rent-help`).
+    - **Docker Compose & Testare**: Orchestrat multi-container cu migrații și seed automat din `DATA.md`, teste unitare/integrare Jest & Vitest și capturi Playwright.
+  - Confirmarea explicită a tuturor intrărilor din tabelul de cunoștințe: `D-001`, `D-002`, `D-003`, `D-004`, `D-005`, `D-006`, `D-007`, `D-008`, `C-001`, `PATTERN-001`, `Q-001`, `Q-002`, `Q-003`, `Q-004`.
+  - Copierea planului aprobat în `docs/IMPLEMENTATION_PLAN.md`.
+  - Verificarea integrității ledger-ului prin `python3 docs/agents/tools/ledger-lint.py` (0 erori).
+  - Oprire la faza de planificare conform cerinței (fără redactare cod de producție backend/frontend).

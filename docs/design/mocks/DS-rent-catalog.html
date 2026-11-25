@@ -4,164 +4,421 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-catalog · Catalog echipamente | RentCam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .category-scroll-wrapper {
-      position: relative;
-      margin-bottom: var(--space-xl);
-      display: flex;
+    /* Hero Banner - F64 Rent Studio Inspired */
+    .hero-banner {
+      background: radial-gradient(120% 120% at 85% 20%, #FFF1E6 0%, #FFFDF9 60%, #FEF3C7 100%);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl) var(--space-xl);
+      margin-bottom: var(--space-2xl);
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: var(--space-xl);
       align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.05);
     }
-    .category-scroll {
-      display: flex;
-      gap: var(--space-md);
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE/Edge */
-      user-select: none;
-      cursor: grab;
-      scroll-behavior: smooth;
-    }
-    .category-scroll:active {
-      cursor: grabbing;
-    }
-    .category-scroll::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
-    .scroll-arrow {
+    .hero-banner::before {
+      content: '';
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 36px;
-      height: 36px;
+      top: -100px;
+      right: -100px;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(225, 29, 72, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1px solid #FED7AA;
+      color: #EA580C;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 14px;
       border-radius: var(--radius-full);
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
+      margin-bottom: var(--space-md);
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.08);
+    }
+    .hero-title {
+      font-size: 38px;
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -0.8px;
+      margin-bottom: var(--space-md);
       color: var(--color-text);
+    }
+    .hero-title span.highlight {
+      background: var(--color-primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin-bottom: var(--space-lg);
+      max-width: 540px;
+    }
+    .hero-cta-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    /* Floating Showcase Showcase Cards on Right */
+    .hero-showcase {
+      position: relative;
+      height: 280px;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+    .showcase-card-main {
+      background: #FFFFFF;
+      border: 1.5px solid #FED7AA;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      width: 250px;
+      box-shadow: 0 20px 35px rgba(225, 29, 72, 0.12);
+      animation: floatSlow 6s ease-in-out infinite;
+      z-index: 2;
+      text-align: center;
+    }
+    .showcase-card-secondary {
+      position: absolute;
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      width: 190px;
       box-shadow: var(--shadow-card);
+      z-index: 1;
+      opacity: 0.94;
+    }
+    .showcase-pos-left {
+      left: 10px;
+      top: 20px;
+      transform: rotate(-6deg);
+      animation: floatSlow 5s ease-in-out infinite reverse;
+    }
+    .showcase-pos-right {
+      right: 15px;
+      bottom: 25px;
+      transform: rotate(5deg);
+      animation: floatSlow 7s ease-in-out infinite 1s;
+    }
+
+    /* Marquee Strip (Echipamente Vedetă) */
+    .marquee-wrapper {
+      margin-bottom: var(--space-2xl);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      display: flex;
+      box-shadow: var(--shadow-sm);
+    }
+    .marquee-content {
+      display: inline-flex;
+      gap: 28px;
+      animation: marqueeScroll 28s linear infinite;
+    }
+    .marquee-content:hover {
+      animation-play-state: paused;
+    }
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text);
+      text-decoration: none;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      background: #FFFDF9;
+      border: 1px solid #F3E8D8;
+      transition: all var(--motion-fast);
+    }
+    .marquee-item:hover {
+      border-color: var(--color-accent-orange);
+      color: var(--color-primary);
+      transform: scale(1.03);
+    }
+    .marquee-item .item-badge {
+      font-size: 11px;
+      font-weight: 800;
+      color: #C2410C;
+      background: #FFEDD5;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+    }
+
+    /* Pricing Mode Interactive Switcher Bar */
+    .pricing-mode-bar {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 16px 24px;
+      margin-bottom: var(--space-xl);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .pricing-mode-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .pricing-toggle-group {
+      display: inline-flex;
+      background: #FEF7ED;
+      border: 1.5px solid #F3E8D8;
+      border-radius: var(--radius-full);
+      padding: 4px;
+      gap: 6px;
+    }
+    .pricing-toggle-btn {
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      border: none;
+      background: transparent;
+      color: var(--color-text-muted);
       cursor: pointer;
-      z-index: 10;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity var(--motion-fast), background var(--motion-fast);
+      transition: all var(--motion-fast);
     }
-    .category-scroll-wrapper:hover .scroll-arrow {
-      opacity: 0.9;
-      pointer-events: auto;
+    .pricing-toggle-btn.active {
+      background: var(--color-primary-gradient);
+      color: #FFFFFF !important;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(225, 29, 72, 0.3);
     }
-    .scroll-arrow:hover {
-      opacity: 1;
-      background: var(--color-bg);
-    }
-    .scroll-arrow.left {
-      left: -12px;
-    }
-    .scroll-arrow.right {
-      right: -12px;
-    }
-    .cat-btn {
+
+    /* Mount / Compatibility Badges Row */
+    .mount-filter-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 18px;
-      border-radius: var(--radius-full);
-      border: 1px solid var(--color-border);
-      background: var(--color-surface);
+      margin-bottom: var(--space-xl);
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .mount-filter-label {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
       color: var(--color-text-muted);
-      font-size: 14px;
-      font-weight: 500;
+      margin-right: 6px;
       white-space: nowrap;
+    }
+    .mount-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--color-border);
+      background: #FFFFFF;
+      color: var(--color-text-muted);
       cursor: pointer;
+      white-space: nowrap;
       transition: all var(--motion-fast);
     }
-    .cat-btn.active, .cat-btn:hover {
-      background: var(--color-text);
-      color: var(--color-bg);
-      border-color: var(--color-text);
+    .mount-pill:hover, .mount-pill.active {
+      border-color: var(--color-accent-orange);
+      color: var(--color-primary);
+      background: #FFF7ED;
     }
+
+    /* Gear Grid */
     .gear-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
       gap: var(--space-xl);
     }
     .gear-card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       overflow: hidden;
       box-shadow: var(--shadow-card);
-      transition: all var(--motion-fast);
+      transition: all var(--motion-smooth);
       display: flex;
       flex-direction: column;
+      position: relative;
     }
     .gear-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px);
+      border-color: #FDBA74;
       box-shadow: var(--shadow-hover);
     }
-    .gear-img-box {
-      height: 240px;
-      background: linear-gradient(145deg, rgba(226, 232, 240, 0.6) 0%, rgba(203, 213, 225, 0.9) 100%);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-lg);
-    }
-    @media (prefers-color-scheme: dark) {
-      .gear-img-box {
-        background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
-      }
-    }
+
     .floating-badge {
       position: absolute;
       top: 14px;
       left: 14px;
+      z-index: 2;
     }
     .floating-stock {
       position: absolute;
       top: 14px;
       right: 14px;
+      z-index: 2;
     }
+
+    .gear-img-frame {
+      height: 230px;
+      background: radial-gradient(circle at center, #FFFFFF 30%, #FFF7ED 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 16px;
+      border-bottom: 1.5px solid var(--color-border-subtle);
+    }
+    .gear-img-frame img {
+      max-width: 82%;
+      max-height: 82%;
+      object-fit: contain;
+      transition: transform var(--motion-image);
+      filter: drop-shadow(0 10px 14px rgba(67, 34, 12, 0.08));
+    }
+    .gear-card:hover .gear-img-frame img {
+      transform: scale(1.08) translateY(-4px);
+    }
+
     .gear-body {
       padding: var(--space-lg);
       display: flex;
       flex-direction: column;
       flex: 1;
+      background: #FFFFFF;
+    }
+    .gear-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
     }
     .gear-brand {
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       color: var(--color-primary);
-      margin-bottom: 2px;
+    }
+    .mount-tag {
+      font-size: 11px;
+      font-weight: 800;
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
     }
     .gear-title {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: -0.4px;
       margin-bottom: var(--space-sm);
+      color: var(--color-text);
+      text-decoration: none;
     }
+    .gear-title:hover {
+      color: var(--color-primary);
+    }
+
+    /* 14-Day Availability Segmented Bar (LensRentals UX Insp.) */
+    .avail-bar-wrapper {
+      margin: 8px 0 14px;
+      background: #FFFDF9;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 8px 10px;
+    }
+    .avail-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+    }
+    .avail-segments {
+      display: flex;
+      gap: 3px;
+      height: 7px;
+    }
+    .avail-day {
+      flex: 1;
+      border-radius: 2px;
+      background: #22C55E; /* liber (verde) */
+      cursor: pointer;
+      position: relative;
+    }
+    .avail-day.booked {
+      background: #EF4444; /* ocupat (roșu) */
+    }
+    .avail-day.turnover {
+      background: #F59E0B; /* turnover/curățare (galben) */
+    }
+    .avail-day:hover::after {
+      content: attr(data-date);
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1C1917;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 10;
+    }
+
     .kit-tags {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: var(--space-lg);
+      margin-bottom: var(--space-md);
     }
     .kit-tag {
-      font-size: 11px;
-      background: var(--color-bg);
+      font-size: 12px;
+      background: #FFFDF9;
       border: 1px solid var(--color-border);
       color: var(--color-text-muted);
       padding: 3px 8px;
       border-radius: var(--radius-sm);
+      font-weight: 600;
     }
+
+    /* Pricing Section */
     .pricing-strip {
-      border-top: 1px solid var(--color-border);
+      border-top: 1.5px solid var(--color-border-subtle);
       padding-top: var(--space-md);
       margin-top: auto;
       display: flex;
@@ -169,227 +426,469 @@
       justify-content: space-between;
     }
     .price-main {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.6px;
       color: var(--color-text);
       line-height: 1;
     }
     .price-period {
       font-size: 13px;
       color: var(--color-text-muted);
-      font-weight: 500;
+      font-weight: 600;
     }
     .price-sub {
       font-size: 12px;
-      color: var(--color-text-muted);
-      margin-top: 4px;
+      color: #C2410C;
+      font-weight: 800;
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .user-pill-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFF7ED;
+      border: 1.5px solid #FED7AA;
+      color: var(--color-text);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .user-avatar-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--color-primary-gradient);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
 <body>
-  <!-- Frosted Navigation -->
+  <!-- Header -->
   <header class="site-header">
     <a href="DS-rent-catalog.html" class="brand-logo">
-      <span>●</span> RentCam
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span>
     </a>
     <ul class="nav-menu">
       <li><a href="DS-rent-catalog.html" class="nav-link active">Catalog</a></li>
+      <li><a href="DS-rent-help.html" class="nav-link help-link">📖 Ghid Închiriere & FAQ</a></li>
       <li><a href="DS-rent-customer-dashboard.html" class="nav-link">Rezervările mele</a></li>
       <li><a href="DS-rent-op-dashboard.html" class="nav-link">Ghișeu Operator</a></li>
       <li><a href="DS-rent-admin-models.html" class="nav-link">Admin</a></li>
-      <li><a href="DS-rent-booking-cart.html" class="nav-link">Coș <span class="cart-badge">2</span></a></li>
     </ul>
+    <div class="header-actions">
+      <!-- Autentificat Demo: Balici Ana -->
+      <a href="DS-rent-customer-dashboard.html" class="user-pill-header">
+        <div class="user-avatar-circle">BA</div>
+        <span>Balici Ana</span>
+      </a>
+      <a href="DS-rent-booking-cart.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        Coș <span class="cart-badge">2</span>
+      </a>
+    </div>
   </header>
 
   <div class="page-container">
-    <div class="figma-tag">DS-rent-catalog · Catalog echipamente</div>
+    <div class="figma-tag">DS-rent-catalog · Catalog echipamente (Advanced UX · Disponibilitate 14 Zile & Comutator Tarife)</div>
 
-    <!-- Airbnb-style Floating Search Bar -->
-    <div class="airbnb-search-bar">
-      <div class="search-segment">
-        <span class="segment-label">Ce echipament cauți?</span>
-        <span class="segment-value">Sony FX3, RED, Lumini, Audio...</span>
+    <!-- Hero Banner with Dynamic Floating Elements -->
+    <div class="hero-banner">
+      <div>
+        <div class="hero-pill">
+          <span>✨</span> Bun venit, Balici Ana · Echipament profesional verificat tehnic
+        </div>
+        <h1 class="hero-title">
+          Creează fără limite cu <span class="highlight">RentCam Studio</span>.
+        </h1>
+        <p class="hero-desc">
+          Camere cinema, obiective anamorfice, lumini de studio și kituri complete verificate riguros. Beneficiază de <strong>Oferta Weekend</strong> (preiei vineri ora 16:00, returnezi luni ora 11:00) la tarif avantajos de 1.5 zile!
+        </p>
+        <div class="hero-cta-group">
+          <a href="#catalog-grid" class="btn btn-primary btn-large">
+            Explorează Catalogul
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="DS-rent-help.html" class="btn btn-secondary btn-large">
+            Vezi Ghidul Weekend (Vineri - Luni)
+          </a>
+        </div>
       </div>
-      <div class="search-segment">
-        <span class="segment-label">Data & Ora Preluare</span>
-        <span class="segment-value">Vin, 20 Nov · 16:00</span>
+      
+      <!-- Floating showcase cards -->
+      <div class="hero-showcase">
+        <div class="showcase-card-secondary showcase-pos-left">
+          <span style="font-size: 11px; font-weight: 800; color: #EA580C;">TOP OBIECTIV</span>
+          <p style="font-size: 13px; font-weight: 800; margin: 4px 0;">Sony 24-70 GM II</p>
+          <span style="font-size: 12px; color: var(--color-primary); font-weight: 800;">180 lei / zi</span>
+        </div>
+        <div class="showcase-card-main">
+          <span class="badge badge-weekend badge-weekend-pulse" style="margin-bottom: 8px;">🔥 Weekend Deal</span>
+          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=400&q=80" alt="Sony FX3 Cinema" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;">
+          <h4 style="font-size: 15px; font-weight: 800;">Sony FX3 Cinema Line</h4>
+          <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: 6px;">Full-Frame 4K 120p</p>
+          <span style="font-size: 18px; font-weight: 900; color: var(--color-primary);">675 lei</span>
+          <span style="font-size: 12px; color: var(--color-text-muted);">/ weekend</span>
+        </div>
+        <div class="showcase-card-secondary showcase-pos-right">
+          <span style="font-size: 11px; font-weight: 800; color: #0284C7;">AUDIO WIRELESS</span>
+          <p style="font-size: 13px; font-weight: 800; margin: 4px 0;">DJI Mic 2 Combo</p>
+          <span style="font-size: 12px; color: var(--color-primary); font-weight: 800;">95 lei / zi</span>
+        </div>
       </div>
-      <div class="search-segment">
-        <span class="segment-label">Data & Ora Returnare</span>
-        <span class="segment-value">Lun, 23 Nov · 10:00 (Weekend)</span>
-      </div>
-      <button class="search-btn" aria-label="Caută">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      </button>
     </div>
 
-    <!-- Category Pills with Horizontal Scroll & Drag -->
-    <div class="category-scroll-wrapper">
-      <button class="scroll-arrow left" id="scrollLeftBtn" aria-label="Derulează stânga">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-      </button>
-      <div class="category-scroll" id="catScroll">
-        <button class="cat-btn active">Toate Echipamentele</button>
-        <button class="cat-btn">🎥 Camere Cinema & Video</button>
-        <button class="cat-btn">🔭 Obiective & Anamorfice</button>
-        <button class="cat-btn">💡 Lumini & Softboxuri</button>
-        <button class="cat-btn">🎙️ Microfoane & Audio</button>
-        <button class="cat-btn">🎬 Grip, Trepiede & Cage-uri</button>
-        <button class="cat-btn">🔋 Baterii & Alimentare V-Mount</button>
-        <button class="cat-btn">📡 Transmisie Video Wireless & Monitoare</button>
-        <button class="cat-btn">🚁 Drone & Gimbaluri</button>
+    <!-- Marquee Banner: Echipamente Vedetă -->
+    <div class="marquee-wrapper">
+      <div class="marquee-content">
+        <a href="DS-rent-equipment-detail.html" class="marquee-item">
+          <span class="item-badge">PREMIUM</span> Sony FX3 Cinema Line · 450 lei/zi
+        </a>
+        <a href="DS-rent-equipment-detail.html" class="marquee-item">
+          <span class="item-badge">WEEKEND</span> Canon EOS R5 C 8K Hybrid · 720 lei/weekend
+        </a>
+        <a href="DS-rent-equipment-detail.html" class="marquee-item">
+          <span class="item-badge">PRO</span> Aputure Light Storm 600c Pro · 380 lei/zi
+        </a>
+        <a href="DS-rent-equipment-detail.html" class="marquee-item">
+          <span class="item-badge">AUDIO</span> DJI Mic 2 (2 TX + 1 RX) · 95 lei/zi
+        </a>
+        <a href="DS-rent-equipment-detail.html" class="marquee-item">
+          <span class="item-badge">GRIP</span> DJI RS 3 Pro Combo Gimbal · 160 lei/zi
+        </a>
+        <!-- Duplicate for fluid infinite loop -->
+        <a href="DS-rent-equipment-detail.html" class="marquee-item">
+          <span class="item-badge">PREMIUM</span> Sony FX3 Cinema Line · 450 lei/zi
+        </a>
       </div>
-      <button class="scroll-arrow right" id="scrollRightBtn" aria-label="Derulează dreapta">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </button>
     </div>
 
-    <!-- Gear Grid -->
-    <div class="gear-grid">
-      <!-- Card 1 -->
+    <!-- Comutator Interactiv Mod Tarif (1 Zi / Weekend / 7 Zile) -->
+    <div class="pricing-mode-bar">
+      <div class="pricing-mode-title">
+        <span style="font-size: 20px;">⚡</span>
+        <span>Afișează grilele de preț pentru:</span>
+      </div>
+      <div class="pricing-toggle-group">
+        <button class="pricing-toggle-btn" onclick="setPricingMode('1day', this)">
+          1 Zi Standard (24h)
+        </button>
+        <button class="pricing-toggle-btn active" onclick="setPricingMode('weekend', this)">
+          🎉 Weekend Promo (Vin-Lun) <span style="font-size: 11px; color: #FFF; background: #C2410C; padding: 1px 6px; border-radius: 999px; margin-left: 4px;">-25% economisit</span>
+        </button>
+        <button class="pricing-toggle-btn" onclick="setPricingMode('week', this)">
+          Pachet Săptămână (7 Zile)
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtre Rapide Montură / Compatibilitate -->
+    <div class="mount-filter-row">
+      <span class="mount-filter-label">Compatibilitate Montură:</span>
+      <button class="mount-pill active" onclick="toggleMount(this)">Toate Monturile</button>
+      <button class="mount-pill" onclick="toggleMount(this)">Sony E-Mount</button>
+      <button class="mount-pill" onclick="toggleMount(this)">Canon RF</button>
+      <button class="mount-pill" onclick="toggleMount(this)">Canon EF</button>
+      <button class="mount-pill" onclick="toggleMount(this)">Montură Bowens (Lumini)</button>
+      <button class="mount-pill" onclick="toggleMount(this)">V-Mount (Alimentare)</button>
+    </div>
+
+    <!-- Category Pills Segmented Scroll -->
+    <div class="segmented-pill-bar" style="width: 100%; overflow-x: auto; padding: 6px;">
+      <button class="cat-btn active">Toate Echipamentele</button>
+      <button class="cat-btn">🎥 Camere Cinema & Video</button>
+      <button class="cat-btn">🔭 Obiective & Anamorfice</button>
+      <button class="cat-btn">💡 Lumini & Modificatoare Studio</button>
+      <button class="cat-btn">🎙️ Microfoane & Audio Teren</button>
+      <button class="cat-btn">🎬 Gimbaluri & Grip</button>
+      <button class="cat-btn">🔋 Baterii V-Mount</button>
+    </div>
+
+    <!-- Gear Grid with 14-Day Availability Bar and Dynamic Pricing -->
+    <div class="gear-grid" id="catalog-grid">
+      
+      <!-- Card 1: Sony FX3 -->
       <div class="gear-card">
-        <div class="gear-img-box">
-          <span class="badge badge-primary floating-badge">Weekend Promo</span>
-          <span class="badge badge-success floating-stock">3 unități disponibile</span>
-          <svg width="120" height="90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6">
-            <path d="M23 7l-7 5 7 5V7z"></path>
-            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-          </svg>
+        <div class="floating-badge">
+          <span class="badge badge-weekend badge-weekend-pulse">⚡ Ofertă Weekend: 675 lei</span>
+        </div>
+        <div class="floating-stock">
+          <span class="badge badge-success">✓ 2 în stoc</span>
+        </div>
+        <div class="gear-img-frame">
+          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=600&q=80" alt="Sony FX3 Cinema">
         </div>
         <div class="gear-body">
-          <span class="gear-brand">Sony Cinema Line</span>
-          <h2 class="gear-title">Sony FX3 Full-Frame</h2>
-          <div class="kit-tags">
-            <span class="kit-tag">2x Baterii NP-FZ100</span>
-            <span class="kit-tag">Mâner Audio XLR</span>
-            <span class="kit-tag">Încărcător Dual</span>
-            <span class="kit-tag">Geantă Pro</span>
+          <div class="gear-meta-row">
+            <span class="gear-brand">Sony Cinema Line</span>
+            <span class="mount-tag">Sony E-Mount</span>
           </div>
+          <a href="DS-rent-equipment-detail.html" class="gear-title">Sony FX3 Full-Frame Cinema Camera</a>
+          
+          <!-- Mini-bară Disponibilitate 14 Zile (Segmente Verde/Roșu/Galben) -->
+          <div class="avail-bar-wrapper">
+            <div class="avail-header">
+              <span>Disponibilitate Următoarele 14 Zile:</span>
+              <span style="color: var(--color-success);">Liber Weekend Acesta</span>
+            </div>
+            <div class="avail-segments">
+              <div class="avail-day" data-date="Astăzi: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Rezervat Weekend (Balici Ana)"></div>
+              <div class="avail-day booked" data-date="Sâm: Ocupat"></div>
+              <div class="avail-day booked" data-date="Dum: Ocupat"></div>
+              <div class="avail-day turnover" data-date="Lun 11:00: Turnover"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+              <div class="avail-day" data-date="Mie: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+            </div>
+          </div>
+
+          <div class="kit-tags">
+            <span class="kit-tag">Top Handle XLR</span>
+            <span class="kit-tag">2x NP-FZ100</span>
+            <span class="kit-tag">Încărcător Dual</span>
+            <span class="kit-tag">Geantă Manfrotto</span>
+          </div>
+
           <div class="pricing-strip">
             <div>
-              <div class="price-main">650 lei <span class="price-period">/ weekend</span></div>
-              <div class="price-sub">sau 450 lei/zi · 120 lei/oră · 1.800 lei/săpt</div>
+              <div class="price-main" data-price-1day="450" data-price-weekend="675" data-price-week="1800">
+                <span class="price-val">675</span> RON <span class="price-period">/ weekend</span>
+              </div>
+              <div class="price-sub">Garanție returnabilă: 2.500 lei</div>
             </div>
             <a href="DS-rent-equipment-detail.html" class="btn btn-primary">Rezervă</a>
           </div>
         </div>
       </div>
 
-      <!-- Card 2 -->
+      <!-- Card 2: Canon R5 C -->
       <div class="gear-card">
-        <div class="gear-img-box">
-          <span class="badge badge-primary floating-badge">8K Cinema</span>
-          <span class="badge badge-warning floating-stock">Doar 1 unitate rămasă</span>
-          <svg width="120" height="90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6">
-            <path d="M23 7l-7 5 7 5V7z"></path>
-            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-          </svg>
+        <div class="floating-badge">
+          <span class="badge badge-weekend">⚡ Weekend: 720 lei</span>
+        </div>
+        <div class="floating-stock">
+          <span class="badge badge-success">✓ 1 în stoc</span>
+        </div>
+        <div class="gear-img-frame">
+          <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=600&q=80" alt="Canon EOS R5 C">
         </div>
         <div class="gear-body">
-          <span class="gear-brand">Canon Cinema EOS</span>
-          <h2 class="gear-title">Canon EOS R5 C 8K Hybrid</h2>
+          <div class="gear-meta-row">
+            <span class="gear-brand">Canon Cinema</span>
+            <span class="mount-tag">Canon RF-Mount</span>
+          </div>
+          <a href="DS-rent-equipment-detail.html" class="gear-title">Canon EOS R5 C 8K Hybrid Cinema</a>
+          
+          <!-- Mini-bară Disponibilitate 14 Zile -->
+          <div class="avail-bar-wrapper">
+            <div class="avail-header">
+              <span>Disponibilitate Următoarele 14 Zile:</span>
+              <span style="color: var(--color-success);">Disponibil Imediat</span>
+            </div>
+            <div class="avail-segments">
+              <div class="avail-day" data-date="Astăzi: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day booked" data-date="Mar: Rezervat Producție"></div>
+              <div class="avail-day booked" data-date="Mie: Rezervat Producție"></div>
+              <div class="avail-day turnover" data-date="Joi: Inspecție Senzor"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+            </div>
+          </div>
+
           <div class="kit-tags">
+            <span class="kit-tag">8K RAW 60p</span>
             <span class="kit-tag">3x Acumulatori LP-E6NH</span>
             <span class="kit-tag">Adaptor EF-EOS R</span>
-            <span class="kit-tag">Încărcător Dual</span>
           </div>
+
           <div class="pricing-strip">
             <div>
-              <div class="price-main">700 lei <span class="price-period">/ weekend</span></div>
-              <div class="price-sub">sau 480 lei/zi · 130 lei/oră · 1.950 lei/săpt</div>
+              <div class="price-main" data-price-1day="480" data-price-weekend="720" data-price-week="1920">
+                <span class="price-val">720</span> RON <span class="price-period">/ weekend</span>
+              </div>
+              <div class="price-sub">Garanție returnabilă: 2.500 lei</div>
             </div>
             <a href="DS-rent-equipment-detail.html" class="btn btn-primary">Rezervă</a>
           </div>
         </div>
       </div>
 
-      <!-- Card 3 -->
+      <!-- Card 3: Sony 24-70 GM II -->
       <div class="gear-card">
-        <div class="gear-img-box">
-          <span class="badge badge-neutral floating-badge">G-Master II</span>
-          <span class="badge badge-success floating-stock">4 unități disponibile</span>
-          <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6">
-            <circle cx="12" cy="12" r="10"></circle>
-            <circle cx="12" cy="12" r="6"></circle>
-            <circle cx="12" cy="12" r="2"></circle>
-          </svg>
+        <div class="floating-badge">
+          <span class="badge badge-neutral">Obiectiv G Master</span>
+        </div>
+        <div class="floating-stock">
+          <span class="badge badge-success">✓ 2 în stoc</span>
+        </div>
+        <div class="gear-img-frame">
+          <img src="https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=600&q=80" alt="Sony FE 24-70 GM II">
         </div>
         <div class="gear-body">
-          <span class="gear-brand">Sony G Master</span>
-          <h2 class="gear-title">Sony FE 24-70mm f/2.8 GM II</h2>
-          <div class="kit-tags">
-            <span class="kit-tag">Parasolar ALC-SH168</span>
-            <span class="kit-tag">Capace față/spate</span>
-            <span class="kit-tag">Filtru UV</span>
+          <div class="gear-meta-row">
+            <span class="gear-brand">Sony E-Mount</span>
+            <span class="mount-tag">Sony E-Mount</span>
           </div>
+          <a href="DS-rent-equipment-detail.html" class="gear-title">Sony FE 24-70mm f/2.8 GM II</a>
+          
+          <!-- Mini-bară Disponibilitate 14 Zile -->
+          <div class="avail-bar-wrapper">
+            <div class="avail-header">
+              <span>Disponibilitate Următoarele 14 Zile:</span>
+              <span style="color: var(--color-success);">2 Bucăți Libere</span>
+            </div>
+            <div class="avail-segments">
+              <div class="avail-day" data-date="Astăzi: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+              <div class="avail-day" data-date="Mie: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+            </div>
+          </div>
+
+          <div class="kit-tags">
+            <span class="kit-tag">Filtru B+W Nano 82mm</span>
+            <span class="kit-tag">Parasolar ALC-SH168</span>
+            <span class="kit-tag">Husă Sony</span>
+          </div>
+
           <div class="pricing-strip">
             <div>
-              <div class="price-main">270 lei <span class="price-period">/ weekend</span></div>
-              <div class="price-sub">sau 180 lei/zi · 50 lei/oră · 720 lei/săpt</div>
+              <div class="price-main" data-price-1day="180" data-price-weekend="270" data-price-week="720">
+                <span class="price-val">270</span> RON <span class="price-period">/ weekend</span>
+              </div>
+              <div class="price-sub">Garanție returnabilă: 1.200 lei</div>
             </div>
             <a href="DS-rent-equipment-detail.html" class="btn btn-primary">Rezervă</a>
           </div>
         </div>
       </div>
+
+      <!-- Card 4: Aputure LS 600c Pro -->
+      <div class="gear-card">
+        <div class="floating-badge">
+          <span class="badge badge-warning">Lumină RGBWW Pro</span>
+        </div>
+        <div class="floating-stock">
+          <span class="badge badge-success">✓ 1 în stoc</span>
+        </div>
+        <div class="gear-img-frame">
+          <img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=600&q=80" alt="Aputure LS 600c Pro">
+        </div>
+        <div class="gear-body">
+          <div class="gear-meta-row">
+            <span class="gear-brand">Aputure Pro Studio</span>
+            <span class="mount-tag">Montură Bowens</span>
+          </div>
+          <a href="DS-rent-equipment-detail.html" class="gear-title">Aputure Light Storm 600c Pro RGBWW</a>
+          
+          <!-- Mini-bară Disponibilitate 14 Zile -->
+          <div class="avail-bar-wrapper">
+            <div class="avail-header">
+              <span>Disponibilitate Următoarele 14 Zile:</span>
+              <span style="color: var(--color-success);">Liber Weekend</span>
+            </div>
+            <div class="avail-segments">
+              <div class="avail-day" data-date="Astăzi: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+              <div class="avail-day" data-date="Mie: Liber"></div>
+              <div class="avail-day" data-date="Joi: Liber"></div>
+              <div class="avail-day" data-date="Vin: Liber"></div>
+              <div class="avail-day" data-date="Sâm: Liber"></div>
+              <div class="avail-day" data-date="Dum: Liber"></div>
+              <div class="avail-day" data-date="Lun: Liber"></div>
+              <div class="avail-day" data-date="Mar: Liber"></div>
+            </div>
+          </div>
+
+          <div class="kit-tags">
+            <span class="kit-tag">Balast electronic</span>
+            <span class="kit-tag">Reflector Bowens</span>
+            <span class="kit-tag">Rolling Hard Case</span>
+          </div>
+
+          <div class="pricing-strip">
+            <div>
+              <div class="price-main" data-price-1day="380" data-price-weekend="570" data-price-week="1520">
+                <span class="price-val">570</span> RON <span class="price-period">/ weekend</span>
+              </div>
+              <div class="price-sub">Garanție returnabilă: 2.000 lei</div>
+            </div>
+            <a href="DS-rent-equipment-detail.html" class="btn btn-primary">Rezervă</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script>
-    (function() {
-      const scrollContainer = document.getElementById('catScroll');
-      const leftBtn = document.getElementById('scrollLeftBtn');
-      const rightBtn = document.getElementById('scrollRightBtn');
+    // Comutator Dinamic Tarife (1 Zi / Weekend / 7 Zile)
+    function setPricingMode(mode, btn) {
+      document.querySelectorAll('.pricing-toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-      if (!scrollContainer) return;
-
-      // Mouse Wheel horizontal scrolling
-      scrollContainer.addEventListener('wheel', (e) => {
-        if (e.deltaY !== 0) {
-          e.preventDefault();
-          scrollContainer.scrollLeft += e.deltaY;
-        }
-      }, { passive: false });
-
-      // Click arrow buttons
-      if (leftBtn) {
-        leftBtn.addEventListener('click', () => {
-          scrollContainer.scrollBy({ left: -240, behavior: 'smooth' });
-        });
-      }
-      if (rightBtn) {
-        rightBtn.addEventListener('click', () => {
-          scrollContainer.scrollBy({ left: 240, behavior: 'smooth' });
-        });
-      }
-
-      // Click-and-drag scrolling
-      let isDown = false;
-      let startX;
-      let scrollLeftVal;
-
-      scrollContainer.addEventListener('mousedown', (e) => {
-        isDown = true;
-        scrollContainer.style.scrollBehavior = 'auto';
-        startX = e.pageX - scrollContainer.offsetLeft;
-        scrollLeftVal = scrollContainer.scrollLeft;
-      });
-
-      window.addEventListener('mouseup', () => {
-        if (isDown) {
-          isDown = false;
-          scrollContainer.style.scrollBehavior = 'smooth';
+      document.querySelectorAll('.price-main').forEach(el => {
+        const valEl = el.querySelector('.price-val');
+        const periodEl = el.querySelector('.price-period');
+        if (mode === '1day') {
+          valEl.innerText = el.getAttribute('data-price-1day');
+          periodEl.innerText = '/ 24h';
+        } else if (mode === 'weekend') {
+          valEl.innerText = el.getAttribute('data-price-weekend');
+          periodEl.innerText = '/ weekend';
+        } else if (mode === 'week') {
+          valEl.innerText = el.getAttribute('data-price-week');
+          periodEl.innerText = '/ 7 zile';
         }
       });
+    }
 
-      scrollContainer.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - scrollContainer.offsetLeft;
-        const walk = (x - startX) * 1.5; // Drag sensitivity
-        scrollContainer.scrollLeft = scrollLeftVal - walk;
-      });
-    })();
+    function toggleMount(el) {
+      document.querySelectorAll('.mount-pill').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+    }
   </script>
 </body>
 </html>

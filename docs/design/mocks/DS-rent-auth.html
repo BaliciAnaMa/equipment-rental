@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS-rent-auth · Autentificare & Cont Utilizator | RentCam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .auth-wrapper {
+      max-width: 520px;
+      margin: var(--space-xl) auto;
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl) var(--space-xl);
+      box-shadow: var(--shadow-float);
+    }
+    
+    .auth-header {
+      text-align: center;
+      margin-bottom: var(--space-xl);
+    }
+    .auth-logo-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--color-primary-gradient);
+      color: #FFFFFF;
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: var(--space-md);
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+    }
+
+    .form-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .form-pane.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group {
+      margin-bottom: var(--space-md);
+    }
+    .form-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--color-text);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: #FFFDF9;
+      color: var(--color-text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: all var(--motion-fast);
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-accent-orange);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    }
+
+    /* Demo Quick Login Roles Section */
+    .demo-roles-card {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 1.5px dashed var(--color-border);
+    }
+    .demo-roles-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-accent-orange);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .demo-buttons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .demo-btn {
+      padding: 10px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--color-border);
+      background: #FFFDF9;
+      color: var(--color-text);
+      text-align: center;
+      text-decoration: none;
+      transition: all var(--motion-fast);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .demo-btn:hover {
+      border-color: var(--color-primary);
+      background: #FFF7ED;
+      color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .demo-btn span.role-tag {
+      font-size: 10px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <a href="DS-rent-catalog.html" class="brand-logo">
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="DS-rent-catalog.html" class="nav-link">← Înapoi la Catalog</a></li>
+      <li><a href="DS-rent-help.html" class="nav-link help-link">📖 Ghid Închiriere & FAQ</a></li>
+    </ul>
+  </header>
+
+  <div class="page-container">
+    <div style="text-align: center;">
+      <div class="figma-tag">DS-rent-auth · Autentificare & Creare Cont (Titular Demo: Balici Ana)</div>
+    </div>
+
+    <div class="auth-wrapper">
+      <div class="auth-header">
+        <div class="auth-logo-pill">R</div>
+        <h1 style="font-size: 26px; font-weight: 800; margin-bottom: 4px;">Contul tău RentCam</h1>
+        <p style="font-size: 14px; color: var(--color-text-muted);">
+          Gestionează rezervările de echipamente, contractele și starea garanțiilor.
+        </p>
+      </div>
+
+      <!-- Segmented Pill Bar Toggle -->
+      <div class="segmented-pill-bar" style="width: 100%; display: flex;">
+        <button class="auth-tab-btn active" style="flex: 1;" onclick="switchAuth('login', this)">Intră în Cont</button>
+        <button class="auth-tab-btn" style="flex: 1;" onclick="switchAuth('register', this)">Creează Cont Nou</button>
+      </div>
+
+      <!-- Login Form Pane (Precompletat: Balici Ana) -->
+      <div id="auth-login" class="form-pane active">
+        <div class="form-group">
+          <label class="form-label">Adresă de Email</label>
+          <input type="email" class="form-input" placeholder="nume@exemplu.ro" value="ana.balici@rentcam.ro">
+        </div>
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <label class="form-label">Parolă</label>
+            <a href="#" style="font-size: 12px; color: var(--color-primary); text-decoration: none;">Ai uitat parola?</a>
+          </div>
+          <input type="password" class="form-input" value="••••••••••••">
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: var(--space-lg); font-size: 13px; color: var(--color-text-muted);">
+          <input type="checkbox" id="rememberMe" checked>
+          <label for="rememberMe">Păstrează-mă autentificat (Balici Ana)</label>
+        </div>
+
+        <a href="DS-rent-customer-dashboard.html" class="btn btn-primary btn-large" style="width: 100%; text-align: center;">
+          Autentificare în Contul Balici Ana
+        </a>
+      </div>
+
+      <!-- Register Form Pane -->
+      <div id="auth-register" class="form-pane">
+        <div class="form-group">
+          <label class="form-label">Tip Client</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <label style="background: #FFFDF9; border: 1.5px solid var(--color-border); padding: 8px 12px; border-radius: var(--radius-md); font-size: 13px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="radio" name="clientType" checked> Persoană Fizică
+            </label>
+            <label style="background: #FFFDF9; border: 1.5px solid var(--color-border); padding: 8px 12px; border-radius: var(--radius-md); font-size: 13px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="radio" name="clientType"> Companie / SRL / PFA
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nume Complet / Reprezentant</label>
+          <input type="text" class="form-input" placeholder="ex: Balici Ana" value="Balici Ana">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="email@domeniu.ro" value="ana.balici@rentcam.ro">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefon Mobil</label>
+          <input type="tel" class="form-input" value="+40 722 123 456">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parolă</label>
+          <input type="password" class="form-input" placeholder="Minimum 8 caractere">
+        </div>
+
+        <button class="btn btn-primary btn-large" style="width: 100%;">
+          Înregistrează Contul
+        </button>
+      </div>
+
+      <!-- Quick Role Demo Switcher -->
+      <div class="demo-roles-card">
+        <div class="demo-roles-title">⚡ Acces Rapid Demo pe Roluri (Simulare Protocoale)</div>
+        <div class="demo-buttons-grid">
+          <a href="DS-rent-customer-dashboard.html" class="demo-btn">
+            <strong>👤 Client (Balici Ana)</strong>
+            <span class="role-tag">Istoric & Coș</span>
+          </a>
+          <a href="DS-rent-op-dashboard.html" class="demo-btn">
+            <strong>💼 Operator</strong>
+            <span class="role-tag">Ghișeu & Retur</span>
+          </a>
+          <a href="DS-rent-admin-models.html" class="demo-btn">
+            <strong>⚙️ Admin</strong>
+            <span class="role-tag">Modele & Flotă</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function switchAuth(mode, el) {
+      document.querySelectorAll('.auth-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.form-pane').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('auth-' + mode).classList.add('active');
+    }
+  </script>
+</body>
+</html>

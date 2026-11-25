@@ -4,69 +4,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-admin-models · Modele Echipamente | RentCam Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
     .models-table-wrap {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       overflow: hidden;
-      box-shadow: var(--shadow-sm);
-    }
-    .table-clean {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-    .table-clean th, .table-clean td {
-      padding: 16px var(--space-lg);
-      border-bottom: 1px solid var(--color-border);
-      text-align: left;
-    }
-    .table-clean tr:last-child td { border-bottom: none; }
-    .table-clean th {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--color-text-muted);
-      background: var(--color-bg);
+      box-shadow: var(--shadow-card);
     }
     .price-chip {
       font-size: 12px;
       padding: 3px 8px;
       border-radius: var(--radius-sm);
-      background: var(--color-bg);
+      background: #FFFDF9;
       border: 1px solid var(--color-border);
       white-space: nowrap;
       margin-right: 4px;
     }
     .price-chip.highlight {
-      border-color: var(--color-primary);
-      color: var(--color-primary);
-      font-weight: 700;
+      border-color: #FDBA74;
+      color: #C2410C;
+      background: #FFF7ED;
+      font-weight: 800;
     }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <a href="DS-rent-admin-models.html" class="brand-logo"><span>●</span> RentCam · Administrare</a>
+    <a href="DS-rent-admin-models.html" class="brand-logo">
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span> <span style="font-size: 15px; font-weight: 700; color: var(--color-text-muted);">· Administrare</span>
+    </a>
     <ul class="nav-menu">
       <li><a href="DS-rent-admin-models.html" class="nav-link active">Catalog Modele</a></li>
       <li><a href="DS-rent-admin-units.html" class="nav-link">Unități Fizice (Serii)</a></li>
       <li><a href="DS-rent-admin-reports.html" class="nav-link">Rapoarte & Cifre</a></li>
+      <li><a href="DS-rent-help.html" class="nav-link help-link">📖 Ghid Închiriere & FAQ</a></li>
       <li><a href="DS-rent-catalog.html" class="nav-link">Magazin Public</a></li>
     </ul>
+    <div class="header-actions">
+      <a href="DS-rent-auth.html" class="btn btn-secondary" style="padding: 8px 14px; font-size: 13px;">Schimbă Rolul</a>
+    </div>
   </header>
 
   <div class="page-container">
-    <div class="figma-tag">DS-rent-admin-models · Administrare modele echipamente</div>
+    <div class="figma-tag">DS-rent-admin-models · Administrare modele echipamente (F64 Studio Light Theme)</div>
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
       <div>
         <h1 class="page-title">Catalog Modele & Grile Tarife</h1>
-        <p class="page-subtitle">Configurare tarife pe cele 4 paliere (oră, zi, weekend, săptămână) și garanții.</p>
+        <p class="page-subtitle">Configurare tarife pe paliere F64 (1 zi, weekend vineri-luni, săptămână) și garanții de bază.</p>
       </div>
-      <button class="btn btn-primary">+ Adaugă Model Nou</button>
+      <button class="btn btn-primary" onclick="alert('Se deschide modalul de adăugare model nou...')">
+        + Adaugă Model Nou
+      </button>
+    </div>
+
+    <!-- Segmented Filter Pills -->
+    <div class="segmented-pill-bar">
+      <button class="filter-btn active" onclick="switchFilter(this)">Toate Categoriile (10)</button>
+      <button class="filter-btn" onclick="switchFilter(this)">Camere Cinema (3)</button>
+      <button class="filter-btn" onclick="switchFilter(this)">Obiective & Optică (3)</button>
+      <button class="filter-btn" onclick="switchFilter(this)">Lumini Studio (2)</button>
+      <button class="filter-btn" onclick="switchFilter(this)">Audio & Grip (2)</button>
     </div>
 
     <div class="models-table-wrap">
@@ -75,8 +78,8 @@
           <tr>
             <th>Model Echipament</th>
             <th>Categorie & Brand</th>
-            <th>Tarife pe Paliere</th>
-            <th>Garanție Bază</th>
+            <th>Tarife pe Paliere (1 Zi / Weekend / 7 Zile)</th>
+            <th>Garanție Depozit</th>
             <th>Flotă Unități</th>
             <th>Acțiuni</th>
           </tr>
@@ -84,55 +87,75 @@
         <tbody>
           <tr>
             <td>
-              <div style="font-weight: 700; font-size: 15px;">Sony FX3 Cinema Line</div>
-              <div style="font-size: 12px; color: var(--color-text-muted);">Senzor Full-Frame 4K 120p</div>
+              <div style="font-weight: 800; font-size: 15px;">Sony FX3 Cinema Line</div>
+              <code class="serial-tag">MOD-FX3</code>
             </td>
-            <td>Camere Cinema · Sony</td>
+            <td><span class="badge badge-primary">CAT-CAM</span> · Sony</td>
             <td>
-              <span class="price-chip">120 lei/h</span>
-              <span class="price-chip">450 lei/zi</span>
-              <span class="price-chip highlight">650 lei/wkd</span>
-              <span class="price-chip">1.800 lei/săpt</span>
+              <span class="price-chip">1Z: 450 lei</span>
+              <span class="price-chip highlight">Weekend: 675 lei</span>
+              <span class="price-chip">7Z: 1.800 lei</span>
             </td>
-            <td><strong>1.500 lei</strong></td>
-            <td><a href="DS-rent-admin-units.html" class="badge badge-success" style="text-decoration: none;">3 unități active</a></td>
-            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Editează</a></td>
+            <td><strong>2.500 lei</strong></td>
+            <td><span class="badge badge-success">3 unități active</span></td>
+            <td>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Editează</button>
+                <a href="DS-rent-equipment-detail.html" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Preview</a>
+              </div>
+            </td>
           </tr>
           <tr>
             <td>
-              <div style="font-weight: 700; font-size: 15px;">Canon EOS R5 C 8K</div>
-              <div style="font-size: 12px; color: var(--color-text-muted);">Cinema EOS Hybrid</div>
+              <div style="font-weight: 800; font-size: 15px;">Canon EOS R5 C 8K Hybrid</div>
+              <code class="serial-tag">MOD-R5C</code>
             </td>
-            <td>Camere Cinema · Canon</td>
+            <td><span class="badge badge-primary">CAT-CAM</span> · Canon</td>
             <td>
-              <span class="price-chip">130 lei/h</span>
-              <span class="price-chip">480 lei/zi</span>
-              <span class="price-chip highlight">700 lei/wkd</span>
-              <span class="price-chip">1.950 lei/săpt</span>
+              <span class="price-chip">1Z: 480 lei</span>
+              <span class="price-chip highlight">Weekend: 720 lei</span>
+              <span class="price-chip">7Z: 1.920 lei</span>
             </td>
-            <td><strong>1.600 lei</strong></td>
-            <td><a href="DS-rent-admin-units.html" class="badge badge-success" style="text-decoration: none;">2 unități active</a></td>
-            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Editează</a></td>
+            <td><strong>2.500 lei</strong></td>
+            <td><span class="badge badge-success">1 unitate activă</span></td>
+            <td>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Editează</button>
+                <a href="DS-rent-equipment-detail.html" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Preview</a>
+              </div>
+            </td>
           </tr>
           <tr>
             <td>
-              <div style="font-weight: 700; font-size: 15px;">Sony FE 24-70mm f/2.8 GM II</div>
-              <div style="font-size: 12px; color: var(--color-text-muted);">Obiectiv Zoom Standard</div>
+              <div style="font-weight: 800; font-size: 15px;">Sony FE 24-70mm f/2.8 GM II</div>
+              <code class="serial-tag">MOD-GM2470</code>
             </td>
-            <td>Obiective · Sony</td>
+            <td><span class="badge badge-neutral">CAT-LENS</span> · Sony</td>
             <td>
-              <span class="price-chip">50 lei/h</span>
-              <span class="price-chip">180 lei/zi</span>
-              <span class="price-chip highlight">270 lei/wkd</span>
-              <span class="price-chip">720 lei/săpt</span>
+              <span class="price-chip">1Z: 180 lei</span>
+              <span class="price-chip highlight">Weekend: 270 lei</span>
+              <span class="price-chip">7Z: 720 lei</span>
             </td>
-            <td><strong>800 lei</strong></td>
-            <td><a href="DS-rent-admin-units.html" class="badge badge-success" style="text-decoration: none;">4 unități active</a></td>
-            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Editează</a></td>
+            <td><strong>1.200 lei</strong></td>
+            <td><span class="badge badge-warning">2 unități (1 service)</span></td>
+            <td>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Editează</button>
+                <a href="DS-rent-equipment-detail.html" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Preview</a>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+
   </div>
+
+  <script>
+    function switchFilter(el) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
 </body>
 </html>

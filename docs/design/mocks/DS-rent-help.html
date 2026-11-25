@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DS-rent-help · Help, FAQ & Ghid de Închiriere | RentCam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .help-header {
+      background: radial-gradient(120% 120% at 85% 20%, #FFF1E6 0%, #FFFDF9 60%, #FEF3C7 100%);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl) var(--space-xl);
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.05);
+      position: relative;
+    }
+    .help-search-box {
+      max-width: 600px;
+      margin: var(--space-lg) auto 0;
+      position: relative;
+    }
+    .help-search-input {
+      width: 100%;
+      padding: 14px 20px 14px 48px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--color-border);
+      background: #FFFFFF;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--color-text);
+      box-shadow: var(--shadow-sm);
+      transition: all var(--motion-fast);
+    }
+    .help-search-input:focus {
+      outline: none;
+      border-color: var(--color-accent-orange);
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.12);
+    }
+    .help-search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-accent-orange);
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: var(--space-2xl);
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-full);
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all var(--motion-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn:hover {
+      border-color: #FDBA74;
+      background: #FFF7ED;
+      color: var(--color-primary);
+    }
+    .tab-btn.active {
+      background: var(--color-primary-gradient);
+      color: #FFFFFF;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.25);
+    }
+
+    /* Tab Content Panes */
+    .tab-pane {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 4 Steps Section */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-lg);
+      margin-bottom: var(--space-2xl);
+    }
+    .step-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl) var(--space-lg);
+      box-shadow: var(--shadow-card);
+      text-align: center;
+      position: relative;
+      transition: all var(--motion-fast);
+    }
+    .step-card:hover {
+      transform: translateY(-4px);
+      border-color: #FDBA74;
+      box-shadow: var(--shadow-hover);
+    }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--color-primary-gradient);
+      color: #FFFFFF;
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto var(--space-md);
+      box-shadow: 0 4px 10px rgba(225, 29, 72, 0.3);
+    }
+    .step-title {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .step-text {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    /* Accordion FAQ */
+    .faq-list {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .faq-item {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--motion-fast);
+    }
+    .faq-item:hover {
+      border-color: #FDBA74;
+    }
+    .faq-question {
+      padding: 18px var(--space-lg);
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .faq-answer {
+      padding: 0 var(--space-lg) 18px;
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      display: none;
+      border-top: 1px solid var(--color-border-subtle);
+      padding-top: 14px;
+    }
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+      color: var(--color-primary);
+    }
+    .faq-icon {
+      transition: transform var(--motion-fast);
+      color: var(--color-accent-orange);
+    }
+
+    /* Info Callouts */
+    .callout-box {
+      background: #FFF7ED;
+      border: 1.5px solid #FED7AA;
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-xl);
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <a href="DS-rent-catalog.html" class="brand-logo">
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="DS-rent-catalog.html" class="nav-link">Catalog</a></li>
+      <li><a href="DS-rent-help.html" class="nav-link active">📖 Ghid Închiriere & FAQ</a></li>
+      <li><a href="DS-rent-customer-dashboard.html" class="nav-link">Rezervările mele</a></li>
+      <li><a href="DS-rent-op-dashboard.html" class="nav-link">Ghișeu Operator</a></li>
+    </ul>
+    <div class="header-actions">
+      <a href="DS-rent-auth.html" class="btn btn-secondary" style="padding: 8px 14px; font-size: 13px;">Contul meu</a>
+      <a href="DS-rent-booking-cart.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+        Coș <span class="cart-badge">2</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="page-container">
+    <div class="figma-tag">DS-rent-help · Help, FAQ & Ghid de Închiriere RentCam (F64 Studio Light Theme)</div>
+
+    <!-- Help Hero Header -->
+    <div class="help-header">
+      <span class="badge badge-weekend" style="margin-bottom: 8px;">Centru de Suport & Resurse</span>
+      <h1 style="font-size: 34px; font-weight: 800; letter-spacing: -0.6px; margin-bottom: 8px;">
+        Cum funcționează închirierea la RentCam?
+      </h1>
+      <p style="font-size: 16px; color: var(--color-text-muted); max-width: 600px; margin: 0 auto;">
+        Ghidul complet privind rezervarea online, intervalul promoțional de weekend (F64 Rent), predarea la ghișeu și eliberarea garanției.
+      </p>
+
+      <div class="help-search-box">
+        <svg class="help-search-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="faqSearchInput" class="help-search-input" placeholder="Caută răspunsuri (ex: garanție, weekend, retur parțial, buletin)..." onkeyup="filterFaqs()">
+      </div>
+    </div>
+
+    <!-- Tabs Selection -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('steps', this)">
+        <span>🚀</span> Închirierea în 4 Pași
+      </button>
+      <button class="tab-btn" onclick="switchTab('weekend', this)">
+        <span>🎉</span> Reguli Pachet Weekend
+      </button>
+      <button class="tab-btn" onclick="switchTab('deposit', this)">
+        <span>🛡️</span> Garanție & Recepție Ghișeu
+      </button>
+      <button class="tab-btn" onclick="switchTab('faq', this)">
+        <span>❓</span> Întrebări Frecvente (FAQ)
+      </button>
+      <button class="tab-btn" onclick="switchTab('operators', this)">
+        <span>📋</span> Ghid pentru Operatori
+      </button>
+    </div>
+
+    <!-- Tab 1: 4 Steps -->
+    <div id="tab-steps" class="tab-pane active">
+      <h2 style="font-size: 24px; font-weight: 800; text-align: center; margin-bottom: var(--space-xl);">
+        Procesul Simplu de Închiriere la RentCam
+      </h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h3 class="step-title">Alegi Echipamentul</h3>
+          <p class="step-text">Explorezi catalogul, verifici disponibilitatea în timp real și configurezi pachetul optim (1 zi, weekend sau săptămână).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h3 class="step-title">Rezervi Online</h3>
+          <p class="step-text">Adaugi în coș, alegi datele și orele de ridicare și returnare, iar echipamentul este blocat exclusiv pentru proiectul tău.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h3 class="step-title">Preluare la Ghișeu</h3>
+          <p class="step-text">Vii la sediul RentCam, verifici funcționalitatea pe checklist împreună cu operatorul și se autorizează depozitul de garanție.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h3 class="step-title">Returnare & Deblocare</h3>
+          <p class="step-text">Aduci echipamentul înapoi, operatorul scanează seria și verifică kitul, iar garanția este eliberată pe loc.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Weekend Rules -->
+    <div id="tab-weekend" class="tab-pane">
+      <div class="callout-box">
+        <div style="font-size: 32px;">🎉</div>
+        <div>
+          <h3 style="font-size: 20px; font-weight: 800; color: #9A3412; margin-bottom: 6px;">
+            Oferta Specială de Weekend (Model Comercial F64 Rent)
+          </h3>
+          <p style="font-size: 14px; color: #7C2D12; line-height: 1.6;">
+            Înțelegem că producțiile video și evenimentele au loc cu precădere în zilele de sâmbătă și duminică. Prin pachetul promoțional de weekend, beneficiezi de echipament pe întreaga durată a sfârșitului de săptămână plătind un tarif redus de numai <strong>1.5 zile</strong> în loc de 3 zile întregi!
+          </p>
+        </div>
+      </div>
+
+      <div style="background: #FFFFFF; border: 1.5px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-xl); box-shadow: var(--shadow-card);">
+        <h4 style="font-size: 18px; font-weight: 800; margin-bottom: var(--space-md);">Programul Oficial al Pachetului Weekend:</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 15px;">
+          <li style="display: flex; gap: 10px; align-items: center;">
+            <span class="badge badge-weekend">RIDICARE</span>
+            <span><strong>Vineri</strong>, începând cu ora <strong>16:00</strong> (până la ora 20:00 la închiderea ghișeului).</span>
+          </li>
+          <li style="display: flex; gap: 10px; align-items: center;">
+            <span class="badge badge-weekend">UTILIZARE</span>
+            <span>Vineri seară, Sâmbătă și Duminică fără limită de ore sau declanșări.</span>
+          </li>
+          <li style="display: flex; gap: 10px; align-items: center;">
+            <span class="badge badge-weekend">RETURNARE</span>
+            <span><strong>Luni</strong> dimineață, cel târziu până la ora <strong>11:00</strong>.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tab 3: Deposit & Counter Return -->
+    <div id="tab-deposit" class="tab-pane">
+      <div style="background: #FFFFFF; border: 1.5px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-xl); box-shadow: var(--shadow-card);">
+        <h3 style="font-size: 22px; font-weight: 800; margin-bottom: var(--space-md);">Cum se Calculează și se Restituie Garanția?</h3>
+        <p style="color: var(--color-text-muted); line-height: 1.6; margin-bottom: var(--space-lg);">
+          Garanția (depozitul) reprezintă o măsură de siguranță pentru echipamentele de mare valoare. Aceasta nu se încasează definitiv, ci doar se blochează pe cardul bancar (preautorizare) sau se consemnează conform contractului de închiriere.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg);">
+          <div style="background: #FFFDF9; border: 1px solid var(--color-border); padding: var(--space-lg); border-radius: var(--radius-lg);">
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--color-primary); margin-bottom: 6px;">Documente Necesare la Ghișeu</h4>
+            <ul style="font-size: 13px; color: var(--color-text-muted); padding-left: 18px; line-height: 1.6;">
+              <li>Act de identitate original valabil (CI sau Pașaport).</li>
+              <li>Card bancar pe numele titularului rezervării.</li>
+              <li>Pentru persoane juridice: Delegație / Împuternicire și datele firmei (CUI).</li>
+            </ul>
+          </div>
+          <div style="background: #FFFDF9; border: 1px solid var(--color-border); padding: var(--space-lg); border-radius: var(--radius-lg);">
+            <h4 style="font-size: 16px; font-weight: 800; color: var(--color-success); margin-bottom: 6px;">Verificarea Integrității și Checklist-ul</h4>
+            <p style="font-size: 13px; color: var(--color-text-muted); line-height: 1.6;">
+              La predare și la recepție se inspectează fiecare accesoriu (baterii, cabluri, capace, parasolare). În cazul unui defect sau zgârieturi pe optică, operatorul fotografiază incidentul și se întocmește un raport de daună (D-005).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: FAQ -->
+    <div id="tab-faq" class="tab-pane">
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Ce se întâmplă dacă întârzii cu returnarea echipamentului luni după ora 11:00?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            Pentru întârzieri mai mari de 60 de minute neanunțate, sistemul calculează o taxă orară suplimentară sau contravaloarea unei zile adiționale de chirie, deoarece echipamentul poate fi deja rezervat pentru o altă producție programată în aceeași zi.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Pot face retur parțial dacă nu mai am nevoie de unele echipamente din comandă?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            Da! Conform deciziei de arhitectură D-005, RentCam suportă retururi parțiale per unitate fizică individuală. Operatorul încheie recepția pentru componentele returnate, iar garanția aferentă acelor unități este eliberată corespunzător.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Unde sunt salvate fotografiile dovezilor în caz de daună?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            Conform deciziei D-006, toate fotografiile de inspecție și dovezile din rapoartele de avarie sunt stocate în siguranță în Amazon AWS S3, fiind accesibile direct din fișa incidentului atât pentru client, cât și pentru departamentul administrativ.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Pot închiria ca persoană fizică sau doar pe firmă (SRL/PFA)?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            RentCam deservește atât persoane fizice (creatori de conținut, fotografi liber-profesioniști), cât și case de producție sau companii media. Garanția și contractul se emit în funcție de tipul de entitate selectat la check-out.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 5: Operators Guide -->
+    <div id="tab-operators" class="tab-pane">
+      <div style="background: #FFFFFF; border: 1.5px solid var(--color-border); border-radius: var(--radius-xl); padding: var(--space-xl); box-shadow: var(--shadow-card);">
+        <h3 style="font-size: 20px; font-weight: 800; margin-bottom: var(--space-md);">Instrucțiuni Operaționale pentru Ghișeul RentCam</h3>
+        <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: var(--space-lg);">
+          Proceduri obligatorii pentru operatorii de tură conform deciziilor de arhitectură D-002, D-004 și D-005:
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="background: #FFFDF9; border: 1px solid var(--color-border); padding: 14px; border-radius: var(--radius-md);">
+            <strong style="color: var(--color-primary);">1. Check-out & Scanare:</strong> Identificați rezervarea, scanați codul intern de inventar al fiecărei unități fizice (ex: <code>RC-CAM-001</code>) și bifați componentele kitului în prezența clientului.
+          </div>
+          <div style="background: #FFFDF9; border: 1px solid var(--color-border); padding: 14px; border-radius: var(--radius-md);">
+            <strong style="color: var(--color-primary);">2. Check-in & Inspecție Senzor/Optică:</strong> Inspectați elementele frontale ale obiectivelor și senzorul camerei sub lumină direcțională. Orice urmă de praf dens sau zgârietură se notează imediat.
+          </div>
+          <div style="background: #FFFDF9; border: 1px solid var(--color-border); padding: 14px; border-radius: var(--radius-md);">
+            <strong style="color: var(--color-primary);">3. Încărcare Dovezi Daune în AWS S3:</strong> În cazul oricărei nereguli, deschideți ecranul <code>DS-rent-op-damage-report</code> și încărcați minimum 2 fotografii clare ale avariei înainte de a elibera garanția.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    function toggleFaq(el) {
+      el.parentElement.classList.toggle('open');
+    }
+
+    function filterFaqs() {
+      const q = document.getElementById('faqSearchInput').value.toLowerCase();
+      document.querySelectorAll('.faq-item').forEach(item => {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(q) ? 'block' : 'none';
+      });
+      // Switch to FAQ tab if user is typing
+      if(q.trim().length > 0) {
+        switchTab('faq', document.querySelectorAll('.tab-btn')[3]);
+      }
+    }
+  </script>
+</body>
+</html>

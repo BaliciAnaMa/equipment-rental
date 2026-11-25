@@ -105,12 +105,14 @@ them; a ticket with UI has a design subtask instead (team addon).
 ### Color
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `--color-bg` | `#ffffff` | `#0f172a` | Page background |
-| `--color-surface` | `#f8fafc` | `#1e293b` | Card and panel surface |
+| `--color-bg` | `#FFFDF9` | `#0f172a` | Page background (warm studio cream-white in light) |
+| `--color-surface` | `#ffffff` | `#1e293b` | Card and panel surface |
 | `--color-text` | `#0f172a` | `#f8fafc` | Primary body text |
 | `--color-text-muted` | `#64748b` | `#94a3b8` | Secondary / muted text |
-| `--color-primary` | `#2563eb` | `#3b82f6` | Brand and primary buttons |
-| `--color-border` | `#e2e8f0` | `#334155` | Borders and dividers |
+| `--color-primary` | `#E11D48` | `#FB7185` | Primary brand accent (studio rose/red, inspired by F64 Rent) |
+| `--color-accent-orange` | `#F97316` | `#FB923C` | Vibrant orange accent (tags, highlights, weekend badges) |
+| `--color-accent-amber` | `#F59E0B` | `#FBBF24` | Warm amber/yellow accent (cautions, star ratings, notices) |
+| `--color-border` | `#F1ECE4` | `#334155` | Borders and dividers (warm tone aligned with cream bg) |
 
 ### Typography
 | Token | Family | Size / line height | Weight | Use |
@@ -134,8 +136,9 @@ them; a ticket with UI has a design subtask instead (team addon).
 |---|---|---|
 | `--radius-sm` | 4px | Inputs, small tags |
 | `--radius-md` | 8px | Cards, buttons |
-| `--shadow-card` | 0 1px 3px rgba(0,0,0,0.1) | Content cards |
+| `--shadow-card` | 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04) | Content cards |
 | `--motion-fast` | 150ms ease | Hovers, focus transitions |
+| `--motion-image` | 300ms cubic-bezier(0.4, 0, 0.2, 1) | Dynamic hover/zoom animation for media cards |
 
 ### Breakpoints / window sizes
 | Name | Min | Max |
@@ -144,6 +147,22 @@ them; a ticket with UI has a design subtask instead (team addon).
 | `md` | 768px | 1023px |
 | `lg` | 1024px | 1279px |
 | `xl` | 1280px | - |
+
+## Registered Screens Overview
+- `DS-rent-catalog`: Catalog Echipamente (hero banner animat, carusel fluid marquee, căutare dinamică, filtrare pe categorii, carduri cu zoom lin și badge-uri weekend) [status: approved]
+- `DS-rent-help`: Help, FAQ & Ghid de Închiriere RentCam (procedură închiriere în 4 pași, reguli weekend vineri-luni, ghid garanții, acordeon FAQ căutabil, ghid operatori) [status: approved]
+- `DS-rent-auth`: Autentificare & Creare Cont (tab-uri comutabile persoană fizică/companie și selector acces rapid demo pe cele 3 roluri) [status: approved]
+- `DS-rent-equipment-detail`: Detalii Echipament (specificații, galerie foto AWS S3, checklist accesorii, calculator tarif dinamic pe paliere)
+- `DS-rent-booking-cart`: Coș Rezervare & Check-out (selectare interval calendaristic, verificare promoție weekend, total garanție returnabilă)
+- `DS-rent-customer-dashboard`: Cont Client (rezervări active, istoric, status garanții)
+- `DS-rent-op-dashboard`: Panou Dispecerat Operator (predări/recepții programate astăzi)
+- `DS-rent-op-checkout`: Check-out Echipament (scanare număr serie/inventar, semnare proces predare)
+- `DS-rent-op-checkin`: Check-in & Verificare Kit (checklist accesorii, retur parțial)
+- `DS-rent-op-damage-report`: Raport Daune & Dovezi Foto (încărcare dovezi foto direct în AWS S3)
+- `DS-rent-op-maintenance`: Gestiune Service & Mentenanță Unități
+- `DS-rent-admin-models`: Gestiune Modele & Matrice Tarifară
+- `DS-rent-admin-units`: Gestiune Unități Fizice & Serii
+- `DS-rent-admin-reports`: Rapoarte Financiare, Încasări & Utilizare Flotă
 
 ## Hard-coded values found (to migrate)
 None yet (clean repository setup).

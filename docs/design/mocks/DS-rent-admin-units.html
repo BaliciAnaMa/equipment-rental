@@ -4,72 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-admin-units · Unități Fizice (Serii) | RentCam Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
     .units-table-wrap {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       overflow: hidden;
-      box-shadow: var(--shadow-sm);
-    }
-    .table-clean {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-    .table-clean th, .table-clean td {
-      padding: 16px var(--space-lg);
-      border-bottom: 1px solid var(--color-border);
-      text-align: left;
-    }
-    .table-clean tr:last-child td { border-bottom: none; }
-    .table-clean th {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--color-text-muted);
-      background: var(--color-bg);
-    }
-    .serial-tag {
-      font-family: ui-monospace, monospace;
-      font-weight: 600;
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      padding: 3px 8px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
+      box-shadow: var(--shadow-card);
     }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <a href="DS-rent-admin-models.html" class="brand-logo"><span>●</span> RentCam · Administrare</a>
+    <a href="DS-rent-admin-models.html" class="brand-logo">
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span> <span style="font-size: 15px; font-weight: 700; color: var(--color-text-muted);">· Administrare</span>
+    </a>
     <ul class="nav-menu">
       <li><a href="DS-rent-admin-models.html" class="nav-link">Catalog Modele</a></li>
       <li><a href="DS-rent-admin-units.html" class="nav-link active">Unități Fizice (Serii)</a></li>
       <li><a href="DS-rent-admin-reports.html" class="nav-link">Rapoarte & Cifre</a></li>
+      <li><a href="DS-rent-help.html" class="nav-link help-link">📖 Ghid Închiriere & FAQ</a></li>
       <li><a href="DS-rent-catalog.html" class="nav-link">Magazin Public</a></li>
     </ul>
+    <div class="header-actions">
+      <a href="DS-rent-auth.html" class="btn btn-secondary" style="padding: 8px 14px; font-size: 13px;">Schimbă Rolul</a>
+    </div>
   </header>
 
   <div class="page-container">
-    <div class="figma-tag">DS-rent-admin-units · Administrare unități fizice și serii</div>
+    <div class="figma-tag">DS-rent-admin-units · Administrare unități fizice și serii (F64 Studio Light Theme)</div>
     <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
       <div>
         <h1 class="page-title">Flotă Unități Fizice Individuale</h1>
-        <p class="page-subtitle">Urmărire per număr de serie producător, cod inventar și stări operaționale.</p>
+        <p class="page-subtitle">Urmărire per număr de serie producător, cod intern de inventar și stări operaționale conform D-002.</p>
       </div>
-      <button class="btn btn-primary">+ Înregistrează Unitate Nouă</button>
+      <button class="btn btn-primary" onclick="alert('Se deschide formularul de înregistrare unitate fizică nouă...')">
+        + Înregistrează Unitate Nouă
+      </button>
     </div>
 
-    <!-- Filter Pills -->
-    <div style="display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg);">
-      <button class="cat-btn active">Toate (18)</button>
-      <button class="cat-btn">Disponibile (12)</button>
-      <button class="cat-btn">Închiriate (3)</button>
-      <button class="cat-btn">În Mentenanță / Service (3)</button>
+    <!-- Segmented Filter Pills -->
+    <div class="segmented-pill-bar">
+      <button class="filter-btn active" onclick="switchFilter(this)">Toate Unitățile (18)</button>
+      <button class="filter-btn" onclick="switchFilter(this)">Disponibile (12)</button>
+      <button class="filter-btn" onclick="switchFilter(this)">Închiriate Activ (3)</button>
+      <button class="filter-btn" onclick="switchFilter(this)">În Mentenanță / Service (3)</button>
     </div>
 
     <div class="units-table-wrap">
@@ -80,51 +64,56 @@
             <th>Număr de Serie (SN)</th>
             <th>Model Echipament Părinte</th>
             <th>Stare Operațională</th>
-            <th>Kit Accesorii</th>
-            <th>Închirieri</th>
+            <th>Kit Accesorii Standard</th>
+            <th>Total Închirieri</th>
             <th>Acțiuni</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>RC-U-101</strong></td>
-            <td><span class="serial-tag">SN-FX3-1001</span></td>
-            <td>Sony FX3 Cinema Line</td>
-            <td><span class="badge badge-warning">Turnover (Curățare 2h)</span></td>
-            <td>5 piese (Complet)</td>
-            <td><strong>18</strong></td>
-            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Istoric</a></td>
-          </tr>
-          <tr>
-            <td><strong>RC-U-102</strong></td>
-            <td><span class="serial-tag">SN-FX3-1002</span></td>
-            <td>Sony FX3 Cinema Line</td>
-            <td><span class="badge badge-danger">În Service (Raport #012)</span></td>
-            <td>4 piese (1 lipsă)</td>
-            <td><strong>8</strong></td>
-            <td><a href="DS-rent-op-damage-report.html" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Raport</a></td>
-          </tr>
-          <tr>
-            <td><strong>RC-U-103</strong></td>
-            <td><span class="serial-tag">SN-FX3-1003</span></td>
-            <td>Sony FX3 Cinema Line</td>
+            <td><strong style="color: var(--color-primary);">RC-CAM-001</strong></td>
+            <td><code class="serial-tag">SN-FX3-4819201</code></td>
+            <td>Sony FX3 Full-Frame Cinema</td>
             <td><span class="badge badge-success">Disponibil</span></td>
-            <td>5 piese (Complet)</td>
-            <td><strong>12</strong></td>
-            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Istoric</a></td>
+            <td><span style="font-size: 13px;">6 piese complete</span></td>
+            <td><strong>24 comenzi</strong></td>
+            <td>
+              <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Istoric & Mentenanță</button>
+            </td>
           </tr>
           <tr>
-            <td><strong>RC-U-204</strong></td>
-            <td><span class="serial-tag">SN-LENS-2470-04</span></td>
+            <td><strong style="color: var(--color-primary);">RC-CAM-002</strong></td>
+            <td><code class="serial-tag">SN-FX3-4819288</code></td>
+            <td>Sony FX3 Full-Frame Cinema</td>
+            <td><span class="badge badge-primary">Închiriat (până 23 Nov)</span></td>
+            <td><span style="font-size: 13px;">Kit + Cage SmallRig</span></td>
+            <td><strong>31 comenzi</strong></td>
+            <td>
+              <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Detalii Închiriere</button>
+            </td>
+          </tr>
+          <tr>
+            <td><strong style="color: var(--color-primary);">RC-LNS-001</strong></td>
+            <td><code class="serial-tag">SN-GM2470-302194</code></td>
             <td>Sony FE 24-70mm f/2.8 GM II</td>
-            <td><span class="badge badge-primary">Închiriat (#RC-2026-084)</span></td>
-            <td>4 piese (Complet)</td>
-            <td><strong>22</strong></td>
-            <td><a href="#" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Rezervare</a></td>
+            <td><span class="badge badge-danger">În Service Pro</span></td>
+            <td><span style="font-size: 13px;">5 piese (lentilă zgâriată)</span></td>
+            <td><strong>19 comenzi</strong></td>
+            <td>
+              <a href="DS-rent-op-damage-report.html" class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;">Vezi Daună</a>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+
   </div>
+
+  <script>
+    function switchFilter(el) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+    }
+  </script>
 </body>
 </html>

@@ -4,180 +4,383 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-booking-cart · Finalizare rezervare | RentCam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .cart-grid {
+    .cart-layout {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: var(--space-2xl);
       align-items: start;
     }
+    
     .cart-item {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       padding: var(--space-lg);
       margin-bottom: var(--space-md);
       display: flex;
       gap: var(--space-md);
+      box-shadow: var(--shadow-card);
+      position: relative;
+      transition: all var(--motion-fast);
     }
-    .item-thumb {
-      width: 100px;
-      height: 90px;
-      background: linear-gradient(145deg, #e2e8f0 0%, #cbd5e1 100%);
+    .cart-item:hover {
+      border-color: #FDBA74;
+      box-shadow: var(--shadow-hover);
+    }
+    .cart-thumb {
+      width: 120px;
+      height: 110px;
+      background: radial-gradient(circle at center, #FFFFFF 40%, #FFF7ED 100%);
+      border: 1.5px solid var(--color-border-subtle);
       border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
+      padding: 6px;
     }
-    @media (prefers-color-scheme: dark) {
-      .item-thumb { background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); }
+    .cart-thumb img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
     }
-    .item-content { flex: 1; }
-    .item-top { display: flex; justify-content: space-between; align-items: baseline; }
-    .item-title { font-size: 18px; font-weight: 700; }
-    .item-price { font-size: 20px; font-weight: 800; color: var(--color-primary); }
-    .item-dates { font-size: 13px; color: var(--color-text-muted); margin: 4px 0 8px; }
-    .item-kit-tags { display: flex; gap: 4px; flex-wrap: wrap; }
-    .kit-chip { font-size: 11px; background: var(--color-bg); border: 1px solid var(--color-border); padding: 2px 6px; border-radius: var(--radius-sm); color: var(--color-text-muted); }
 
-    /* Sticky Summary Card */
-    .summary-card {
-      background: var(--color-surface);
+    .cart-info { flex: 1; }
+    .cart-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    .cart-item-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--color-text);
+      text-decoration: none;
+    }
+    .cart-item-title:hover {
+      color: var(--color-primary);
+    }
+    .cart-item-price {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--color-primary);
+    }
+    .cart-dates {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cart-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .cart-remove-btn {
+      color: var(--color-text-light);
+      background: #FFFDF9;
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      box-shadow: none;
+      transition: all var(--motion-fast);
+    }
+    .cart-remove-btn:hover {
+      color: var(--color-danger);
+      border-color: #FECDD3;
+      background: #FFF1F2;
+    }
+
+    /* Summary Sidebar */
+    .summary-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       padding: var(--space-xl);
-      box-shadow: var(--shadow-card);
+      box-shadow: var(--shadow-float);
       position: sticky;
       top: 90px;
+    }
+    .summary-header {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .summary-row {
       display: flex;
       justify-content: space-between;
-      padding: 8px 0;
-      font-size: 15px;
+      padding: 10px 0;
+      font-size: 14px;
     }
     .summary-row.total {
-      border-top: 1px solid var(--color-border);
+      border-top: 2px solid var(--color-border);
       margin-top: var(--space-md);
       padding-top: var(--space-md);
       font-size: 24px;
+      font-weight: 900;
+    }
+    .weekend-discount-pill {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FCD34D;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
       font-weight: 800;
     }
-    .deposit-banner {
-      background: rgba(217, 119, 6, 0.08);
-      border: 1px solid rgba(217, 119, 6, 0.25);
-      border-radius: var(--radius-md);
-      padding: var(--space-md);
-      margin: var(--space-lg) 0;
-      font-size: 13px;
+
+    /* Indicator Vizual Economie Weekend */
+    .savings-badge-card {
+      background: linear-gradient(135deg, #FFF7ED 0%, #FEF3C7 100%);
+      border: 1.5px solid #FDBA74;
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: var(--space-md) 0;
     }
-    .form-minimal {
-      margin-top: var(--space-lg);
+    .savings-num {
+      font-size: 24px;
+      font-weight: 900;
+      color: #C2410C;
+      line-height: 1;
     }
-    .input-clean {
+
+    .form-group {
+      margin-top: var(--space-md);
+    }
+    .form-label {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .input-warm {
       width: 100%;
-      padding: 12px 14px;
-      border: 1px solid var(--color-border);
+      padding: 11px 14px;
+      border: 1.5px solid var(--color-border);
       border-radius: var(--radius-md);
-      background: var(--color-bg);
+      background: #FFFDF9;
       color: var(--color-text);
       font-size: 14px;
-      margin-bottom: var(--space-sm);
+      font-family: inherit;
+      transition: border-color var(--motion-fast);
+    }
+    .input-warm:focus {
+      outline: none;
+      border-color: var(--color-accent-orange);
+      background: #FFFFFF;
+    }
+
+    .user-pill-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFF7ED;
+      border: 1.5px solid #FED7AA;
+      color: var(--color-text);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .user-avatar-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--color-primary-gradient);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <a href="DS-rent-catalog.html" class="brand-logo"><span>●</span> RentCam</a>
-    <a href="DS-rent-catalog.html" class="nav-link">← Continuă cumpărăturile</a>
+    <a href="DS-rent-catalog.html" class="brand-logo">
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="DS-rent-catalog.html" class="nav-link">← Continuă Căutarea în Catalog</a></li>
+      <li><a href="DS-rent-help.html" class="nav-link help-link">📖 Ghid Închiriere & FAQ</a></li>
+    </ul>
+    <div class="header-actions">
+      <!-- Autentificat Demo: Balici Ana -->
+      <a href="DS-rent-customer-dashboard.html" class="user-pill-header">
+        <div class="user-avatar-circle">BA</div>
+        <span>Balici Ana</span>
+      </a>
+    </div>
   </header>
 
   <div class="page-container">
-    <div class="figma-tag">DS-rent-booking-cart · Finalizare rezervare</div>
-    <h1 class="page-title" style="margin-bottom: var(--space-xl);">Rezervarea Ta</h1>
+    <div class="figma-tag">DS-rent-booking-cart · Finalizare rezervare (Titular: Balici Ana · F64 Studio)</div>
+    <h1 style="font-size: 30px; font-weight: 900; letter-spacing: -0.6px; margin-bottom: var(--space-xl);">
+      Rezervarea Ta de Weekend (2 Echipamente)
+    </h1>
 
-    <div class="cart-grid">
-      <!-- Item List -->
+    <div class="cart-layout">
+      <!-- Left list of items -->
       <div>
-        <!-- Item 1 -->
+        <!-- Item 1: Sony FX3 -->
         <div class="cart-item">
-          <div class="item-thumb">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.7"><rect x="1" y="5" width="15" height="14" rx="2"/><path d="M23 7l-7 5 7 5V7z"/></svg>
+          <div class="cart-thumb">
+            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=300&q=80" alt="Sony FX3">
           </div>
-          <div class="item-content">
-            <div class="item-top">
-              <span class="item-title">Sony FX3 Cinema Line</span>
-              <span class="item-price">650 lei</span>
+          <div class="cart-info">
+            <div class="cart-title-row">
+              <a href="DS-rent-equipment-detail.html" class="cart-item-title">Sony FX3 Full-Frame Cinema Camera</a>
+              <span class="cart-item-price">675 RON</span>
             </div>
-            <div class="item-dates">20 Nov 16:00 → 23 Nov 10:00 (Weekend Promo) · Garanție: 1.500 lei</div>
-            <div class="item-kit-tags">
-              <span class="kit-chip">Corp FX3</span>
-              <span class="kit-chip">Mâner XLR</span>
-              <span class="kit-chip">2x Baterii</span>
-              <span class="kit-chip">Încărcător</span>
-              <span class="kit-chip">Geantă</span>
+            <div class="cart-dates">
+              <span class="weekend-discount-pill">Pachet Weekend</span>
+              <span>📅 Vin, 20 Nov 16:00 → Lun, 23 Nov 11:00</span>
+            </div>
+            <div class="cart-tags">
+              <span class="badge badge-neutral">Top Handle XLR</span>
+              <span class="badge badge-neutral">2x Acumulatori</span>
+              <span class="badge badge-neutral">Încărcător Dual</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+              <span style="font-size: 12px; color: var(--color-text-muted);">Garanție alocată: <strong>2.500 RON</strong></span>
+              <button class="cart-remove-btn">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Șterge
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Item 2 -->
+        <!-- Item 2: Sony 24-70 GM II -->
         <div class="cart-item">
-          <div class="item-thumb">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.7"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg>
+          <div class="cart-thumb">
+            <img src="https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=300&q=80" alt="Sony 24-70">
           </div>
-          <div class="item-content">
-            <div class="item-top">
-              <span class="item-title">Sony FE 24-70mm f/2.8 GM II</span>
-              <span class="item-price">270 lei</span>
+          <div class="cart-info">
+            <div class="cart-title-row">
+              <a href="DS-rent-equipment-detail.html" class="cart-item-title">Sony FE 24-70mm f/2.8 GM II</a>
+              <span class="cart-item-price">270 RON</span>
             </div>
-            <div class="item-dates">20 Nov 16:00 → 23 Nov 10:00 (Weekend Promo) · Garanție: 800 lei</div>
-            <div class="item-kit-tags">
-              <span class="kit-chip">Parasolar</span>
-              <span class="kit-chip">Capace față/spate</span>
-              <span class="kit-chip">Husă căptușită</span>
+            <div class="cart-dates">
+              <span class="weekend-discount-pill">Pachet Weekend</span>
+              <span>📅 Vin, 20 Nov 16:00 → Lun, 23 Nov 11:00</span>
+            </div>
+            <div class="cart-tags">
+              <span class="badge badge-neutral">Filtru B+W MRC 82mm</span>
+              <span class="badge badge-neutral">Parasolar</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+              <span style="font-size: 12px; color: var(--color-text-muted);">Garanție alocată: <strong>1.200 RON</strong></span>
+              <button class="cart-remove-btn">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Șterge
+              </button>
             </div>
           </div>
         </div>
 
-        <div style="font-size: 13px; color: var(--color-text-muted); padding: var(--space-md); background: var(--color-surface); border-radius: var(--radius-md); border: 1px dashed var(--color-border); margin-top: var(--space-md);">
-          ℹ️ <strong>Urmărire unități fizice:</strong> Numerele de serie unice (SN) vor fi alocate și inspectate fizic împreună cu tine la ghișeu în momentul predării.
+        <!-- Indicator Vizual Economie Weekend -->
+        <div class="savings-badge-card">
+          <div style="font-size: 32px;">🎉</div>
+          <div style="flex: 1;">
+            <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: #9A3412;">
+              Indicator Economie Pachet Weekend (Model F64 Rent)
+            </div>
+            <div style="font-size: 14px; color: #7C2D12; margin-top: 2px;">
+              Pentru intervalul vineri ora 16:00 – luni ora 11:00 plătești convențional doar <strong>1.5 zile</strong> în loc de 3 zile întregi de chirie!
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div class="savings-num">-315 lei</div>
+            <span style="font-size: 11px; font-weight: 800; color: #9A3412;">Economisit</span>
+          </div>
         </div>
       </div>
 
-      <!-- Sticky Summary -->
-      <div>
-        <div class="summary-card">
-          <h2 style="font-size: 20px; font-weight: 700; margin-bottom: var(--space-md);">Sumar Plată</h2>
+      <!-- Right Summary & Checkout -->
+      <div class="summary-card">
+        <h2 class="summary-header">
+          <span>🧾</span> Sumar Rezervare
+        </h2>
 
-          <div class="summary-row">
-            <span style="color: var(--color-text-muted);">Subtotal chirie:</span>
-            <span>1.100 lei</span>
-          </div>
-          <div class="summary-row">
-            <span style="color: var(--color-text-muted);">Discount Weekend Promo:</span>
-            <span style="color: var(--color-success); font-weight: 600;">-180 lei</span>
-          </div>
-          <div class="summary-row total">
-            <span>Total de plată:</span>
-            <span style="color: var(--color-primary);">920 lei</span>
-          </div>
+        <div class="summary-row">
+          <span style="color: var(--color-text-muted);">Subtotal chirie standard:</span>
+          <span>1.260 RON</span>
+        </div>
+        <div class="summary-row">
+          <span style="color: var(--color-text-muted);">Reducere Weekend Promo (-25%):</span>
+          <span style="color: var(--color-success); font-weight: 800;">- 315 RON</span>
+        </div>
+        <div class="summary-row">
+          <span style="color: var(--color-text-muted);">TVA (19% inclus):</span>
+          <span>150.88 RON</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total Chirie:</span>
+          <span style="color: var(--color-primary);">945 RON</span>
+        </div>
 
-          <div class="deposit-banner">
-            🛡️ <strong>Garanție returnabilă: 2.300 lei</strong><br>
-            <span style="color: var(--color-text-muted);">Se blochează pe card sau cash la ghișeu la predare; se restituie integral la retur.</span>
+        <!-- Sumar Clar al Garanției Returnabile -->
+        <div style="background: #FEF3C7; border: 1.5px solid #FCD34D; border-radius: var(--radius-lg); padding: 14px; margin: var(--space-md) 0; font-size: 13px; color: #78350F;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <strong style="font-size: 14px;">🛡️ Garanție Returnabilă Totală:</strong>
+            <span style="font-size: 16px; font-weight: 900; color: #92400E;">3.700 RON</span>
           </div>
+          <p style="font-size: 12px; line-height: 1.5;">
+            Suma este reținută ca preautorizare pe card la preluarea din ghișeu și se restituie 100% imediat după verificarea kiturilor de către operator.
+          </p>
+        </div>
 
-          <div class="form-minimal">
-            <input type="text" class="input-clean" placeholder="Nume și Prenume" value="Ana Balici">
-            <input type="tel" class="input-clean" placeholder="Număr telefon" value="0722 123 456">
-            <input type="email" class="input-clean" placeholder="Email" value="ana.balici@example.com">
-          </div>
+        <!-- Date Titular Rezervare Demo: Balici Ana -->
+        <div class="form-group">
+          <label class="form-label">Titular Rezervare</label>
+          <input type="text" class="input-warm" value="Balici Ana" readonly style="font-weight: 800; background: #FFF7ED;">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email de Notificare</label>
+          <input type="email" class="input-warm" value="ana.balici@rentcam.ro" readonly style="font-weight: 700; background: #FFF7ED;">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telefon Contact</label>
+          <input type="tel" class="input-warm" value="+40 722 123 456">
+        </div>
 
-          <div style="margin-top: var(--space-lg);">
-            <a href="DS-rent-customer-dashboard.html" class="btn btn-primary btn-large" style="width: 100%;">Confirmă Rezervarea Online</a>
-          </div>
+        <a href="DS-rent-customer-dashboard.html" class="btn btn-primary btn-large" style="width: 100%; margin-top: var(--space-lg); text-align: center;">
+          Confirmă Rezervarea Online
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+
+        <div style="text-align: center; margin-top: 12px;">
+          <a href="DS-rent-help.html" style="font-size: 12px; color: var(--color-text-muted); text-decoration: none;">
+            Cum funcționează preluarea și depozitul? <u>Citește ghidul complet</u>
+          </a>
         </div>
       </div>
     </div>

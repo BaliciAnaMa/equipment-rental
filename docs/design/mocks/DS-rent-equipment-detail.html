@@ -4,261 +4,543 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-equipment-detail · Detaliu echipament | RentCam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
     .detail-grid {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.15fr 0.85fr;
       gap: var(--space-2xl);
       align-items: start;
     }
+    
+    /* Left Gallery & Overview */
     .hero-gallery {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       padding: var(--space-xl);
-      text-align: center;
+      box-shadow: var(--shadow-card);
+      margin-bottom: var(--space-xl);
     }
     .main-img-frame {
       height: 380px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(145deg, rgba(226, 232, 240, 0.4) 0%, rgba(203, 213, 225, 0.7) 100%);
-      border-radius: var(--radius-md);
+      background: radial-gradient(circle at center, #FFFFFF 40%, #FFF7ED 100%);
+      border-radius: var(--radius-lg);
       margin-bottom: var(--space-md);
+      position: relative;
+      overflow: hidden;
+      border: 1.5px solid var(--color-border-subtle);
     }
-    @media (prefers-color-scheme: dark) {
-      .main-img-frame {
-        background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
-      }
+    .main-img-frame img {
+      max-width: 85%;
+      max-height: 85%;
+      object-fit: contain;
+      transition: transform var(--motion-image);
+      filter: drop-shadow(0 14px 20px rgba(78, 38, 12, 0.12));
+    }
+    .main-img-frame:hover img {
+      transform: scale(1.06);
     }
     .thumb-row {
       display: flex;
-      gap: var(--space-sm);
+      gap: 12px;
       justify-content: center;
     }
     .thumb-item {
-      width: 76px;
-      height: 60px;
-      border-radius: var(--radius-sm);
+      width: 80px;
+      height: 64px;
+      border-radius: var(--radius-md);
       border: 2px solid var(--color-border);
-      background: var(--color-bg);
+      background: #FFFFFF;
       cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--motion-fast);
+      padding: 4px;
     }
-    .thumb-item.active {
+    .thumb-item img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .thumb-item.active, .thumb-item:hover {
       border-color: var(--color-primary);
+      box-shadow: 0 2px 8px rgba(225, 29, 72, 0.2);
     }
 
-    /* Tier Selector Pills */
-    .tier-cards {
+    /* Info card details */
+    .info-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-card);
+      margin-bottom: var(--space-xl);
+    }
+    .section-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--color-text);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Ce primești în geanta de transport (Kit Inspector) */
+    .kit-inspector-card {
+      background: #FFFDF9;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      margin: var(--space-xl) 0;
+    }
+    .verified-seal {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-success-bg);
+      border: 1px solid #BBF7D0;
+      color: var(--color-success);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: var(--space-md);
+    }
+    .kit-items-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-xs);
-      background: var(--color-surface);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .kit-box-tactile {
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--motion-fast);
+      cursor: pointer;
+    }
+    .kit-box-tactile:hover {
+      border-color: var(--color-accent-orange);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .kit-box-icon {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+    .kit-box-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--color-text);
+    }
+    .kit-box-sn {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-family: var(--font-mono);
+      margin-top: 2px;
+    }
+
+    /* Rig Compatibility Block (West Buy / LensRentals UX Insp.) */
+    .rig-compat-section {
+      background: #FFF7ED;
+      border: 1.5px solid #FED7AA;
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+    .compat-items-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: var(--space-md);
+    }
+    .compat-item-card {
+      background: #FFFFFF;
+      border: 1.5px solid #FED7AA;
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .compat-thumb {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: #FFFDF9;
       border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: 4px;
+    }
+
+    /* Right Sticky Booking Calculator */
+    .booking-sidebar {
+      position: sticky;
+      top: 90px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      box-shadow: var(--shadow-float);
+    }
+    
+    .tier-pills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
       margin: var(--space-lg) 0;
     }
-    .tier-option {
-      padding: var(--space-sm);
+    .tier-pill {
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 10px 8px;
       text-align: center;
-      border-radius: var(--radius-sm);
       cursor: pointer;
+      background: #FFFDF9;
       transition: all var(--motion-fast);
     }
-    .tier-option.selected {
-      background: var(--color-bg);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--color-border);
+    .tier-pill:hover {
+      border-color: #FDBA74;
+      background: #FFF7ED;
     }
-    .tier-name {
+    .tier-pill.selected {
+      border-color: var(--color-primary);
+      background: #FFF1F2;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.12);
+    }
+    .tier-title {
       font-size: 11px;
+      font-weight: 800;
       text-transform: uppercase;
-      font-weight: 700;
       color: var(--color-text-muted);
     }
-    .tier-val {
+    .tier-pill.selected .tier-title {
+      color: var(--color-primary);
+    }
+    .tier-price {
       font-size: 16px;
+      font-weight: 900;
+      color: var(--color-text);
+      margin-top: 4px;
+    }
+    .tier-pill.selected .tier-price {
+      color: var(--color-primary);
+    }
+
+    .date-box {
+      background: #FFFDF9;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-bottom: 12px;
+    }
+    .date-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--color-accent-orange);
+    }
+    .date-val {
+      font-size: 14px;
       font-weight: 800;
       color: var(--color-text);
       margin-top: 2px;
     }
 
-    /* Calculator Box */
-    .calc-card-modern {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      box-shadow: var(--shadow-card);
+    .calc-breakdown {
+      border-top: 1.5px solid var(--color-border-subtle);
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
     }
-    .date-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-md);
-      margin-bottom: var(--space-md);
-    }
-    .date-box {
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-    }
-    .date-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
-      display: block;
-      margin-bottom: 2px;
-    }
-    .date-input {
-      border: none;
-      background: transparent;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--color-text);
-      width: 100%;
-      outline: none;
-    }
-    .calc-line {
+    .calc-row {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      padding: 8px 0;
       font-size: 14px;
+      margin-bottom: 8px;
     }
-    .calc-line.total {
-      border-top: 1px solid var(--color-border);
-      padding-top: var(--space-md);
-      margin-top: var(--space-xs);
-      font-size: 20px;
-      font-weight: 800;
+    .calc-row.final {
+      font-size: 24px;
+      font-weight: 900;
       color: var(--color-text);
+      border-top: 1.5px solid var(--color-border);
+      padding-top: 12px;
+      margin-top: 12px;
     }
-    .kit-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-sm);
-      margin-top: var(--space-md);
+    .deposit-box {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin: var(--space-md) 0;
+      font-size: 13px;
+      color: #92400E;
     }
-    .kit-item {
-      display: flex;
+    .user-pill-header {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
+      background: #FFF7ED;
+      border: 1.5px solid #FED7AA;
       color: var(--color-text);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .user-avatar-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--color-primary-gradient);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <a href="DS-rent-catalog.html" class="brand-logo"><span>●</span> RentCam</a>
+    <a href="DS-rent-catalog.html" class="brand-logo">
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span>
+    </a>
     <ul class="nav-menu">
       <li><a href="DS-rent-catalog.html" class="nav-link">← Înapoi la Catalog</a></li>
-      <li><a href="DS-rent-booking-cart.html" class="nav-link">Coș <span class="cart-badge">2</span></a></li>
+      <li><a href="DS-rent-help.html" class="nav-link help-link">📖 Ghid Închiriere & FAQ</a></li>
     </ul>
+    <div class="header-actions">
+      <!-- Autentificat Demo: Balici Ana -->
+      <a href="DS-rent-customer-dashboard.html" class="user-pill-header">
+        <div class="user-avatar-circle">BA</div>
+        <span>Balici Ana</span>
+      </a>
+      <a href="DS-rent-booking-cart.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+        Coș <span class="cart-badge">2</span>
+      </a>
+    </div>
   </header>
 
   <div class="page-container">
-    <div class="figma-tag">DS-rent-equipment-detail · Detaliu echipament</div>
+    <div class="figma-tag">DS-rent-equipment-detail · Kit Inspector & Compatibilitate Rig (F64 Studio Light Theme)</div>
 
     <div class="detail-grid">
-      <!-- Media Showcase -->
+      <!-- Left Column: Gallery, Specs & Kit Inspector -->
       <div>
         <div class="hero-gallery">
           <div class="main-img-frame">
-            <svg width="180" height="140" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.6">
-              <path d="M23 7l-7 5 7 5V7z"></path>
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-            </svg>
+            <img id="mainImg" src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80" alt="Sony FX3">
           </div>
           <div class="thumb-row">
-            <div class="thumb-item active"></div>
-            <div class="thumb-item"></div>
-            <div class="thumb-item"></div>
-            <div class="thumb-item"></div>
+            <div class="thumb-item active" onclick="switchImg('https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80', this)">
+              <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=200&q=80" alt="Față">
+            </div>
+            <div class="thumb-item" onclick="switchImg('https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=800&q=80', this)">
+              <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=200&q=80" alt="Spate">
+            </div>
+            <div class="thumb-item" onclick="switchImg('https://images.unsplash.com/photo-1589872782756-324e94b29bb8?auto=format&fit=crop&w=800&q=80', this)">
+              <img src="https://images.unsplash.com/photo-1589872782756-324e94b29bb8?auto=format&fit=crop&w=200&q=80" alt="Kit accesorii">
+            </div>
           </div>
         </div>
 
-        <div style="margin-top: var(--space-xl);">
-          <h3 style="font-size: 16px; font-weight: 700; margin-bottom: var(--space-xs);">Kit accesorii incluse obligatoriu:</h3>
-          <div class="kit-grid">
-            <div class="kit-item"><span style="color: var(--color-success); font-weight: 700;">✓</span> Corp FX3 cu capac senzor</div>
-            <div class="kit-item"><span style="color: var(--color-success); font-weight: 700;">✓</span> Mâner audio XLR-H1</div>
-            <div class="kit-item"><span style="color: var(--color-success); font-weight: 700;">✓</span> 2x Baterii NP-FZ100 (100%)</div>
-            <div class="kit-item"><span style="color: var(--color-success); font-weight: 700;">✓</span> Încărcător dual USB-C</div>
-            <div class="kit-item"><span style="color: var(--color-success); font-weight: 700;">✓</span> Cage de protecție modular</div>
-            <div class="kit-item"><span style="color: var(--color-success); font-weight: 700;">✓</span> Geantă semirigidă transport</div>
+        <!-- Description -->
+        <div class="info-card">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+            <span class="badge badge-weekend badge-weekend-pulse">Model Recomandat Weekend</span>
+            <span style="font-size: 13px; color: var(--color-success); font-weight: 800;">✓ 2 unități fizice gata de livrare</span>
           </div>
+          <h1 style="font-size: 28px; font-weight: 900; margin-bottom: 8px;">Sony FX3 Full-Frame Cinema Line</h1>
+          <p style="color: var(--color-text-muted); line-height: 1.6; margin-bottom: var(--space-md);">
+            Cameră compactă dedicată producțiilor cinematografice independente, spoturilor comerciale și transmisiunilor live. Senzor Full-Frame retroiluminat de 12.1 MP, înregistrare 4K 120p în 10-bit 4:2:2, montură Sony E-Mount nativă și profil de culoare S-Cinetone.
+          </p>
+
+          <!-- Kit Inspector: Ce primești în geantă -->
+          <div class="kit-inspector-card">
+            <div class="verified-seal">
+              <span>🛡️</span> Sigiliu: Verificat tehnic ultrasonic & test funcțional înainte de predare
+            </div>
+            <h3 class="section-heading" style="font-size: 16px;">
+              📦 Ce primești în geanta semirigidă Manfrotto (Kit Inspector):
+            </h3>
+            <div class="kit-items-grid">
+              <div class="kit-box-tactile">
+                <span class="kit-box-icon">📷</span>
+                <span class="kit-box-name">Corp Sony FX3</span>
+                <span class="kit-box-sn">Capac senzor inclus</span>
+              </div>
+              <div class="kit-box-tactile">
+                <span class="kit-box-icon">🎙️</span>
+                <span class="kit-box-name">Top Handle XLR</span>
+                <span class="kit-box-sn">2 intrări XLR/TRS</span>
+              </div>
+              <div class="kit-box-tactile">
+                <span class="kit-box-icon">🔋</span>
+                <span class="kit-box-name">2x Baterii NP-FZ100</span>
+                <span class="kit-box-sn">Originale Sony 2280mAh</span>
+              </div>
+              <div class="kit-box-tactile">
+                <span class="kit-box-icon">⚡</span>
+                <span class="kit-box-name">Încărcător Dual</span>
+                <span class="kit-box-sn">Alimentare USB-C PD</span>
+              </div>
+              <div class="kit-box-tactile">
+                <span class="kit-box-icon">🔌</span>
+                <span class="kit-box-name">Cablu HDMI 4K</span>
+                <span class="kit-box-sn">Full-Size High Speed</span>
+              </div>
+              <div class="kit-box-tactile">
+                <span class="kit-box-icon">💼</span>
+                <span class="kit-box-name">Geantă Manfrotto</span>
+                <span class="kit-box-sn">Compartimentată Pro</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compatibilitate Rig 100% (Recomandări inteligente) -->
+          <div class="rig-compat-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h3 style="font-size: 16px; font-weight: 800; color: #9A3412;">
+                  🎯 Recomandat pentru acest rig (Compatibilitate 100% Sony E-Mount)
+                </h3>
+                <p style="font-size: 12px; color: #7C2D12; margin-top: 2px;">
+                  Adaugă optică și grip compatibile direct din stoc pentru o producție completă.
+                </p>
+              </div>
+            </div>
+
+            <div class="compat-items-row">
+              <div class="compat-item-card">
+                <img src="https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=120&q=80" class="compat-thumb" alt="Sony 24-70">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; font-weight: 800;">Sony 24-70mm f/2.8 GM II</div>
+                  <div style="font-size: 12px; color: var(--color-primary); font-weight: 800;">+270 lei / weekend</div>
+                </div>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;">
+                  + Adaugă
+                </button>
+              </div>
+
+              <div class="compat-item-card">
+                <img src="https://images.unsplash.com/photo-1589872782756-324e94b29bb8?auto=format&fit=crop&w=120&q=80" class="compat-thumb" alt="DJI RS 3 Pro">
+                <div style="flex: 1;">
+                  <div style="font-size: 13px; font-weight: 800;">DJI RS 3 Pro Combo</div>
+                  <div style="font-size: 12px; color: var(--color-primary); font-weight: 800;">+240 lei / weekend</div>
+                </div>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;">
+                  + Adaugă
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- Pricing & Reservation Calculator -->
-      <div>
-        <div style="display: flex; gap: var(--space-sm); align-items: center; margin-bottom: var(--space-xs);">
-          <span class="badge badge-success">3 unități disponibile</span>
-          <span class="badge badge-primary">Weekend Promo</span>
-        </div>
-        <h1 class="page-title">Sony FX3 Cinema Line</h1>
-        <p class="page-subtitle" style="margin-bottom: var(--space-lg);">Senzor Full-Frame 4K 120p, 15+ trepte dynamic range, profil culoare S-Cinetone.</p>
+      <!-- Right Column: Interactive Booking Calculator -->
+      <div class="booking-sidebar">
+        <span class="badge badge-weekend" style="margin-bottom: 10px;">⚡ Calculator Tarif Inteligent</span>
+        <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 4px;">Configurează Închirierea</h2>
+        <p style="font-size: 13px; color: var(--color-text-muted); margin-bottom: var(--space-md);">Sistemul aplică automat cel mai avantajos pachet conform grilei F64 Rent.</p>
 
-        <!-- Tier Grid -->
-        <div class="tier-cards">
-          <div class="tier-option">
-            <div class="tier-name">Orar</div>
-            <div class="tier-val">120 lei</div>
+        <!-- Tier Pills -->
+        <div class="tier-pills-grid">
+          <div class="tier-pill" onclick="selectTier('1day', 450, this)">
+            <div class="tier-title">1 Zi (24h)</div>
+            <div class="tier-price">450 lei</div>
           </div>
-          <div class="tier-option">
-            <div class="tier-name">Zilnic (24h)</div>
-            <div class="tier-val">450 lei</div>
+          <div class="tier-pill selected" onclick="selectTier('weekend', 675, this)">
+            <div class="tier-title">Weekend 🎉</div>
+            <div class="tier-price">675 lei</div>
           </div>
-          <div class="tier-option selected">
-            <div class="tier-name" style="color: var(--color-primary);">Weekend</div>
-            <div class="tier-val" style="color: var(--color-primary);">650 lei</div>
-          </div>
-          <div class="tier-option">
-            <div class="tier-name">Săptămână</div>
-            <div class="tier-val">1.800 lei</div>
+          <div class="tier-pill" onclick="selectTier('week', 1800, this)">
+            <div class="tier-title">7 Zile</div>
+            <div class="tier-price">1.800 lei</div>
           </div>
         </div>
 
-        <!-- Calculator Card -->
-        <div class="calc-card-modern">
-          <h3 style="font-size: 16px; font-weight: 700; margin-bottom: var(--space-md);">Calculator Tarif Optim</h3>
+        <!-- Interval dates -->
+        <div class="date-box">
+          <div class="date-label">Interval Pachet Weekend (Vineri - Luni)</div>
+          <div class="date-val">📅 Vin, 20 Nov 16:00 → Lun, 23 Nov 11:00</div>
+          <div style="font-size: 12px; color: #C2410C; margin-top: 4px; font-weight: 700;">
+            Client titular: <strong>Balici Ana</strong> (Economie 225 lei)
+          </div>
+        </div>
 
-          <div class="date-row">
-            <div class="date-box">
-              <span class="date-label">Preluare</span>
-              <input type="text" class="date-input" value="Vin, 20 Nov · 16:00">
-            </div>
-            <div class="date-box">
-              <span class="date-label">Returnare</span>
-              <input type="text" class="date-input" value="Lun, 23 Nov · 10:00">
-            </div>
-          </div>
+        <div class="deposit-box">
+          <strong>🛡️ Garanție rambursabilă (Depozit): 2.500 RON</strong>
+          <p style="margin-top: 4px; font-size: 12px;">Se blochează pe cardul bancar la preluarea din ghișeu și se deblochează instant la returnare.</p>
+        </div>
 
-          <div class="calc-line">
-            <span style="color: var(--color-text-muted);">Durată selectată:</span>
-            <span>66 ore (Weekend Promo)</span>
+        <!-- Cost breakdown -->
+        <div class="calc-breakdown">
+          <div class="calc-row">
+            <span style="color: var(--color-text-muted);">Pachet selectat:</span>
+            <strong id="selectedTierLabel">Weekend Special (1.5 zile)</strong>
           </div>
-          <div class="calc-line">
-            <span style="color: var(--color-text-muted);">Garanție returnabilă (reținută la ghișeu):</span>
-            <span style="font-weight: 600;">1.500 lei</span>
+          <div class="calc-row">
+            <span style="color: var(--color-text-muted);">Tarif chirie:</span>
+            <strong id="rentPrice">675 RON</strong>
           </div>
-          <div class="calc-line total">
-            <span>Tarif optim calculat:</span>
-            <span style="color: var(--color-primary);">650 lei</span>
+          <div class="calc-row">
+            <span style="color: var(--color-text-muted);">Depozit rambursabil:</span>
+            <span>2.500 RON</span>
           </div>
+          <div class="calc-row final">
+            <span>Total de plată:</span>
+            <span style="color: var(--color-primary);" id="totalPrice">675 RON</span>
+          </div>
+        </div>
 
-          <div style="margin-top: var(--space-lg);">
-            <a href="DS-rent-booking-cart.html" class="btn btn-primary btn-large" style="width: 100%;">Adaugă în rezervare · 650 lei</a>
-          </div>
+        <div style="margin-top: var(--space-xl); display: flex; flex-direction: column; gap: 10px;">
+          <a href="DS-rent-booking-cart.html" class="btn btn-primary btn-large" style="width: 100%;">
+            Adaugă în Coșul de Rezervare
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="DS-rent-help.html" class="btn btn-secondary" style="width: 100%; text-align: center;">
+            Ai întrebări despre garanție? Vezi FAQ
+          </a>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    function switchImg(src, el) {
+      document.getElementById('mainImg').src = src;
+      document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function selectTier(type, price, el) {
+      document.querySelectorAll('.tier-pill').forEach(p => p.classList.remove('selected'));
+      el.classList.add('selected');
+      
+      const label = type === '1day' ? '1 Zi Standard (24h)' : (type === 'weekend' ? 'Weekend Special (1.5 zile)' : 'Pachet Săptămânal (7 zile)');
+      document.getElementById('selectedTierLabel').innerText = label;
+      document.getElementById('rentPrice').innerText = price + ' RON';
+      document.getElementById('totalPrice').innerText = price + ' RON';
+    }
+  </script>
 </body>
 </html>

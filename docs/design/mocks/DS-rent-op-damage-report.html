@@ -4,24 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DS-rent-op-damage-report · Raport Daună | RentCam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
     .damage-card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
+      background: #FFFFFF;
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
       padding: var(--space-xl);
       margin-bottom: var(--space-lg);
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-card);
     }
     .photo-area {
-      border: 2px dashed var(--color-border);
+      border: 2px dashed #FED7AA;
       border-radius: var(--radius-lg);
       padding: var(--space-xl);
       text-align: center;
-      background: var(--color-bg);
+      background: #FFFDF9;
       cursor: pointer;
       margin-bottom: var(--space-md);
+      transition: all var(--motion-fast);
+    }
+    .photo-area:hover {
+      border-color: var(--color-primary);
+      background: #FFF7ED;
     }
     .thumb-grid {
       display: grid;
@@ -30,93 +38,111 @@
       margin-top: var(--space-md);
     }
     .thumb-evidence {
-      height: 140px;
-      background: linear-gradient(145deg, #e2e8f0 0%, #cbd5e1 100%);
+      height: 150px;
       border-radius: var(--radius-md);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       font-size: 12px;
-      font-weight: 600;
-      color: #475569;
+      font-weight: 700;
+      color: var(--color-text);
       position: relative;
-      border: 1px solid var(--color-border);
+      border: 1.5px solid var(--color-border);
+      overflow: hidden;
+      background: #FFF7ED;
     }
-    @media (prefers-color-scheme: dark) {
-      .thumb-evidence { background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%); color: #94a3b8; }
+    .thumb-evidence img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .s3-pill {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      right: 6px;
+      background: rgba(28, 25, 23, 0.85);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      padding: 3px 6px;
+      border-radius: 4px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
   <header class="site-header">
-    <a href="DS-rent-op-dashboard.html" class="brand-logo"><span>●</span> RentCam · Raport Daună</a>
-    <a href="DS-rent-op-checkin.html" class="nav-link">← Înapoi la Check-In</a>
+    <a href="DS-rent-op-dashboard.html" class="brand-logo">
+      <div class="brand-badge">R</div>
+      RentCam<span class="dot">.</span> <span style="font-size: 15px; font-weight: 700; color: var(--color-text-muted);">· Raport Daună & Dovezi Foto</span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="DS-rent-op-checkin.html" class="nav-link">← Înapoi la Check-In Retur</a></li>
+      <li><a href="DS-rent-help.html" class="nav-link help-link">📖 Ghid Închiriere & FAQ</a></li>
+    </ul>
   </header>
 
-  <div class="page-container" style="max-width: 820px;">
-    <div class="figma-tag">DS-rent-op-damage-report · Raport de daună cu poze</div>
+  <div class="page-container" style="max-width: 860px;">
+    <div class="figma-tag">DS-rent-op-damage-report · Raport de daună cu poze S3 (F64 Studio Light Theme)</div>
     <div class="page-header">
       <h1 class="page-title" style="color: var(--color-danger);">Raport Daună #DMG-2026-012</h1>
-      <p class="page-subtitle">Unitate: <strong>Sony FX3 (SN: SN-FX3-1002)</strong> · Rezervare #RC-2026-084 · Client: Ana Balici</p>
+      <p class="page-subtitle">Unitate: <strong>Sony FE 24-70mm f/2.8 GM II (SN: SN-GM2470-302194)</strong> · Rezervare #RC-2026-084 · Client: Ana Balici</p>
     </div>
 
     <div class="damage-card">
-      <span class="segment-label">Tip & Gravitate Avarie</span>
+      <span class="segment-label">Tip & Gravitate Avarie Constatată</span>
       <div style="display: flex; gap: var(--space-sm); margin: var(--space-sm) 0 var(--space-lg); flex-wrap: wrap;">
-        <span class="badge badge-danger" style="font-size: 13px; padding: 6px 14px;">Defect Optic / Senzor Zgâriat</span>
-        <span class="badge badge-warning" style="font-size: 13px; padding: 6px 14px;">Gravitate: Medie (Necesită Service Autorizat)</span>
+        <span class="badge badge-danger" style="font-size: 13px; padding: 6px 14px;">Defect Optic / Lentilă Frontală Zgâriată</span>
+        <span class="badge badge-warning" style="font-size: 13px; padding: 6px 14px;">Gravitate: Medie (Necesită Service Autorizat Sony)</span>
       </div>
 
-      <span class="segment-label">Descriere Tehnică Constatată la Ghișeu</span>
-      <p style="font-size: 14px; margin: var(--space-xs) 0 var(--space-lg); padding: var(--space-md); background: var(--color-bg); border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-        Elementul frontal prezintă o zgârietură vizibilă de 4mm ce afectează calitatea imaginii. De asemenea, încărcătorul dual USB-C lipsește din kit.
+      <span class="segment-label">Descriere Tehnică Constatată la Recepție</span>
+      <p style="font-size: 14px; margin: var(--space-xs) 0 var(--space-lg); padding: var(--space-md); background: #FFFDF9; border-radius: var(--radius-md); border: 1.5px solid var(--color-border); line-height: 1.6;">
+        Elementul frontal optic prezintă o zgârietură vizibilă de 4mm ce afectează calitatea imaginii în unghiuri cu lumină directă. De asemenea, parasolarul original prezintă urme de șoc mecanic pe baionetă.
       </p>
 
-      <!-- Zona Foto Doveditoare -->
-      <span class="segment-label">Fotografii Doveditoare Obligatorii (3 atașate)</span>
+      <!-- Zona Foto Doveditoare S3 conform D-006 -->
+      <span class="segment-label">Fotografii Doveditoare Obligatorii Stocate în AWS S3 (3 atașate)</span>
       <div class="photo-area">
-        <div style="font-size: 32px; margin-bottom: 4px;">📸</div>
-        <div style="font-weight: 700; font-size: 15px;">Trage fotografiile de înaltă rezoluție aici</div>
-        <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 2px;">JPG, PNG cu timestamp și serie aplicată automat</div>
+        <div style="font-size: 36px; margin-bottom: 6px;">📸</div>
+        <div style="font-weight: 800; font-size: 15px;">Trage fotografiile de înaltă rezoluție sau fă poză cu camera tabletei</div>
+        <div style="font-size: 12px; color: var(--color-text-muted); margin-top: 4px;">Fișierele se încarcă direct în bucket-ul Amazon S3 (fără BLOB-uri în MySQL conform D-006).</div>
       </div>
 
       <div class="thumb-grid">
         <div class="thumb-evidence">
-          <span>🔍 Detaliu zgârietură</span>
-          <span style="font-size: 10px; color: var(--color-danger); margin-top: 4px;">Macro 100mm</span>
+          <img src="https://images.unsplash.com/photo-1617005082133-548c4dd27f35?auto=format&fit=crop&w=400&q=80" alt="Zgârietură element">
+          <div class="s3-pill">s3://rentcam-media/damage-reports/dmg-012/front-scratch.webp</div>
         </div>
         <div class="thumb-evidence">
-          <span>🏷️ Serie fizică SN-FX3-1002</span>
-          <span style="font-size: 10px; color: var(--color-text-muted); margin-top: 4px;">Bază carcasă</span>
+          <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=400&q=80" alt="Detaliu baionetă">
+          <div class="s3-pill">s3://rentcam-media/damage-reports/dmg-012/mount-mark.webp</div>
         </div>
         <div class="thumb-evidence">
-          <span>🎒 Geantă kit fără încărcător</span>
-          <span style="font-size: 10px; color: var(--color-warning); margin-top: 4px;">Vedere ansamblu</span>
+          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=400&q=80" alt="Ansamblu kit">
+          <div class="s3-pill">s3://rentcam-media/damage-reports/dmg-012/serial-overview.webp</div>
         </div>
       </div>
+
+      <div style="margin-top: var(--space-xl); display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid var(--color-border); padding-top: var(--space-lg);">
+        <div>
+          <span style="font-size: 12px; color: var(--color-text-muted); font-weight: 700; text-transform: uppercase;">Sumă Estimat Reparație / Reținere Depozit:</span>
+          <div style="font-size: 22px; font-weight: 900; color: var(--color-danger);">500 RON</div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-secondary">Salvează Draft</button>
+          <button class="btn btn-primary" onclick="alert('Raportul a fost salvat și sincronizat cu dosarul clientului și S3!')">
+            Aprobă Raportul & Blochează Unitatea în Service →
+          </button>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Impact Financiar -->
-    <div class="damage-card" style="border-left: 4px solid var(--color-danger);">
-      <h2 style="font-size: 16px; font-weight: 700; margin-bottom: var(--space-sm);">Impact Financiar pe Garanție</h2>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0;">
-        <span>Garanție blocată la predare:</span> <strong>1.500 lei</strong>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; color: var(--color-danger);">
-        <span>Cost estimat înlocuire element senzor:</span> <strong>-700 lei</strong>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 14px; padding: 4px 0; color: var(--color-danger);">
-        <span>Contravaloare încărcător lipsă:</span> <strong>-250 lei</strong>
-      </div>
-      <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; border-top: 1px solid var(--color-border); padding-top: var(--space-sm); margin-top: var(--space-xs); color: var(--color-primary);">
-        <span>Rest de restituit clientului:</span> <span>550 lei</span>
-      </div>
-    </div>
-
-    <div style="margin-top: var(--space-xl);">
-      <a href="DS-rent-op-maintenance.html" class="btn btn-danger btn-large" style="width: 100%;">Salvează Raportul & Blochează Unitatea în Service</a>
-    </div>
   </div>
 </body>
 </html>
