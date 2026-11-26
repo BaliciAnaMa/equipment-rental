@@ -76,6 +76,23 @@ export default function LoginPage({ onLoginSuccess }) {
     }
   }
 
+  // Buton rapid Demo Operator Ghișeu conectat la API backend cu contul de operator din MySQL
+  const handleDemoOperator = async () => {
+    setMesaj('')
+    setSeIncarca(true)
+    try {
+      const raspuns = await authApi.login('operator@rentcam.ro', 'parola123')
+      const utilizator = raspuns.utilizator
+      seteazaUtilizatorCurent(utilizator)
+      if (onLoginSuccess) onLoginSuccess(utilizator)
+      navigate('/operator')
+    } catch (err) {
+      setMesaj(err.message || 'Eroare la autentificarea contului de operator demo.')
+    } finally {
+      setSeIncarca(false)
+    }
+  }
+
   return (
     <div style={styles.pageWrapper}>
       <div style={styles.card}>
@@ -185,18 +202,39 @@ export default function LoginPage({ onLoginSuccess }) {
         {/* Buton rapid Demo Client */}
         <div style={styles.demoSection}>
           <div style={styles.demoTitle}>Acces Rapid Demonstrativ (MySQL)</div>
-          <button
-            type="button"
-            onClick={handleDemoClient}
-            style={styles.demoBtn}
-            disabled={seIncarca}
-          >
-            <span style={styles.demoBtnIcon}>🎬</span>
-            <div>
-              <div style={styles.demoBtnName}>Intră ca Client Demo (Andrei Ionescu)</div>
-              <div style={styles.demoBtnEmail}>client@rentcam.ro • Parola: parola123</div>
-            </div>
-          </button>
+          <div style={styles.demoButtonsGrid}>
+            <button
+              type="button"
+              onClick={handleDemoClient}
+              style={styles.demoBtn}
+              disabled={seIncarca}
+            >
+              <span style={styles.demoBtnIcon}>🎬</span>
+              <div>
+                <div style={styles.demoBtnName}>Client Demo (Andrei Ionescu)</div>
+                <div style={styles.demoBtnEmail}>client@rentcam.ro • Parola: parola123</div>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDemoOperator}
+              style={{
+                ...styles.demoBtn,
+                background: '#FEF2F2',
+                borderColor: '#FECACA'
+              }}
+              disabled={seIncarca}
+            >
+              <span style={styles.demoBtnIcon}>📋</span>
+              <div>
+                <div style={{ ...styles.demoBtnName, color: 'var(--color-primary)' }}>
+                  Demo Operator Ghișeu (RentCam)
+                </div>
+                <div style={styles.demoBtnEmail}>operator@rentcam.ro • Parola: parola123</div>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -317,6 +355,11 @@ const styles = {
     color: 'var(--color-accent-orange)',
     textAlign: 'center',
     marginBottom: '12px'
+  },
+  demoButtonsGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px'
   },
   demoBtn: {
     width: '100%',

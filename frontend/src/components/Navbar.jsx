@@ -57,6 +57,14 @@ export default function Navbar({ utilizatorCurent, onLogout }) {
             Ghid Închiriere & FAQ
           </Link>
 
+          {/* Link Panou Ghișeu pentru operator / admin */}
+          {utilizatorCurent && (utilizatorCurent.rol === 'operator' || utilizatorCurent.rol === 'admin') && (
+            <Link to="/operator" style={styles.operatorNavLink}>
+              <span style={styles.operatorIcon}>📋</span>
+              <span>Panou Ghișeu</span>
+            </Link>
+          )}
+
           {/* Vizibile DOAR pentru client logat: Rezervările mele și Coșul */}
           {utilizatorCurent && (
             <>
@@ -171,6 +179,23 @@ const styles = {
     padding: '8px 12px',
     borderRadius: 'var(--radius-sm)',
     transition: 'all var(--motion-fast)'
+  },
+  operatorNavLink: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    textDecoration: 'none',
+    fontSize: '13px',
+    fontWeight: '800',
+    color: '#B91C1C',
+    backgroundColor: '#FEF2F2',
+    border: '1.5px solid #FECACA',
+    padding: '6px 12px',
+    borderRadius: 'var(--radius-full)',
+    transition: 'all var(--motion-fast)'
+  },
+  operatorIcon: {
+    fontSize: '14px'
   },
   cartButton: {
     display: 'inline-flex',

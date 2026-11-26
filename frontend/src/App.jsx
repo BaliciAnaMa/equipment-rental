@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import CatalogPage from './pages/CatalogPage'
 import EquipmentDetailPage from './pages/EquipmentDetailPage'
@@ -7,6 +7,7 @@ import CartPage from './pages/CartPage'
 import MyBookingsPage from './pages/MyBookingsPage'
 import HelpPage from './pages/HelpPage'
 import LoginPage from './pages/LoginPage'
+import OperatorDashboardPage from './pages/OperatorDashboardPage'
 import { obtineUtilizatorCurent } from './data/utilizatoriDemo'
 import './styles/theme.css'
 
@@ -60,6 +61,18 @@ export default function App() {
           <Route
             path="/rezervarile-mele"
             element={<MyBookingsPage utilizatorCurent={utilizatorCurent} />}
+          />
+
+          {/* Pagina Operator Ghișeu (Protejată: doar rol operator sau admin) */}
+          <Route
+            path="/operator"
+            element={
+              utilizatorCurent && (utilizatorCurent.rol === 'operator' || utilizatorCurent.rol === 'admin') ? (
+                <OperatorDashboardPage utilizatorCurent={utilizatorCurent} />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
           />
 
           {/* Pagina de Autentificare */}
