@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ECHIPAMENTE_DEMO } from '../data/echipamenteDemo'
 import { adaugaInCos } from '../data/cosDemo'
 
@@ -9,8 +9,9 @@ const PALIERI_TARIF = [
   { id: '7 Zile', titlu: '7 Zile (Săptămână)', detaliu: 'Reducere volum' }
 ]
 
-export default function EquipmentDetailPage() {
+export default function EquipmentDetailPage({ utilizatorCurent }) {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [tipTarifSelectat, setTipTarifSelectat] = useState('1 Zi')
   const [mesajAdaugat, setMesajAdaugat] = useState(false)
 
@@ -52,8 +53,13 @@ export default function EquipmentDetailPage() {
 
   const pretCurent = obtinePretCurent()
 
-  // Adăugare în coș cu feedback temporar
+  // Adăugare în coș cu feedback temporar sau redirecționare spre login dacă nu e logat
   const handleAdaugareInCos = () => {
+    if (!utilizatorCurent) {
+      navigate('/login')
+      return
+    }
+
     adaugaInCos(echipament, tipTarifSelectat)
     setMesajAdaugat(true)
 

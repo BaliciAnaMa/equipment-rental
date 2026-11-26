@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { logoutUtilizator } from '../data/utilizatoriDemo'
-import { numarProduseCos, EVENIMENT_ACTUALIZARE_COS } from '../data/cosDemo'
+import { numarProduseCos, golesteCos, NUME_EVENIMENT_COS } from '../data/cosDemo'
 
 export default function Navbar({ utilizatorCurent, onLogout }) {
   const navigate = useNavigate()
@@ -9,22 +9,24 @@ export default function Navbar({ utilizatorCurent, onLogout }) {
 
   // Ascultă actualizările coșului din localStorage
   useEffect(() => {
-    setNumarArticoleCos(numarProduseCos())
-
-    const handleActualizareCos = () => {
+    const actualizeazaContor = () => {
       setNumarArticoleCos(numarProduseCos())
     }
 
-    window.addEventListener(EVENIMENT_ACTUALIZARE_COS, handleActualizareCos)
-    window.addEventListener('storage', handleActualizareCos)
+    actualizeazaContor()
+
+    window.addEventListener(NUME_EVENIMENT_COS, actualizeazaContor)
+    window.addEventListener('storage', actualizeazaContor)
 
     return () => {
-      window.removeEventListener(EVENIMENT_ACTUALIZARE_COS, handleActualizareCos)
-      window.removeEventListener('storage', handleActualizareCos)
+      window.removeEventListener(NUME_EVENIMENT_COS, actualizeazaContor)
+      window.removeEventListener('storage', actualizeazaContor)
     }
   }, [])
 
   const handleLogout = () => {
+    // La ieșire, golim și coșul pentru o sesiune curată
+    golesteCos()
     logoutUtilizator()
     if (onLogout) onLogout()
     navigate('/login')
@@ -50,14 +52,23 @@ export default function Navbar({ utilizatorCurent, onLogout }) {
             Catalog
           </Link>
 
-          {/* Buton Coș cu contor dinamic */}
-          <Link to="/cos" style={styles.cartButton}>
-            <span style={styles.cartIcon}>🛒</span>
-            <span style={styles.cartLabel}>Coș</span>
-            {numarArticoleCos > 0 && (
-              <span style={styles.cartBadge}>{numarArticoleCos}</span>
-            )}
-          </Link>
+          {/* Vizibile DOAR pentru client logat: Rezervările mele și Coșul */}
+          {utilizatorCurent && (
+            <>
+              <Link to="/rezervarile-mele" style={styles.navLink}>
+                Rezervările mele
+              </Link>
+
+              {/* Buton Coș cu contor dinamic */}
+              <Link to="/cos" style={styles.cartButton}>
+                <span style={styles.cartIcon}>🛒</span>
+                <span style={styles.cartLabel}>Coș</span>
+                {numarArticoleCos > 0 && (
+                  <span style={styles.cartBadge}>{numarArticoleCos}</span>
+                )}
+              </Link>
+            </>
+          )}
 
           {utilizatorCurent ? (
             <div style={styles.userSection}>

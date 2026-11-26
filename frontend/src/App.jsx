@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import CatalogPage from './pages/CatalogPage'
 import EquipmentDetailPage from './pages/EquipmentDetailPage'
+import CartPage from './pages/CartPage'
+import MyBookingsPage from './pages/MyBookingsPage'
 import LoginPage from './pages/LoginPage'
 import { obtineUtilizatorCurent } from './data/utilizatoriDemo'
 import './styles/theme.css'
@@ -33,10 +35,28 @@ export default function App() {
       <main className="main-content">
         <Routes>
           {/* Pagina principală — Catalogul interactiv de echipamente */}
-          <Route path="/" element={<CatalogPage />} />
+          <Route
+            path="/"
+            element={<CatalogPage utilizatorCurent={utilizatorCurent} />}
+          />
 
           {/* Pagina de Detalii Echipament */}
-          <Route path="/equipment/:id" element={<EquipmentDetailPage />} />
+          <Route
+            path="/equipment/:id"
+            element={<EquipmentDetailPage utilizatorCurent={utilizatorCurent} />}
+          />
+
+          {/* Pagina Coș Rezervare (accesibilă doar clientului logat) */}
+          <Route
+            path="/cos"
+            element={<CartPage utilizatorCurent={utilizatorCurent} />}
+          />
+
+          {/* Pagina Rezervările mele (accesibilă doar clientului logat) */}
+          <Route
+            path="/rezervarile-mele"
+            element={<MyBookingsPage utilizatorCurent={utilizatorCurent} />}
+          />
 
           {/* Pagina de Autentificare */}
           <Route

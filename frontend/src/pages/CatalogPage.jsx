@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ECHIPAMENTE_DEMO } from '../data/echipamenteDemo'
 import { adaugaInCos } from '../data/cosDemo'
 
@@ -11,7 +11,8 @@ const TIPURI_TARIF = [
   { id: '7 Zile', eticheta: '7 Zile (Săptămână)' }
 ]
 
-export default function CatalogPage() {
+export default function CatalogPage({ utilizatorCurent }) {
+  const navigate = useNavigate()
   const [categorieSelectata, setCategorieSelectata] = useState('Toate')
   const [monturaSelectata, setMonturaSelectata] = useState('Toate monturile')
   const [tipTarif, setTipTarif] = useState('1 Zi')
@@ -48,8 +49,13 @@ export default function CatalogPage() {
     }
   }
 
-  // Adăugare în coș cu feedback temporar
+  // Adăugare în coș cu feedback temporar sau redirecționare spre login dacă nu e logat
   const handleAdaugaInCos = (echipament) => {
+    if (!utilizatorCurent) {
+      navigate('/login')
+      return
+    }
+
     adaugaInCos(echipament, tipTarif)
     setFeedbackAdaugat((prev) => ({ ...prev, [echipament.id]: true }))
 
