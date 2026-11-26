@@ -8,6 +8,175 @@ const { verificaToken } = require('../middleware/auth');
 // Toate rutele de rezervări necesită autentificare
 router.use(verificaToken);
 
+// Middleware verificare rol operator sau admin
+function verificaRolOperator(req, res, next) {
+  if (req.utilizator && (req.utilizator.rol === 'operator' || req.utilizator.rol === 'admin')) {
+    return next();
+  }
+  return res.status(403).json({ mesaj: 'Acces restricționat. Necesită rol de operator sau admin.' });
+}
+
+// GET /api/rezervari/toate — Returnează toate rezervările pentru panoul operatorului (cu detalii client și articole)
+router.get('/toate', verificaRolOperator, async (req, res) => {
+  try {
+    const { status, q } = req.query;
+
+    let querySql = `
+      SELECT r.*, 
+             u.nume_complet AS client_nume, 
+             u.nume_companie AS client_companie, 
+             u.email AS client_email, 
+             u.telefon AS client_telefon
+      FROM rezervari r
+      JOIN utilizatori u ON r.utilizator_id = u.id
+      WHERE 1=1
+    `;
+    const params = [];
+
+    if (status && status !== 'toate') {
+      querySql += ' AND r.status = ?';
+      params.push(status);
+    }
+
+    if (q && q.trim()) {
+      querySql += ' AND (r.cod_rezervare LIKE ? OR u.nume_complet LIKE ? OR u.telefon LIKE ? OR u.email LIKE ?)';
+      const cautare = `%${q.trim()}%`;
+      params.push(cautare, cautare, cautare, cautare);
+    }
+
+    querySql += ' ORDER BY r.creat_la DESC, r.id DESC';
+
+    const [rezervari] = await pool.query(querySql, params);
+
+    if (rezervari.length === 0) {
+      return res.json({ rezervari: [] });
+    }
+
+    const rezervareIds = rezervari.map((r) => r.id);
+    const [articole] = await pool.query(
+      `SELECT ar.*, e.nume AS echipament_nume, e.cod_echipament, e.categorie, e.imagine_url
+       FROM articole_rezervare ar
+       JOIN echipamente e ON ar.echipament_id = e.id
+       WHERE ar.rezervare_id IN (?)`,
+      [rezervareIds]
+    );
+
+    const mapArticole = {};
+    for (const a of articole) {
+      if (!mapArticole[a.rezervare_id]) {
+        mapArticole[a.rezervare_id] = [];
+      }
+      mapArticole[a.rezervare_id].push(a);
+    }
+
+    const rezultat = rezervari.map((r) => ({
+      ...r,
+      articole: mapArticole[r.id] || []
+    }));
+
+    return res.json({ rezervari: rezultat });
+  } catch (err) {
+    console.error('Eroare la citirea tuturor rezervărilor:', err);
+    return res.status(500).json({ mesaj: 'Eroare internă la citirea rezervărilor.' });
+  }
+});
+
+// PATCH /api/rezervari/:id/status — Schimbă statusul unei rezervări de către operator (confirmata, anulata etc.)
+router.patch('/:id/status', verificaRolOperator, async (req, res) => {
+  const connection = await pool.getConnection();
+  try {
+    const { id } = req.params;
+    const { statusNou } = req.body;
+
+    const statusuriPermise = ['in_asteptare', 'confirmata', 'predata', 'returnata', 'anulata'];
+    if (!statusuriPermise.includes(statusNou)) {
+      connection.release();
+      return res.status(400).json({ mesaj: `Status invalid. Valori permise: ${statusuriPermise.join(', ')}` });
+    }
+
+    await connection.beginTransaction();
+
+    let querySelect = 'SELECT * FROM rezervari WHERE id = ? FOR UPDATE';
+    let paramsSelect = [id];
+    if (isNaN(id)) {
+      querySelect = 'SELECT * FROM rezervari WHERE cod_rezervare = ? FOR UPDATE';
+      paramsSelect = [id];
+    }
+
+    const [rezervari] = await connection.query(querySelect, paramsSelect);
+    if (rezervari.length === 0) {
+      await connection.rollback();
+      connection.release();
+      return res.status(404).json({ mesaj: 'Rezervarea nu a fost găsită.' });
+    }
+
+    const rez = rezervari[0];
+    const statusVechi = rez.status;
+
+    // Dacă comutăm pe 'anulata' și nu era deja anulată, refacem stocurile
+    if (statusNou === 'anulata' && statusVechi !== 'anulata') {
+      const [articole] = await connection.query(
+        'SELECT echipament_id, cantitate FROM articole_rezervare WHERE rezervare_id = ?',
+        [rez.id]
+      );
+      for (const art of articole) {
+        await connection.query(
+          `UPDATE echipamente 
+           SET stoc_disponibil = stoc_disponibil + ?,
+               status = 'disponibil'
+           WHERE id = ?`,
+          [art.cantitate, art.echipament_id]
+        );
+      }
+    }
+
+    // Dacă o rezervare anterior anulată este reactivată/confirmată, scădem din nou stocul
+    if (statusVechi === 'anulata' && statusNou !== 'anulata') {
+      const [articole] = await connection.query(
+        'SELECT echipament_id, cantitate FROM articole_rezervare WHERE rezervare_id = ?',
+        [rez.id]
+      );
+      for (const art of articole) {
+        const [echipamente] = await connection.query(
+          'SELECT stoc_disponibil FROM echipamente WHERE id = ? FOR UPDATE',
+          [art.echipament_id]
+        );
+        if (echipamente.length > 0 && echipamente[0].stoc_disponibil < art.cantitate) {
+          await connection.rollback();
+          connection.release();
+          return res.status(400).json({ mesaj: 'Stoc insuficient pentru reactivarea rezervării.' });
+        }
+        await connection.query(
+          `UPDATE echipamente 
+           SET stoc_disponibil = stoc_disponibil - ?,
+               status = IF(stoc_disponibil - ? <= 0, 'indisponibil', status)
+           WHERE id = ?`,
+          [art.cantitate, art.cantitate, art.echipament_id]
+        );
+      }
+    }
+
+    await connection.query(
+      'UPDATE rezervari SET status = ? WHERE id = ?',
+      [statusNou, rez.id]
+    );
+
+    await connection.commit();
+    connection.release();
+
+    return res.json({
+      mesaj: `Statusul rezervării ${rez.cod_rezervare} a fost actualizat la '${statusNou}'.`,
+      rezervare_id: rez.id,
+      status: statusNou
+    });
+  } catch (err) {
+    await connection.rollback();
+    connection.release();
+    console.error('Eroare la actualizarea statusului rezervării:', err);
+    return res.status(500).json({ mesaj: 'Eroare internă la actualizarea statusului.' });
+  }
+});
+
 // GET /api/rezervari/mele — returnează rezervările utilizatorului logat cu articole_rezervare și detaliile echipamentelor
 router.get('/mele', async (req, res) => {
   try {

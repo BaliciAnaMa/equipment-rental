@@ -106,6 +106,21 @@ export const rezervariApi = {
     return await cerereApi('/rezervari/mele');
   },
 
+  async toate({ status, q } = {}) {
+    const params = new URLSearchParams();
+    if (status && status !== 'toate') params.append('status', status);
+    if (q && q.trim()) params.append('q', q.trim());
+    const querystring = params.toString() ? `?${params.toString()}` : '';
+    return await cerereApi(`/rezervari/toate${querystring}`);
+  },
+
+  async actualizeazaStatus(id, statusNou) {
+    return await cerereApi(`/rezervari/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ statusNou })
+    });
+  },
+
   async trimite(dateRezervare) {
     return await cerereApi('/rezervari', {
       method: 'POST',
