@@ -8,6 +8,7 @@ import {
   calculeazaPretUnitar,
   NUME_EVENIMENT_COS
 } from '../data/cosDemo'
+import { rezervariApi } from '../api/client'
 import { adaugaRezervare } from '../data/rezervariDemo'
 
 export default function CartPage({ utilizatorCurent }) {
@@ -19,6 +20,7 @@ export default function CartPage({ utilizatorCurent }) {
   const [dataPredare, setDataPredare] = useState('')
   const [observatii, setObservatii] = useState('')
   const [eroare, setEroare] = useState('')
+  const [seTrimite, setSeTrimite] = useState(false)
 
   // Sincronizare la montare și la schimbări
   const actualizeazaStareCos = () => {
@@ -67,9 +69,10 @@ export default function CartPage({ utilizatorCurent }) {
     stergeDinCos(item.id, item.tipTarif)
   }
 
-  // Trimite comanda de rezervare
-  const handleFinalizeazaRezervare = (e) => {
+  // Trimite comanda de rezervare către API MySQL (cu fallback local dacă serverul nu răspunde)
+  const handleFinalizeazaRezervare = async (e) => {
     e.preventDefault()
+    setEroare('')
 
     if (!utilizatorCurent) {
       setEroare('Trebuie să fii autentificat ca să poți finaliza rezervarea.')
@@ -81,32 +84,55 @@ export default function CartPage({ utilizatorCurent }) {
       return
     }
 
-    // Salvare rezervare nouă
-    adaugaRezervare({
-      clientNume: utilizatorCurent.nume,
-      clientEmail: utilizatorCurent.email,
-      clientCompanie: utilizatorCurent.companie || '',
-      dataRidicare,
-      dataPredare,
-      observatii,
+    setSeTrimite(true)
+
+    // Pregătim datele pentru API
+    const dateRezervareApi = {
       articole: articoleCos.map((item) => ({
-        id: item.id,
-        nume: item.nume,
-        categorie: item.categorie,
-        tipTarif: item.tipTarif,
-        cantitate: item.cantitate,
-        pretUnitar: calculeazaPretUnitar(item),
-        garantie: item.garantie
+        echipament_id: item.id,
+        tip_tarif: item.tipTarif,
+        cantitate: item.cantitate
       })),
-      totalChirie: subtotalChirie,
-      totalGarantie: garantieTotala
-    })
+      data_ridicare: dataRidicare,
+      data_predare: dataPredare,
+      observatii
+    }
 
-    // Golește coșul după plasare
-    golesteCos()
-
-    // Navigare către Rezervările Mele
-    navigate('/rezervarile-mele')
+    try {
+      await rezervariApi.trimite(dateRezervareApi)
+      golesteCos()
+      navigate('/rezervarile-mele')
+    } catch (err) {
+      console.warn('Eroare API la plasarea rezervării:', err.message)
+      // Dacă backend-ul MySQL nu este accesibil pe portul 5000, salvăm și fallback-ul local
+      try {
+        adaugaRezervare({
+          clientNume: utilizatorCurent.nume,
+          clientEmail: utilizatorCurent.email,
+          clientCompanie: utilizatorCurent.companie || '',
+          dataRidicare,
+          dataPredare,
+          observatii,
+          articole: articoleCos.map((item) => ({
+            id: item.id,
+            nume: item.nume,
+            categorie: item.categorie,
+            tipTarif: item.tipTarif,
+            cantitate: item.cantitate,
+            pretUnitar: calculeazaPretUnitar(item),
+            garantie: item.garantie
+          })),
+          totalChirie: subtotalChirie,
+          totalGarantie: garantieTotala
+        })
+        golesteCos()
+        navigate('/rezervarile-mele')
+      } catch (errFallback) {
+        setEroare(err.message || 'Eroare la transmiterea rezervării.')
+      }
+    } finally {
+      setSeTrimite(false)
+    }
   }
 
   // Stare coș gol
@@ -292,9 +318,10 @@ export default function CartPage({ utilizatorCurent }) {
               <button
                 type="button"
                 onClick={handleFinalizeazaRezervare}
+                disabled={seTrimite}
                 style={styles.submitBtn}
               >
-                Trimite rezervarea →
+                {seTrimite ? 'Se trimite rezervarea...' : 'Trimite rezervarea →'}
               </button>
             ) : (
               <Link to="/login" style={styles.loginRedirectBtn}>

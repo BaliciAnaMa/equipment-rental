@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import { echipamenteApi } from '../api/client'
 import { ECHIPAMENTE_DEMO } from '../data/echipamenteDemo'
 import { adaugaInCos } from '../data/cosDemo'
 
@@ -14,13 +15,79 @@ export default function EquipmentDetailPage({ utilizatorCurent }) {
   const navigate = useNavigate()
   const [tipTarifSelectat, setTipTarifSelectat] = useState('1 Zi')
   const [mesajAdaugat, setMesajAdaugat] = useState(false)
+  const [echipament, setEchipament] = useState(null)
+  const [seIncarca, setSeIncarca] = useState(true)
 
-  // Căutare echipament după id
-  const echipament = useMemo(() => {
-    return ECHIPAMENTE_DEMO.find((item) => item.id === id)
+  // Căutare echipament prin API MySQL, cu fallback pe datele locale
+  useEffect(() => {
+    let montat = true
+
+    async function incarcaDetalii() {
+      try {
+        setSeIncarca(true)
+        const date = await echipamenteApi.detalii(id)
+        if (montat && date && date.echipament) {
+          const item = date.echipament
+          const demoItem = ECHIPAMENTE_DEMO.find((d) => d.id === item.cod_echipament || String(d.id) === String(item.id) || d.nume === item.nume)
+
+          setEchipament({
+            id: item.id,
+            cod_echipament: item.cod_echipament,
+            nume: item.nume,
+            categorie: item.categorie,
+            marca: item.marca,
+            montura: demoItem ? demoItem.montura : 'Universal',
+            disponibile: item.stoc_disponibil,
+            stoc_total: item.stoc_total,
+            pretZi: Number(item.pret_1_zi),
+            pretWeekend: Number(item.pret_weekend),
+            pretSaptamana: Number(item.pret_7_zile),
+            garantie: Number(item.garantie),
+            descriereScurta: item.descriere || (demoItem ? demoItem.descriereScurta : ''),
+            descriereLunga: demoItem ? demoItem.descriereLunga : item.descriere,
+            specificatii: demoItem ? demoItem.specificatii : [
+              { eticheta: 'Marcă', valoare: item.marca },
+              { eticheta: 'Categorie', valoare: item.categorie },
+              { eticheta: 'Cod echipament', valoare: item.cod_echipament }
+            ],
+            accesoriiIncluse: demoItem ? demoItem.accesoriiIncluse : [
+              'Corp echipament verificat tehnic',
+              'Acumulatori de rezervă',
+              'Încărcător original',
+              'Geantă transport profesională căptușită'
+            ]
+          })
+        }
+      } catch (err) {
+        console.warn('Eroare la încărcarea echipamentului din API:', err.message)
+        // Fallback din datele demo
+        const gasitLocal = ECHIPAMENTE_DEMO.find((item) => String(item.id) === String(id))
+        if (montat) {
+          setEchipament(gasitLocal || null)
+        }
+      } finally {
+        if (montat) setSeIncarca(false)
+      }
+    }
+
+    incarcaDetalii()
+    return () => {
+      montat = false
+    }
   }, [id])
 
-  // Cazul în care ID-ul nu există în baza de date locală
+  if (seIncarca) {
+    return (
+      <div style={styles.notFoundContainer}>
+        <div style={styles.notFoundCard}>
+          <div style={styles.notFoundIcon}>⏳</div>
+          <h2 style={styles.notFoundTitle}>Se încarcă detaliile echipamentului...</h2>
+        </div>
+      </div>
+    )
+  }
+
+  // Cazul în care ID-ul nu există
   if (!echipament) {
     return (
       <div style={styles.notFoundContainer}>

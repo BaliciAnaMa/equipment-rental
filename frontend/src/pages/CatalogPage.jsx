@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { echipamenteApi } from '../api/client'
 import { ECHIPAMENTE_DEMO } from '../data/echipamenteDemo'
 import { adaugaInCos } from '../data/cosDemo'
 
@@ -13,18 +14,71 @@ const TIPURI_TARIF = [
 
 export default function CatalogPage({ utilizatorCurent }) {
   const navigate = useNavigate()
+  const [listaEchipamente, setListaEchipamente] = useState([])
+  const [seIncarca, setSeIncarca] = useState(true)
+  const [eroareApi, setEroareApi] = useState('')
+
   const [categorieSelectata, setCategorieSelectata] = useState('Toate')
   const [monturaSelectata, setMonturaSelectata] = useState('Toate monturile')
   const [tipTarif, setTipTarif] = useState('1 Zi')
   const [cautareText, setCautareText] = useState('')
   const [feedbackAdaugat, setFeedbackAdaugat] = useState({}) // { [id]: boolean }
 
+  // Încărcare date din MySQL prin API
+  useEffect(() => {
+    let montat = true
+
+    async function incarcaEchipamente() {
+      try {
+        setSeIncarca(true)
+        const date = await echipamenteApi.listeaza()
+        if (montat && date && Array.isArray(date.echipamente)) {
+          // Mapăm datele din tabela `echipamente` MySQL pe formatul folosit în componente
+          const mapate = date.echipamente.map((item) => {
+            const demoItem = ECHIPAMENTE_DEMO.find((d) => d.id === item.cod_echipament || d.nume === item.nume)
+            return {
+              id: item.id,
+              cod_echipament: item.cod_echipament,
+              nume: item.nume,
+              categorie: item.categorie,
+              marca: item.marca,
+              montura: demoItem ? demoItem.montura : 'Universal',
+              disponibile: item.stoc_disponibil,
+              stoc_total: item.stoc_total,
+              pretZi: Number(item.pret_1_zi),
+              pretWeekend: Number(item.pret_weekend),
+              pretSaptamana: Number(item.pret_7_zile),
+              garantie: Number(item.garantie),
+              descriereScurta: item.descriere || (demoItem ? demoItem.descriereScurta : ''),
+              descriereLunga: demoItem ? demoItem.descriereLunga : item.descriere,
+              accesoriiIncluse: demoItem ? demoItem.accesoriiIncluse : ['Acumulator inclus', 'Geantă transport']
+            }
+          })
+          setListaEchipamente(mapate)
+        }
+      } catch (err) {
+        console.warn('Nu s-au putut prelua echipamentele din backend API, folosim date fallback:', err.message)
+        setEroareApi('Nu s-a putut conecta la baza de date MySQL. Se afișează catalogul offline.')
+        if (montat) {
+          setListaEchipamente(ECHIPAMENTE_DEMO)
+        }
+      } finally {
+        if (montat) setSeIncarca(false)
+      }
+    }
+
+    incarcaEchipamente()
+    return () => {
+      montat = false
+    }
+  }, [])
+
   // Filtrare echipamente după text, categorie și montură
   const echipamenteFiltrate = useMemo(() => {
-    return ECHIPAMENTE_DEMO.filter((echipament) => {
+    return listaEchipamente.filter((echipament) => {
       const sePotrivesteText =
-        echipament.nume.toLowerCase().includes(cautareText.toLowerCase()) ||
-        echipament.descriereScurta.toLowerCase().includes(cautareText.toLowerCase())
+        (echipament.nume || '').toLowerCase().includes(cautareText.toLowerCase()) ||
+        (echipament.descriereScurta || '').toLowerCase().includes(cautareText.toLowerCase())
 
       const sePotrivesteCategorie =
         categorieSelectata === 'Toate' || echipament.categorie === categorieSelectata
@@ -34,7 +88,7 @@ export default function CatalogPage({ utilizatorCurent }) {
 
       return sePotrivesteText && sePotrivesteCategorie && sePotrivesteMontura
     })
-  }, [cautareText, categorieSelectata, monturaSelectata])
+  }, [listaEchipamente, cautareText, categorieSelectata, monturaSelectata])
 
   // Calculează prețul afișat în funcție de tariful selectat
   const obtinePretAfisat = (echipament) => {
@@ -160,8 +214,19 @@ export default function CatalogPage({ utilizatorCurent }) {
         </div>
       </section>
 
+      {eroareApi && (
+        <div style={styles.apiWarning}>
+          ℹ️ {eroareApi}
+        </div>
+      )}
+
       {/* Grid Echipamente */}
-      {echipamenteFiltrate.length === 0 ? (
+      {seIncarca ? (
+        <div style={styles.emptyState}>
+          <div style={styles.emptyIcon}>⏳</div>
+          <h3 style={styles.emptyTitle}>Se încarcă catalogul RentCam din MySQL...</h3>
+        </div>
+      ) : echipamenteFiltrate.length === 0 ? (
         <div style={styles.emptyState}>
           <div style={styles.emptyIcon}>🔍</div>
           <h3 style={styles.emptyTitle}>Nu am găsit echipamente</h3>
@@ -413,6 +478,15 @@ const styles = {
     background: '#FFFFFF',
     color: 'var(--color-primary)',
     boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
+  },
+  apiWarning: {
+    background: '#FFFBEB',
+    border: '1.5px solid #FCD34D',
+    color: '#92400E',
+    padding: '10px 14px',
+    borderRadius: 'var(--radius-md)',
+    fontSize: '13px',
+    fontWeight: '700'
   },
   equipmentGrid: {
     display: 'grid',

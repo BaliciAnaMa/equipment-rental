@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { loginClientDemo, seteazaUtilizatorCurent } from '../data/utilizatoriDemo'
+import { authApi } from '../api/client'
+import { seteazaUtilizatorCurent } from '../data/utilizatoriDemo'
 
 export default function LoginPage({ onLoginSuccess }) {
   const navigate = useNavigate()
@@ -11,11 +12,15 @@ export default function LoginPage({ onLoginSuccess }) {
   const [parola, setParola] = useState('')
   const [nume, setNume] = useState('')
   const [companie, setCompanie] = useState('')
+  const [telefon, setTelefon] = useState('')
   const [mesaj, setMesaj] = useState('')
+  const [seIncarca, setSeIncarca] = useState(false)
 
-  // Autentificare prin formular clasic
-  const handleSubmit = (e) => {
+  // Autentificare prin formular conectat la API
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setMesaj('')
+
     if (!email || !parola) {
       setMesaj('Te rugăm să completezi emailul și parola.')
       return
@@ -26,25 +31,49 @@ export default function LoginPage({ onLoginSuccess }) {
       return
     }
 
-    const utilizatorNou = {
-      id: 'usr_' + Date.now(),
-      nume: tabActiv === 'register' ? nume : (email.split('@')[0] || 'Client'),
-      companie: companie || 'Producție Independentă',
-      email: email,
-      rol: 'client',
-      avatar: (nume ? nume.substring(0, 2) : 'CL').toUpperCase()
+    setSeIncarca(true)
+    try {
+      if (tabActiv === 'register') {
+        const raspuns = await authApi.register({
+          nume_complet: nume,
+          nume_companie: companie,
+          email,
+          telefon,
+          parola
+        })
+        const utilizator = raspuns.utilizator
+        seteazaUtilizatorCurent(utilizator)
+        if (onLoginSuccess) onLoginSuccess(utilizator)
+        navigate('/')
+      } else {
+        const raspuns = await authApi.login(email, parola)
+        const utilizator = raspuns.utilizator
+        seteazaUtilizatorCurent(utilizator)
+        if (onLoginSuccess) onLoginSuccess(utilizator)
+        navigate('/')
+      }
+    } catch (err) {
+      setMesaj(err.message || 'A apărut o eroare la autentificare.')
+    } finally {
+      setSeIncarca(false)
     }
-
-    seteazaUtilizatorCurent(utilizatorNou)
-    if (onLoginSuccess) onLoginSuccess(utilizatorNou)
-    navigate('/')
   }
 
-  // Buton rapid Demo Client
-  const handleDemoClient = () => {
-    const client = loginClientDemo()
-    if (onLoginSuccess) onLoginSuccess(client)
-    navigate('/')
+  // Buton rapid Demo Client conectat la API backend cu contul demo din MySQL
+  const handleDemoClient = async () => {
+    setMesaj('')
+    setSeIncarca(true)
+    try {
+      const raspuns = await authApi.login('client@rentcam.ro', 'parola123')
+      const utilizator = raspuns.utilizator
+      seteazaUtilizatorCurent(utilizator)
+      if (onLoginSuccess) onLoginSuccess(utilizator)
+      navigate('/')
+    } catch (err) {
+      setMesaj(err.message || 'Eroare la autentificarea contului demo.')
+    } finally {
+      setSeIncarca(false)
+    }
   }
 
   return (
@@ -98,6 +127,7 @@ export default function LoginPage({ onLoginSuccess }) {
                   placeholder="Ex: Andrei Ionescu"
                   value={nume}
                   onChange={(e) => setNume(e.target.value)}
+                  disabled={seIncarca}
                 />
               </div>
 
@@ -108,6 +138,18 @@ export default function LoginPage({ onLoginSuccess }) {
                   placeholder="Ex: Studio Nord SRL"
                   value={companie}
                   onChange={(e) => setCompanie(e.target.value)}
+                  disabled={seIncarca}
+                />
+              </div>
+
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Telefon (opțional)</label>
+                <input
+                  type="text"
+                  placeholder="Ex: +40 722 000 111"
+                  value={telefon}
+                  onChange={(e) => setTelefon(e.target.value)}
+                  disabled={seIncarca}
                 />
               </div>
             </>
@@ -120,6 +162,7 @@ export default function LoginPage({ onLoginSuccess }) {
               placeholder="nume@studio.ro"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={seIncarca}
             />
           </div>
 
@@ -130,26 +173,28 @@ export default function LoginPage({ onLoginSuccess }) {
               placeholder="••••••••"
               value={parola}
               onChange={(e) => setParola(e.target.value)}
+              disabled={seIncarca}
             />
           </div>
 
-          <button type="submit" className="btn-primary" style={styles.submitBtn}>
-            {tabActiv === 'login' ? 'Intră în cont' : 'Finalizează contul'}
+          <button type="submit" className="btn-primary" style={styles.submitBtn} disabled={seIncarca}>
+            {seIncarca ? 'Se procesează...' : (tabActiv === 'login' ? 'Intră în cont' : 'Finalizează contul')}
           </button>
         </form>
 
         {/* Buton rapid Demo Client */}
         <div style={styles.demoSection}>
-          <div style={styles.demoTitle}>Acces Rapid Demonstrativ</div>
+          <div style={styles.demoTitle}>Acces Rapid Demonstrativ (MySQL)</div>
           <button
             type="button"
             onClick={handleDemoClient}
             style={styles.demoBtn}
+            disabled={seIncarca}
           >
             <span style={styles.demoBtnIcon}>🎬</span>
             <div>
               <div style={styles.demoBtnName}>Intră ca Client Demo (Andrei Ionescu)</div>
-              <div style={styles.demoBtnEmail}>client@rentcam.ro • Studio Nord</div>
+              <div style={styles.demoBtnEmail}>client@rentcam.ro • Parola: parola123</div>
             </div>
           </button>
         </div>

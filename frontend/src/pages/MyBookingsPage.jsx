@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { rezervariApi } from '../api/client'
 import {
   citesteRezervari,
   anuleazaRezervare,
@@ -9,10 +10,66 @@ import {
 export default function MyBookingsPage({ utilizatorCurent }) {
   const navigate = useNavigate()
   const [rezervari, setRezervari] = useState([])
+  const [seIncarca, setSeIncarca] = useState(true)
   const [mesajNotificare, setMesajNotificare] = useState('')
 
-  const actualizeazaLista = () => {
-    setRezervari(citesteRezervari())
+  const formateazaStatusAfisat = (statusSql) => {
+    switch (statusSql) {
+      case 'confirmata':
+      case 'Confirmată':
+        return 'Confirmată'
+      case 'in_asteptare':
+      case 'În așteptare':
+        return 'În așteptare'
+      case 'predata':
+        return 'Predată'
+      case 'returnata':
+        return 'Returnată'
+      case 'anulata':
+      case 'Anulată':
+        return 'Anulată'
+      default:
+        return statusSql || 'În așteptare'
+    }
+  }
+
+  const incarcaRezervariDinApi = async () => {
+    try {
+      setSeIncarca(true)
+      const res = await rezervariApi.mele()
+      if (res && Array.isArray(res.rezervari)) {
+        const mapate = res.rezervari.map((r) => {
+          const dataCreare = r.creat_la ? new Date(r.creat_la).toLocaleDateString('ro-RO') : ''
+          const dataRid = r.data_ridicare ? new Date(r.data_ridicare).toISOString().split('T')[0] : ''
+          const dataPred = r.data_predare ? new Date(r.data_predare).toISOString().split('T')[0] : ''
+
+          return {
+            id: r.cod_rezervare || `RC-2026-${r.id}`,
+            idNumeric: r.id,
+            dataPlasare: dataCreare,
+            dataRidicare: dataRid,
+            dataPredare: dataPred,
+            observatii: r.observatii,
+            totalChirie: Number(r.total_chirie),
+            totalGarantie: Number(r.total_garantie),
+            status: formateazaStatusAfisat(r.status),
+            statusRaw: r.status,
+            articole: (r.articole || []).map((art) => ({
+              nume: art.echipament_nume || 'Echipament',
+              cantitate: art.cantitate,
+              tipTarif: art.tip_tarif === 'weekend' ? 'Weekend -25%' : (art.tip_tarif === '7_zile' ? '7 Zile' : '1 Zi'),
+              pretUnitar: Number(art.pret_unitar)
+            }))
+          }
+        })
+        setRezervari(mapate)
+      }
+    } catch (err) {
+      console.warn('Nu s-au putut încărca rezervările din API MySQL, folosim fallback local:', err.message)
+      setRezervari(citesteRezervari())
+    } finally {
+      setSeIncarca(false)
+    }
   }
 
   useEffect(() => {
@@ -21,19 +78,33 @@ export default function MyBookingsPage({ utilizatorCurent }) {
       return
     }
 
-    actualizeazaLista()
-    window.addEventListener(NUME_EVENIMENT_REZERVARI, actualizeazaLista)
+    incarcaRezervariDinApi()
+
+    window.addEventListener(NUME_EVENIMENT_REZERVARI, incarcaRezervariDinApi)
     return () => {
-      window.removeEventListener(NUME_EVENIMENT_REZERVARI, actualizeazaLista)
+      window.removeEventListener(NUME_EVENIMENT_REZERVARI, incarcaRezervariDinApi)
     }
   }, [utilizatorCurent, navigate])
 
-  const handleAnuleaza = (idRezervare) => {
-    if (window.confirm(`Sigur dorești să anulezi rezervarea ${idRezervare}?`)) {
-      const reusit = anuleazaRezervare(idRezervare)
-      if (reusit) {
-        setMesajNotificare(`Rezervarea ${idRezervare} a fost anulată.`)
-        setTimeout(() => setMesajNotificare(''), 3000)
+  const handleAnuleaza = async (rez) => {
+    const codSauId = rez.id
+    if (window.confirm(`Sigur dorești să anulezi rezervarea ${codSauId}?`)) {
+      try {
+        const idPentruApi = rez.idNumeric || rez.id
+        await rezervariApi.anuleaza(idPentruApi)
+        setMesajNotificare(`Rezervarea ${codSauId} a fost anulată cu succes în baza de date.`)
+        await incarcaRezervariDinApi()
+        setTimeout(() => setMesajNotificare(''), 4000)
+      } catch (err) {
+        console.warn('Eroare API la anulare, încercăm fallback local:', err.message)
+        const reusitLocal = anuleazaRezervare(codSauId)
+        if (reusitLocal) {
+          setMesajNotificare(`Rezervarea ${codSauId} a fost anulată.`)
+          incarcaRezervariDinApi()
+          setTimeout(() => setMesajNotificare(''), 3000)
+        } else {
+          setMesajNotificare(err.message || 'Eroare la anularea rezervării.')
+        }
       }
     }
   }
@@ -74,7 +145,7 @@ export default function MyBookingsPage({ utilizatorCurent }) {
         <div>
           <h1 style={styles.heading}>Rezervările mele</h1>
           <p style={styles.subheading}>
-            Urmărește statusul echipamentelor închiriate și istoricul comenzilor tale RentCam.
+            Urmărește statusul echipamentelor închiriate și istoricul comenzilor tale RentCam sincronizate cu baza de date MySQL.
           </p>
         </div>
         <Link to="/" style={styles.newBookingBtn}>
@@ -86,7 +157,12 @@ export default function MyBookingsPage({ utilizatorCurent }) {
         <div style={styles.notificationBanner}>{mesajNotificare}</div>
       )}
 
-      {rezervari.length === 0 ? (
+      {seIncarca ? (
+        <div style={styles.emptyCard}>
+          <div style={styles.emptyIcon}>⏳</div>
+          <h3 style={styles.emptyTitle}>Se încarcă rezervările din baza de date...</h3>
+        </div>
+      ) : rezervari.length === 0 ? (
         <div style={styles.emptyCard}>
           <div style={styles.emptyIcon}>📋</div>
           <h3 style={styles.emptyTitle}>Nu ai nicio rezervare activă</h3>
@@ -109,7 +185,7 @@ export default function MyBookingsPage({ utilizatorCurent }) {
                   <div style={styles.cardHeaderLeft}>
                     <div style={styles.bookingCode}>{rez.id}</div>
                     <div style={styles.orderDate}>
-                      Plasată pe: <strong>{rez.dataPlasare}</strong>
+                      Plasată pe: <strong>{rez.dataPlasare || 'Recent'}</strong>
                     </div>
                   </div>
 
@@ -169,10 +245,10 @@ export default function MyBookingsPage({ utilizatorCurent }) {
                     </div>
                   </div>
 
-                  {rez.status === 'În așteptare' && (
+                  {(rez.status === 'În așteptare' || rez.statusRaw === 'in_asteptare') && (
                     <button
                       type="button"
-                      onClick={() => handleAnuleaza(rez.id)}
+                      onClick={() => handleAnuleaza(rez)}
                       style={styles.cancelBtn}
                     >
                       Anulează rezervarea
