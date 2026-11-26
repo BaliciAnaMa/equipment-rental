@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import { ECHIPAMENTE_DEMO } from '../data/echipamenteDemo'
 import { adaugaInCos } from '../data/cosDemo'
 
@@ -189,8 +190,11 @@ export default function CatalogPage() {
                   </span>
                 </div>
 
-                {/* Titlu și montură */}
-                <h3 style={styles.cardTitle}>{echipament.nume}</h3>
+                {/* Titlu cu link spre pagina de detalii */}
+                <Link to={`/equipment/${echipament.id}`} style={styles.cardTitleLink}>
+                  <h3 style={styles.cardTitle}>{echipament.nume}</h3>
+                </Link>
+
                 <div style={styles.mountTag}>
                   Montură: <strong>{echipament.montura}</strong>
                 </div>
@@ -215,7 +219,7 @@ export default function CatalogPage() {
                   </ul>
                 </div>
 
-                {/* Zona de preț și acțiune */}
+                {/* Zona de preț și acțiuni */}
                 <div style={styles.cardFooter}>
                   <div>
                     <div style={styles.priceRow}>
@@ -227,16 +231,21 @@ export default function CatalogPage() {
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => handleAdaugaInCos(echipament)}
-                    style={{
-                      ...styles.addToCartBtn,
-                      ...(adaugat ? styles.addToCartBtnSuccess : {})
-                    }}
-                  >
-                    {adaugat ? '✓ Adăugat!' : 'Adaugă în coș'}
-                  </button>
+                  <div style={styles.actionsRow}>
+                    <Link to={`/equipment/${echipament.id}`} style={styles.detailsBtn}>
+                      Detalii
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => handleAdaugaInCos(echipament)}
+                      style={{
+                        ...styles.addToCartBtn,
+                        ...(adaugat ? styles.addToCartBtnSuccess : {})
+                      }}
+                    >
+                      {adaugat ? '✓' : 'Adaugă'}
+                    </button>
+                  </div>
                 </div>
               </div>
             )
@@ -441,11 +450,16 @@ const styles = {
     padding: '3px 8px',
     borderRadius: 'var(--radius-full)'
   },
+  cardTitleLink: {
+    textDecoration: 'none',
+    color: 'inherit'
+  },
   cardTitle: {
     fontSize: '17px',
     fontWeight: '800',
     color: 'var(--color-text)',
-    marginBottom: '4px'
+    marginBottom: '4px',
+    transition: 'color var(--motion-fast)'
   },
   mountTag: {
     fontSize: '12px',
@@ -520,11 +534,30 @@ const styles = {
     fontWeight: '600',
     color: 'var(--color-text-light)'
   },
+  actionsRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px'
+  },
+  detailsBtn: {
+    textDecoration: 'none',
+    padding: '8px 12px',
+    fontSize: '12px',
+    fontWeight: '800',
+    borderRadius: 'var(--radius-md)',
+    background: '#FFFDF9',
+    color: 'var(--color-text)',
+    border: '1.5px solid var(--color-border)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all var(--motion-fast)'
+  },
   addToCartBtn: {
     background: 'var(--color-primary-gradient)',
     color: '#FFFFFF',
     border: 'none',
-    padding: '9px 16px',
+    padding: '9px 14px',
     fontSize: '13px',
     fontWeight: '800',
     borderRadius: 'var(--radius-md)',

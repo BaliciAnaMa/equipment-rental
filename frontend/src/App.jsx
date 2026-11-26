@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import CatalogPage from './pages/CatalogPage'
+import EquipmentDetailPage from './pages/EquipmentDetailPage'
 import LoginPage from './pages/LoginPage'
 import { obtineUtilizatorCurent } from './data/utilizatoriDemo'
 import './styles/theme.css'
@@ -33,6 +34,9 @@ export default function App() {
         <Routes>
           {/* Pagina principală — Catalogul interactiv de echipamente */}
           <Route path="/" element={<CatalogPage />} />
+
+          {/* Pagina de Detalii Echipament */}
+          <Route path="/equipment/:id" element={<EquipmentDetailPage />} />
 
           {/* Pagina de Autentificare */}
           <Route
