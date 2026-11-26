@@ -5,6 +5,7 @@ import CatalogPage from './pages/CatalogPage'
 import EquipmentDetailPage from './pages/EquipmentDetailPage'
 import CartPage from './pages/CartPage'
 import MyBookingsPage from './pages/MyBookingsPage'
+import HelpPage from './pages/HelpPage'
 import LoginPage from './pages/LoginPage'
 import { obtineUtilizatorCurent } from './data/utilizatoriDemo'
 import './styles/theme.css'
@@ -45,6 +46,9 @@ export default function App() {
             path="/equipment/:id"
             element={<EquipmentDetailPage utilizatorCurent={utilizatorCurent} />}
           />
+
+          {/* Pagina Ghid Închiriere & FAQ (Publică pentru toți vizitatorii) */}
+          <Route path="/help" element={<HelpPage />} />
 
           {/* Pagina Coș Rezervare (accesibilă doar clientului logat) */}
           <Route

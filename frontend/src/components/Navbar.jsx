@@ -52,6 +52,11 @@ export default function Navbar({ utilizatorCurent, onLogout }) {
             Catalog
           </Link>
 
+          {/* Link public mereu vizibil pentru toți vizitatorii */}
+          <Link to="/help" style={styles.navLink}>
+            Ghid Închiriere & FAQ
+          </Link>
+
           {/* Vizibile DOAR pentru client logat: Rezervările mele și Coșul */}
           {utilizatorCurent && (
             <>
