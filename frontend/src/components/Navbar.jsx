@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { logoutUtilizator } from '../data/utilizatoriDemo'
+import { numarProduseCos, EVENIMENT_ACTUALIZARE_COS } from '../data/cosDemo'
 
 export default function Navbar({ utilizatorCurent, onLogout }) {
   const navigate = useNavigate()
+  const [numarArticoleCos, setNumarArticoleCos] = useState(0)
+
+  // Ascultă actualizările coșului din localStorage
+  useEffect(() => {
+    setNumarArticoleCos(numarProduseCos())
+
+    const handleActualizareCos = () => {
+      setNumarArticoleCos(numarProduseCos())
+    }
+
+    window.addEventListener(EVENIMENT_ACTUALIZARE_COS, handleActualizareCos)
+    window.addEventListener('storage', handleActualizareCos)
+
+    return () => {
+      window.removeEventListener(EVENIMENT_ACTUALIZARE_COS, handleActualizareCos)
+      window.removeEventListener('storage', handleActualizareCos)
+    }
+  }, [])
 
   const handleLogout = () => {
     logoutUtilizator()
@@ -29,6 +48,15 @@ export default function Navbar({ utilizatorCurent, onLogout }) {
         <nav style={styles.navLinks}>
           <Link to="/" style={styles.navLink}>
             Catalog
+          </Link>
+
+          {/* Buton Coș cu contor dinamic */}
+          <Link to="/cos" style={styles.cartButton}>
+            <span style={styles.cartIcon}>🛒</span>
+            <span style={styles.cartLabel}>Coș</span>
+            {numarArticoleCos > 0 && (
+              <span style={styles.cartBadge}>{numarArticoleCos}</span>
+            )}
           </Link>
 
           {utilizatorCurent ? (
@@ -127,6 +155,37 @@ const styles = {
     padding: '8px 12px',
     borderRadius: 'var(--radius-sm)',
     transition: 'all var(--motion-fast)'
+  },
+  cartButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    textDecoration: 'none',
+    background: '#FFF7ED',
+    border: '1.5px solid #FDBA74',
+    padding: '7px 14px',
+    borderRadius: 'var(--radius-full)',
+    color: 'var(--color-text)',
+    fontWeight: '800',
+    fontSize: '13px',
+    transition: 'all var(--motion-fast)'
+  },
+  cartIcon: {
+    fontSize: '15px'
+  },
+  cartLabel: {
+    color: 'var(--color-text)'
+  },
+  cartBadge: {
+    background: 'var(--color-primary-gradient)',
+    color: '#FFFFFF',
+    fontSize: '11px',
+    fontWeight: '900',
+    padding: '2px 7px',
+    borderRadius: 'var(--radius-full)',
+    minWidth: '18px',
+    textAlign: 'center',
+    boxShadow: '0 2px 6px rgba(225, 29, 72, 0.3)'
   },
   userSection: {
     display: 'flex',
